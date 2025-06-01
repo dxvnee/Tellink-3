@@ -2,57 +2,32 @@ package org.d3if3121.tellink.ui.component
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.components.LoadingIndicator
 import org.d3if3121.tellink.core.printError
-import org.d3if3121.tellink.data.model.ImageUpload
 import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.Response
 import org.d3if3121.tellink.data.model.Response.Failure
 import org.d3if3121.tellink.data.model.Response.Loading
 import org.d3if3121.tellink.data.model.Response.Success
 import org.d3if3121.tellink.navigation.Screen
-import org.d3if3121.tellink.ui.screen.MainContentProject
-import org.d3if3121.tellink.ui.screen.formatRelativeTime
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
@@ -95,6 +70,7 @@ fun ConfirmKonten(
             navController.navigate(Screen.Project.route)
         }
         is Failure -> printError(updateProjectResponse.e)
+        Response.Idle -> {}
     }
 
     when(val deleteProjectResponse = projectviewmodel.deleteProjectResponse){
@@ -106,6 +82,7 @@ fun ConfirmKonten(
             navController.navigate(Screen.Project.route)
         }
         is Failure -> printError(deleteProjectResponse.e)
+        Response.Idle -> {}
     }
 
     when(val addAcceptResponse = projectviewmodel.addAcceptResponse){
@@ -118,6 +95,7 @@ fun ConfirmKonten(
             refreshKey++
         }
         is Failure -> printError(addAcceptResponse.e)
+        Response.Idle -> {}
     }
 
     when(val deleteAcceptResponse = projectviewmodel.deleteAcceptResponse){
@@ -130,6 +108,7 @@ fun ConfirmKonten(
             refreshKey++
         }
         is Failure -> printError(deleteAcceptResponse.e)
+        Response.Idle -> {}
     }
 
     Column(

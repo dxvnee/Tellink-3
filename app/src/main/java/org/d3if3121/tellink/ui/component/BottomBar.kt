@@ -31,12 +31,16 @@ fun BottomBar(navController: NavHostController, home: Boolean = false, homeActio
         BottomBarScreen.BottomMenuPage,
         BottomBarScreen.BottomSkillPage,
         BottomBarScreen.BottomProfilePage,
+        BottomBarScreen.BottomFriendsPage
+
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+
+
     BottomNavigation(
-        backgroundColor = Warna.MerahTua,
+        backgroundColor = Warna.PutihGelap,
         modifier = Modifier.height(70.dp)
     ){
         screens.forEach{ screen ->
@@ -58,7 +62,7 @@ fun RowScope.AddItem(
         modifier = Modifier.padding(top = 10.dp, bottom = 36.dp),
         label = {
             Text(
-                text = screen.title, color = Warna.PutihNormal,
+                text = screen.title, color = LocalContentColor.current.copy(alpha = ContentAlpha.high),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
             )
@@ -69,14 +73,16 @@ fun RowScope.AddItem(
                     .padding(bottom =1.dp),
                 imageVector = screen.icon,
                 contentDescription = "eheh",
-                tint = Warna.PutihNormal
+                tint = LocalContentColor.current.copy(alpha = ContentAlpha.high)
             )
         },
         selected = currentDestination?.hierarchy?.any {
             it.route == screen.route
         } == true,
-        unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
+        selectedContentColor = Warna.MerahTua,
+        unselectedContentColor = Warna.AbuTua,
         onClick = {
+
             navController.navigate(screen.route){
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true

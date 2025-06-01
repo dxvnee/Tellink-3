@@ -2,39 +2,19 @@ package org.d3if3121.tellink.data.repository
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.MahasiswaLogin
 import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.Response
-import org.d3if3121.tellink.data.repository.interfaces.AddMahasiswaResponse
-import org.d3if3121.tellink.data.repository.interfaces.AddRequestResponse
-import org.d3if3121.tellink.data.repository.interfaces.DeleteMahasiswaResponse
-import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
-import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
-import org.d3if3121.tellink.data.repository.interfaces.UpdateMahasiswaResponse
-import java.util.Date
 
 class ProjectListRepository (
     private val projectRef: CollectionReference,
@@ -103,6 +83,17 @@ class ProjectListRepository (
 
 
 
+//    override fun getProjectListByNim2(nim: String) = callbackFlow {
+//        try {
+//            val response = RetrofitInterface.api.getProjectsByNim(nim)
+//            if (response.){
+//                val projects = response.body()?.data ?: emptyList()
+//                emit(Response.Success(projects))
+//            }
+//        } catch () {
+//
+//        }
+//    }
     override fun getProjectListByNim(nim: String) = callbackFlow {
         val listener = projectRef
             .orderBy("title")
@@ -231,11 +222,7 @@ class ProjectListRepository (
 
                             val projectList = projectSnapshot.map { document ->
                                 val projectData = document.toProject()
-
-
                                 val projectOwnerNim = document.getString("nim") ?: ""
-
-
                                 if (projectOwnerNim != nim && projectData.id !in viewedProjects) {
                                     val imageUrl = document.getString("image") ?: ""
                                     projectData.copy(image = imageUrl)
@@ -243,8 +230,6 @@ class ProjectListRepository (
                                     null
                                 }
                             }.filterNotNull()
-
-
                             trySend(Response.Success(projectList))
                         } else {
                             trySend(Response.Failure(projectError))
@@ -254,8 +239,6 @@ class ProjectListRepository (
                 trySend(Response.Failure(mahasiswaError))
             }
         }
-
-
         awaitClose {
             mahasiswaListener.remove()
             projectListener?.remove()

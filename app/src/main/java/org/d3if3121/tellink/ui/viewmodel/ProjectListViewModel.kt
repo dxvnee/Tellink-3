@@ -46,9 +46,6 @@ class ProjectListViewModel @Inject constructor(
     var projectListByNimResponse by mutableStateOf<ProjectListByNimResponse>(Response.Loading)
         private set
 
-
-
-
     var addProjectResponse by mutableStateOf<AddProjectResponse>(Response.Loading)
         private set
     var addRequestResponse by mutableStateOf<AddRequestResponse>(Response.Loading)
@@ -73,6 +70,9 @@ class ProjectListViewModel @Inject constructor(
     var projectMap by mutableStateOf(mapOf<String, Project>())
         private set
 
+    var loading by mutableStateOf(false)
+        private set
+
 
     init {
         getProjectList()
@@ -93,6 +93,12 @@ class ProjectListViewModel @Inject constructor(
         repo.getProjectListByNim(nim).collect() {
             projectListByNimResponse = it
         }
+    }
+
+
+    fun changeLoading(input: Boolean){
+        Log.d("keganti", input.toString())
+        loading = input
     }
 
 

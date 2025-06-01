@@ -84,6 +84,7 @@ fun EditMahasiswaDialog(
         is Failure -> {
             errorMessage = response.e.toString()
         }
+        Response.Idle -> {}
     }
 
 

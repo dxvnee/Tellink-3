@@ -10,6 +10,8 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -57,9 +59,14 @@ fun TellinkTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Warna.PutihNormal.toArgb()
-            window.navigationBarColor = Warna.MerahTua.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+
+            window.statusBarColor = Warna.PutihGelap.toArgb()
+            window.navigationBarColor = Warna.PutihGelap.toArgb()
+
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+            }
         }
     }
 
@@ -68,4 +75,24 @@ fun TellinkTheme(
         typography = Typography,
         content = content
     )
+}
+
+@Composable
+fun DynamicNavigationBarColor(
+    backgroundColor: Color
+){
+    val view = LocalView.current
+
+    if(!view.isInEditMode){
+        SideEffect {
+            val window = (view.context as Activity).window
+
+            window.navigationBarColor = backgroundColor.toArgb()
+            window.statusBarColor = backgroundColor.toArgb()
+
+            val isLight = backgroundColor.luminance() > 0.5f
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = isLight
+
+        }
+    }
 }

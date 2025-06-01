@@ -1,25 +1,16 @@
 package org.d3if3121.tellink.data.repository
 
 import android.util.Log
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.MahasiswaLogin
-import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.Response
-import org.d3if3121.tellink.data.repository.interfaces.AddMahasiswaResponse
-import org.d3if3121.tellink.data.repository.interfaces.DeleteMahasiswaResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
-import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListResponse
-import org.d3if3121.tellink.data.repository.interfaces.UpdateMahasiswaResponse
 
 class MahasiswaListRepository (
     private val mahasiswaRef: CollectionReference
@@ -166,6 +157,7 @@ class MahasiswaListRepository (
 
     override suspend fun loginMahasiswa(nim: String, password: String) = try {
         val docmahasiswa = mahasiswaRef.whereEqualTo("nim", nim).get().await()
+
         if (!docmahasiswa.isEmpty){
             val mahasiswa = docmahasiswa.first().toMahasiswa()
 

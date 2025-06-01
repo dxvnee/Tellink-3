@@ -2,7 +2,6 @@ package org.d3if3121.tellink.ui.component
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,20 +30,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.components.LoadingIndicator
 import org.d3if3121.tellink.core.printError
-import org.d3if3121.tellink.data.model.ImageUpload
 import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.Response
 import org.d3if3121.tellink.data.model.Response.Failure
 import org.d3if3121.tellink.data.model.Response.Loading
 import org.d3if3121.tellink.data.model.Response.Success
 import org.d3if3121.tellink.navigation.Screen
-import org.d3if3121.tellink.ui.screen.MainContentProject
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
@@ -78,6 +73,7 @@ fun KartuKontenEdit(
             navController.navigate(Screen.Project.route)
         }
         is Failure -> printError(updateProjectResponse.e)
+        Response.Idle -> {}
     }
 
     when(val deleteProjectResponse = projectviewmodel.deleteProjectResponse){
@@ -89,6 +85,7 @@ fun KartuKontenEdit(
             navController.navigate(Screen.Project.route)
         }
         is Failure -> printError(deleteProjectResponse.e)
+        Response.Idle -> {}
     }
 
     Card(

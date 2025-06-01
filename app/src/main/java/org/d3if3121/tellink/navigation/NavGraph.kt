@@ -2,21 +2,20 @@ package org.d3if3121.tellink.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import dagger.hilt.android.AndroidEntryPoint
+import org.d3if3121.tellink.ui.animation.animationFadeScaleIn
+import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
 import org.d3if3121.tellink.ui.screen.ConfirmPage
 import org.d3if3121.tellink.ui.screen.EditPage
-import org.d3if3121.tellink.ui.screen.HomePage
-import org.d3if3121.tellink.ui.screen.LoginPage
+import org.d3if3121.tellink.ui.screen.homepage.HomePage
 import org.d3if3121.tellink.ui.screen.ProfilePage
-import org.d3if3121.tellink.ui.screen.ProjectPage
-import org.d3if3121.tellink.ui.screen.RegisterPage
+import org.d3if3121.tellink.ui.screen.auth.register.LoginPage
+import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
+import org.d3if3121.tellink.ui.screen.projectpage.ProjectPage
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 
@@ -30,14 +29,16 @@ fun SetupNavGraph(){
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route
+        startDestination = Screen.Login.route,
+        enterTransition = { animationFadeScaleIn() },
+        exitTransition = { animationFadeScaleOut() },
     ) {
         composable(route = Screen.Login.route){
-            LoginPage(navController, mahasiswalistviewmodel)
+            LoginPage(navController)
         }
 
         composable(route = Screen.Register.route){
-            RegisterPage(navController, mahasiswalistviewmodel)
+            RegisterPage(navController)
         }
 
         composable(route = Screen.Home.route){

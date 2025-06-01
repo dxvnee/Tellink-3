@@ -1,6 +1,7 @@
 package org.d3if3121.tellink.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -26,5 +27,10 @@ sealed class BottomBarScreen (
         route = "ProjectPage",
         title = "Project",
         icon = Icons.Default.Star
+    )
+    object BottomFriendsPage : BottomBarScreen(
+        route = "FriendsPage",
+        title = "Friends",
+        icon = Icons.Default.AccountBox
     )
 }

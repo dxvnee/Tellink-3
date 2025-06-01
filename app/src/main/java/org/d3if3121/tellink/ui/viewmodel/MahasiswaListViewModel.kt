@@ -6,25 +6,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.MahasiswaLogin
 import org.d3if3121.tellink.data.model.Response
-import org.d3if3121.tellink.data.repository.interfaces.AddMahasiswaResponse
 import org.d3if3121.tellink.data.repository.interfaces.DeleteMahasiswaResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaByNimResponse
-import org.d3if3121.tellink.data.repository.interfaces.LoginResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListResponse
 import org.d3if3121.tellink.data.repository.interfaces.UpdateMahasiswaResponse
@@ -36,8 +28,7 @@ class MahasiswaListViewModel @Inject constructor(
 ): ViewModel() {
     var mahasiswaListResponse by mutableStateOf<MahasiswaListResponse>(Response.Loading)
         private set
-    var addMahasiswaResponse by mutableStateOf<AddMahasiswaResponse>(Response.Loading)
-        private set
+
     var updateMahasiswaResponse by mutableStateOf<UpdateMahasiswaResponse>(Response.Loading)
         private set
     var deleteMahasiswaResponse by mutableStateOf<DeleteMahasiswaResponse>(Response.Loading)
@@ -45,7 +36,7 @@ class MahasiswaListViewModel @Inject constructor(
     var mahasiswaByNimResponse by mutableStateOf<MahasiswaByNimResponse>(Response.Loading)
         private set
 
-    var loginResponse by mutableStateOf<LoginResponse>(Response.Loading)
+    var loading by mutableStateOf(false)
         private set
 
     var user by mutableStateOf(Mahasiswa())
@@ -93,7 +84,8 @@ class MahasiswaListViewModel @Inject constructor(
                 is Response.Failure -> {
                     Log.e("CURRENTUSER", "Error: ${mahasiswaresponse.e}")
                 }
-                Response.Loading -> TODO()
+                Response.Loading -> {}
+                Response.Idle -> {}
             }
         }
     }
@@ -125,6 +117,11 @@ class MahasiswaListViewModel @Inject constructor(
         mahasiswaProfile = mahasiswaMapProfile[nim] ?: Mahasiswa()
     }
 
+    fun changeLoading(input: Boolean){
+        Log.d("keganti", input.toString())
+        loading = input
+    }
+
     fun markProject(nim: String) = viewModelScope.launch {
         repo.markProject(nim, viewedProjects)
     }
@@ -141,13 +138,7 @@ class MahasiswaListViewModel @Inject constructor(
         updateMahasiswaResponse = Response.Loading
     }
 
-    fun addMahasiswa(mahasiswa: Mahasiswa) = viewModelScope.launch {
-        addMahasiswaResponse = repo.addMahasiswa(mahasiswa)
-    }
 
-    fun loginMahasiswa(response: MahasiswaLogin) = viewModelScope.launch {
-        loginResponse = repo.loginMahasiswa(response.nim, response.password)
-    }
 
     fun updateMahasiswa(mahasiswa: MahasiswaEdit) = viewModelScope.launch {
         updateMahasiswaResponse = repo.updateMahasiswa(mahasiswa)

@@ -42,7 +42,6 @@ fun EditPage(
     navController: NavHostController,
     projectId: String? = "996GZuXUa03N1JRmSkyM",
 ){
-
     Scaffold(
         topBar = {
             TopAppBar(

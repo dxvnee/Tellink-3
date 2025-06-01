@@ -32,20 +32,16 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.navigation.Screen
-import org.d3if3121.tellink.ui.screen.TOP_BAR_HEIGHT
+import org.d3if3121.tellink.ui.screen.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 
@@ -57,11 +53,14 @@ fun TopBar(
     helloActive: Boolean,
     profileActive: Boolean = false,
     TOP_BAR_ZERO: Int = 0,
-    search: String = "",
+    viewmodel: MahasiswaListViewModel,
+    search: String ="",
     onSearchChange: (String) -> Unit = {},
     navController: NavHostController = rememberNavController(),
     user: Mahasiswa? = null
 ){
+
+    val user = viewmodel.user
 
     val currentUser = user ?: Mahasiswa()
 
@@ -109,11 +108,11 @@ fun TopBar(
                 }
             },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = Warna.PutihNormal,
-                titleContentColor = Warna.PutihNormal
+                containerColor = Warna.PutihGelap,
+                titleContentColor = Warna.PutihGelap
             ),
             modifier = Modifier
-                .background(color = Warna.PutihNormal).padding(top = 0.dp)
+                .background(color = Warna.PutihGelap).padding(top = 0.dp)
 
         )
     } else {
@@ -202,12 +201,12 @@ fun TopBar(
 
             },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = Warna.PutihNormal,
-                titleContentColor = Warna.PutihNormal
+                containerColor = Warna.PutihGelap,
+                titleContentColor = Warna.PutihGelap
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Warna.PutihNormal)
+                .background(color = Warna.PutihGelap)
                 .animateContentSize(animationSpec =  tween(
                     durationMillis = 500,
                 )
