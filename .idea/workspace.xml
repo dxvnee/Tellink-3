@@ -10,61 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="061e0778-6b4c-42a6-a59b-bb4d393e91b6" name="Changes" comment="Update Login Register Page">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/ApiService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/RetrofitInterface.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/animation/Animation.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/CardPutih.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/ColumnPadding.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/DialogLoading.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/DialogMessage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/Space.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/Teks.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/TextCustom.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthContent.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthField.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthForm.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthHeader.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthStateHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/AuthTombol.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/template/AuthPage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/component/template/AuthViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPageViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/register/RegisterPage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/register/RegisterPageViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/projectpage/ProjectPage.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/projectpage/ProjectPageViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/theme/ButtonColors.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/viewmodel/MainViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/components/LoadingIndicator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/components/LoadingIndicator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/model/Response.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/model/Response.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/MahasiswaListRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/MahasiswaListRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/ProjectListRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/ProjectListRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/interfaces/MahasiswaListInterface.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/repository/interfaces/MahasiswaListInterface.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/navigation/BottomBarScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/navigation/BottomBarScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/ApiService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/RetrofitInterface.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/data/retrofit/RetrofitInterface.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/navigation/NavGraph.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/navigation/NavGraph.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/BottomBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/BottomBar.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/ConfirmKonten.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/ConfirmKonten.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/EditMahasiswaDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/EditMahasiswaDialog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/KartuKontenEdit.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/KartuKontenEdit.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/TambahProjectDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/TambahProjectDialog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/Tombol.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/Tombol.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/TopBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/component/TopBar.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/EditPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/EditPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/HomePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/HomePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/LoginPage.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/ProfilePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/ProfilePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/ProjectPage.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/RegisterPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/RegisterPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/theme/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/theme/Theme.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/viewmodel/MahasiswaListViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/viewmodel/MahasiswaListViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/viewmodel/ProjectListViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/viewmodel/ProjectListViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/d3if3121/tellink/ui/screen/auth/login/LoginPageViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

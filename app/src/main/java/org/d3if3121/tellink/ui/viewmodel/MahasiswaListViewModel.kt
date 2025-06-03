@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.DeleteMahasiswaResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaByNimResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface

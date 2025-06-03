@@ -3,7 +3,8 @@ package org.d3if3121.tellink.data.repository.interfaces
 import kotlinx.coroutines.flow.Flow
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.response.Response
 
 
 typealias MahasiswaListResponse = Response<List<Mahasiswa>>
@@ -18,17 +19,15 @@ typealias LoginResponse = Response<Mahasiswa>
 interface MahasiswaListInterface {
     fun getMahasiswaList(): Flow<MahasiswaListResponse>
 
-    suspend fun addMahasiswa(mahasiswa: Mahasiswa): RegisterResponse
     fun addUser(mahasiswa: Mahasiswa): Flow<AddUserResponse>
 
     suspend fun updateMahasiswa(mahasiswa: MahasiswaEdit): UpdateMahasiswaResponse
     suspend fun deleteMahasiswa(id: String): DeleteMahasiswaResponse
 
-    suspend fun loginMahasiswa(nim: String, password: String): LoginResponse
+    suspend fun registerMahasiswa(mahasiswa: Mahasiswa): RegisterResponse
+    suspend fun loginMahasiswa(mahasiswa: MahasiswaLogin): LoginResponse
 
     suspend fun getMahasiswaByNim(nim: String): Mahasiswa
     suspend fun checkRequestProject(id: String, nim: String): Boolean
     suspend fun markProject(nim: String, projectId: List<String>)
-
-
 }

@@ -6,20 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.Response.Failure
-import org.d3if3121.tellink.data.model.Response.Loading
-import org.d3if3121.tellink.data.model.Response.Success
-import org.d3if3121.tellink.data.model.Response.Idle
+import org.d3if3121.tellink.data.model.response.Response.Failure
+import org.d3if3121.tellink.data.model.response.Response.Loading
+import org.d3if3121.tellink.data.model.response.Response.Success
+import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.RegisterResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
-import org.d3if3121.tellink.navigation.Screen
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthViewModel
 import javax.inject.Inject
 
@@ -35,7 +33,7 @@ class RegisterPageViewModel @Inject constructor(
 
     private fun addMahasiswa(mahasiswa: Mahasiswa) = viewModelScope.launch {
         delay(1000)
-        registerResponseChange(repo.addMahasiswa(mahasiswa))
+        registerResponseChange(repo.registerMahasiswa(mahasiswa))
     }
 
     fun handleRegister(

@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.d3if3121.tellink.data.model.MahasiswaLogin
-import org.d3if3121.tellink.data.model.Response.Failure
-import org.d3if3121.tellink.data.model.Response.Loading
-import org.d3if3121.tellink.data.model.Response.Success
-import org.d3if3121.tellink.data.model.Response.Idle
+import org.d3if3121.tellink.data.model.response.Response.Failure
+import org.d3if3121.tellink.data.model.response.Response.Loading
+import org.d3if3121.tellink.data.model.response.Response.Success
+import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.LoginResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
 import org.d3if3121.tellink.navigation.Screen
@@ -37,7 +37,7 @@ class LoginPageViewModel @Inject constructor(
 
     private fun loginMahasiswa(response: MahasiswaLogin) = viewModelScope.launch {
         delay(1000)
-        loginResponseChange(repo.loginMahasiswa(response.nim, response.password))
+        loginResponseChange(repo.loginMahasiswa(response))
     }
 
     fun handleLogin(nim: String, password: String, appMessage: (String) -> Unit){
@@ -54,6 +54,7 @@ class LoginPageViewModel @Inject constructor(
             appMessage("All fields shouldn't be empty.")
         }
     }
+
     private fun loginResponseChange(response: LoginResponse){
         _loginResponse.value = response
     }

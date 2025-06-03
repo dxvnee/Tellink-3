@@ -1,16 +1,21 @@
 package org.d3if3121.tellink.data.repository
 
 import android.util.Log
+import coil.network.HttpException
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.response.ErrorResponse
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
+import org.d3if3121.tellink.data.retrofit.RetrofitInterface
 
 class MahasiswaListRepository (
     private val mahasiswaRef: CollectionReference
@@ -52,20 +57,6 @@ class MahasiswaListRepository (
         awaitClose {
             listener.remove()
         }
-    }
-
-
-    override suspend fun addMahasiswa(mahasiswa: Mahasiswa) = try {
-        val mahasiswaSama = mahasiswaRef.whereEqualTo("nim", mahasiswa.nim).get().await()
-
-        if (mahasiswaSama.isEmpty){
-            val id = mahasiswaRef.add(mahasiswa).await().id
-            Response.Success(id)
-        } else {
-            Response.Failure(Exception("NIM already registered."))
-        }
-    } catch (e: Exception){
-        Response.Failure(e)
     }
 
     override suspend fun markProject(nim: String, projectId: List<String>) {
@@ -155,24 +146,41 @@ class MahasiswaListRepository (
 //        }
 //    }
 
-    override suspend fun loginMahasiswa(nim: String, password: String) = try {
-        val docmahasiswa = mahasiswaRef.whereEqualTo("nim", nim).get().await()
 
-        if (!docmahasiswa.isEmpty){
-            val mahasiswa = docmahasiswa.first().toMahasiswa()
 
-            if (mahasiswa.password == password){
-                Response.Success(mahasiswa)
-            } else {
-                Response.Failure(Exception("Incorrect Password."))
-            }
+    override suspend fun registerMahasiswa(mahasiswa: Mahasiswa) = try {
+        val response = RetrofitInterface.api.registerMahasiswa(mahasiswa)
+
+        if (response.success){
+            Response.Success(response.message)
         } else {
-            Response.Failure(Exception("NIM doesn't exist."))
+            Response.Failure(Exception(response.message))
         }
-    } catch (e: Exception){
-        Response.Failure(e)
+    } catch (e: retrofit2.HttpException){
+        Response.Failure(errorToErrorMessage(e))
     }
 
+
+    override suspend fun loginMahasiswa(mahasiswa: MahasiswaLogin) = try {
+        val response = RetrofitInterface.api.loginMahasiswa(mahasiswa)
+
+        if(response.success && response.data != null){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: retrofit2.HttpException) {
+        Response.Failure(errorToErrorMessage(e))
+    }
+}
+
+
+fun errorToErrorMessage(e: retrofit2.HttpException): Exception {
+    val errorBody = e.response()?.errorBody()
+    val errorJson = errorBody?.string()
+    val error = Gson().fromJson(errorJson, ErrorResponse::class.java)
+
+    return Exception(error.message)
 }
 
 fun DocumentSnapshot.toMahasiswa() = Mahasiswa(

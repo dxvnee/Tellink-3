@@ -41,10 +41,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.core.printError
 import org.d3if3121.tellink.data.model.Mahasiswa
 import org.d3if3121.tellink.data.model.Project
-import org.d3if3121.tellink.data.model.Response
-import org.d3if3121.tellink.data.model.Response.Failure
-import org.d3if3121.tellink.data.model.Response.Loading
-import org.d3if3121.tellink.data.model.Response.Success
+import org.d3if3121.tellink.data.model.response.Response
+import org.d3if3121.tellink.data.model.response.Response.Failure
+import org.d3if3121.tellink.data.model.response.Response.Loading
+import org.d3if3121.tellink.data.model.response.Response.Success
 import org.d3if3121.tellink.ui.component.BottomBar
 import org.d3if3121.tellink.ui.component.InputPutihSearch
 import org.d3if3121.tellink.ui.component.KartuKonten

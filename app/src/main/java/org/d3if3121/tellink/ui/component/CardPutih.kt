@@ -3,6 +3,7 @@ package org.d3if3121.tellink.ui.component
 import android.icu.text.ListFormatter.Width
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,8 +28,7 @@ fun CardPutih(
 ){
     Card(
         modifier = modifier
-            .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
-            .height(height),
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         colors = CardDefaults.cardColors(containerColor = Warna.PutihNormal),
         elevation = CardDefaults.cardElevation(20.dp),
         shape = RoundedCornerShape(15.dp)
@@ -39,7 +39,7 @@ fun CardPutih(
             modifier = Modifier
                 .padding(start = 24.dp, top = 23.dp, end = 24.dp, bottom = 23.dp)
                 .fillMaxWidth()
-                .fillMaxHeight()
+
         ){
             content()
         }

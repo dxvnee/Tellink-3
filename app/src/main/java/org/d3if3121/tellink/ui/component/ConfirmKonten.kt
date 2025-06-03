@@ -23,10 +23,10 @@ import androidx.navigation.NavController
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.core.printError
 import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.Response
-import org.d3if3121.tellink.data.model.Response.Failure
-import org.d3if3121.tellink.data.model.Response.Loading
-import org.d3if3121.tellink.data.model.Response.Success
+import org.d3if3121.tellink.data.model.response.Response
+import org.d3if3121.tellink.data.model.response.Response.Failure
+import org.d3if3121.tellink.data.model.response.Response.Loading
+import org.d3if3121.tellink.data.model.response.Response.Success
 import org.d3if3121.tellink.navigation.Screen
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel

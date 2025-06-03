@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.ui.screen.auth.component.AuthForm
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthPage
 import org.d3if3121.tellink.ui.screen.auth.component.RegisterForm

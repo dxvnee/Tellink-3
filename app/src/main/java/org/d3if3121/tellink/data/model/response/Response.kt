@@ -1,11 +1,11 @@
-package org.d3if3121.tellink.data.model
+package org.d3if3121.tellink.data.model.response
 
 sealed class Response<out T> {
     data object Idle: Response<Nothing>()
     data object Loading: Response<Nothing>()
 
     data class Success<out T>(
-        val data: T?
+        val data: T?,
     ) : Response<T>()
 
     data class Failure(

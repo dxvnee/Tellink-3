@@ -43,12 +43,12 @@ import coil.compose.rememberAsyncImagePainter
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.data.model.ImageUpload
 import org.d3if3121.tellink.data.model.Project
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
-import org.d3if3121.tellink.data.model.Response.Loading
-import org.d3if3121.tellink.data.model.Response.Success
-import org.d3if3121.tellink.data.model.Response.Failure
+import org.d3if3121.tellink.data.model.response.Response.Loading
+import org.d3if3121.tellink.data.model.response.Response.Success
+import org.d3if3121.tellink.data.model.response.Response.Failure
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

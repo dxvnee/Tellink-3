@@ -1,4 +1,4 @@
-package org.d3if3121.tellink.ui.screen.auth.register
+package org.d3if3121.tellink.ui.screen.auth.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,8 +11,6 @@ import androidx.navigation.NavHostController
 import org.d3if3121.tellink.ui.screen.auth.component.AuthForm
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthPage
 import org.d3if3121.tellink.ui.screen.auth.component.LoginForm
-import org.d3if3121.tellink.ui.screen.auth.login.LoginPageViewModel
-import org.d3if3121.tellink.ui.screen.auth.login.LoginStateHandler
 
 @Composable
 fun LoginPage(navController: NavHostController){

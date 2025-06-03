@@ -13,7 +13,7 @@ import org.d3if3121.tellink.ui.screen.ConfirmPage
 import org.d3if3121.tellink.ui.screen.EditPage
 import org.d3if3121.tellink.ui.screen.homepage.HomePage
 import org.d3if3121.tellink.ui.screen.ProfilePage
-import org.d3if3121.tellink.ui.screen.auth.register.LoginPage
+import org.d3if3121.tellink.ui.screen.auth.login.LoginPage
 import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
 import org.d3if3121.tellink.ui.screen.projectpage.ProjectPage
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel

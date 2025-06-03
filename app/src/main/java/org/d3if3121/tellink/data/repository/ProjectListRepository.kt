@@ -13,7 +13,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import org.d3if3121.tellink.data.model.Project
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 
 class ProjectListRepository (

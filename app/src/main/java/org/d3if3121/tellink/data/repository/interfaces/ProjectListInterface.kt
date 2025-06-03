@@ -2,7 +2,7 @@ package org.d3if3121.tellink.data.repository.interfaces
 
 import kotlinx.coroutines.flow.Flow
 import org.d3if3121.tellink.data.model.Project
-import org.d3if3121.tellink.data.model.Response
+import org.d3if3121.tellink.data.model.response.Response
 
 
 typealias ProjectListResponse = Response<List<Project>>
