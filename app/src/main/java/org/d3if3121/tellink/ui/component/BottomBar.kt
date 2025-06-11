@@ -21,7 +21,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import org.d3if3121.tellink.navigation.BottomBarScreen
+import org.d3if3121.tellink.navigation.component.BottomBarScreen
 import org.d3if3121.tellink.ui.theme.Warna
 
 

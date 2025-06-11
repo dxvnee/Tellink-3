@@ -40,8 +40,8 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.ui.screen.homepage.TOP_BAR_HEIGHT
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 
@@ -53,14 +53,11 @@ fun TopBar(
     helloActive: Boolean,
     profileActive: Boolean = false,
     TOP_BAR_ZERO: Int = 0,
-    viewmodel: MahasiswaListViewModel,
     search: String ="",
     onSearchChange: (String) -> Unit = {},
     navController: NavHostController = rememberNavController(),
     user: Mahasiswa? = null
 ){
-
-    val user = viewmodel.user
 
     val currentUser = user ?: Mahasiswa()
 

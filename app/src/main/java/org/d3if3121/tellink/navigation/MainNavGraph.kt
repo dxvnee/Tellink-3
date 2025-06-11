@@ -1,5 +1,8 @@
+@file:JvmName("MainNavGraphKt")
+
 package org.d3if3121.tellink.navigation
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -7,50 +10,44 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.animation.animationFadeScaleIn
 import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
-import org.d3if3121.tellink.ui.screen.ConfirmPage
-import org.d3if3121.tellink.ui.screen.EditPage
-import org.d3if3121.tellink.ui.screen.homepage.HomePage
-import org.d3if3121.tellink.ui.screen.ProfilePage
-import org.d3if3121.tellink.ui.screen.auth.login.LoginPage
-import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
-import org.d3if3121.tellink.ui.screen.projectpage.ProjectPage
+import org.d3if3121.tellink.ui.screen.content.ConfirmPage
+import org.d3if3121.tellink.ui.screen.content.EditPage
+import org.d3if3121.tellink.ui.screen.content.ProfilePage
+import org.d3if3121.tellink.ui.screen.content.homepage.HomePage
+import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPage
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 
-
 @Composable
-fun SetupNavGraph(){
-
+fun MainNavGraph(
+    lazyListState: LazyListState,
+    currentUser: Mahasiswa
+){
     val navController = rememberNavController()
-    val mahasiswalistviewmodel: MahasiswaListViewModel = hiltViewModel()
-    val projectlistviewmodel: ProjectListViewModel = hiltViewModel()
+
+    val mahasiswaListViewModel: MahasiswaListViewModel = hiltViewModel()
+    val projectListViewModel: ProjectListViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route,
+        startDestination = Screen.Home.route,
         enterTransition = { animationFadeScaleIn() },
         exitTransition = { animationFadeScaleOut() },
-    ) {
-        composable(route = Screen.Login.route){
-            LoginPage(navController)
-        }
-
-        composable(route = Screen.Register.route){
-            RegisterPage(navController)
-        }
-
+    ){
         composable(route = Screen.Home.route){
-            HomePage(navController, mahasiswalistviewmodel)
+            HomePage(lazyListState = lazyListState)
         }
 
         composable(route = Screen.Project.route){
-            ProjectPage(navController, mahasiswalistviewmodel, projectlistviewmodel)
+            ProjectPage(navController, mahasiswaListViewModel, projectListViewModel)
         }
 
         composable(route = Screen.Profile.route){
-            ProfilePage(navController, mahasiswalistviewmodel)
+            ProfilePage(navController, mahasiswaListViewModel)
         }
 
         composable(route ="${Screen.EditProject.route}/{projectId}",

@@ -1,4 +1,4 @@
-package org.d3if3121.tellink.ui.screen
+package org.d3if3121.tellink.ui.screen.content
 
 import android.annotation.SuppressLint
 import org.d3if3121.tellink.R
@@ -37,7 +37,7 @@ import org.d3if3121.tellink.ui.component.ButtonMerah
 import org.d3if3121.tellink.ui.component.EditMahasiswaDialog
 import org.d3if3121.tellink.ui.component.TopBar
 import org.d3if3121.tellink.ui.component.cekScroll
-import org.d3if3121.tellink.ui.screen.homepage.TOP_BAR_HEIGHT
+import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 
 

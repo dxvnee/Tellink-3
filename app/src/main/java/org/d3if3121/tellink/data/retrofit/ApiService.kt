@@ -2,8 +2,8 @@ package org.d3if3121.tellink.data.retrofit
 
 
 import org.d3if3121.tellink.data.model.response.ApiResponse
-import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListByNimResponse
 import retrofit2.http.Body

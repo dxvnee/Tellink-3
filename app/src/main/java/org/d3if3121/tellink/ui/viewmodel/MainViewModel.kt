@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.d3if3121.tellink.data.model.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
 import javax.inject.Inject
 

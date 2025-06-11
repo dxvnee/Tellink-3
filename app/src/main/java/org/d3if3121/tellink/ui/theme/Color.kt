@@ -1,5 +1,7 @@
 package org.d3if3121.tellink.ui.theme
 
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import org.d3if3121.tellink.ui.animation.AnimationFade
@@ -21,6 +23,22 @@ object Warna {
     val AbuTua = Color(0xFFB5B5B5)
     val AbuMuda = Color(0xFFE6E6E6)
     val Hijau = Color(0xFF83FF00)
+}
+
+@Composable
+fun redButtonColor(): ButtonColors{
+    return ButtonDefaults.buttonColors(
+        containerColor = Warna.MerahNormal,
+        contentColor = Warna.PutihNormal
+    )
+}
+
+@Composable
+fun whiteButtonColor(): ButtonColors{
+    return ButtonDefaults.buttonColors(
+        containerColor = Warna.AbuMuda,
+        contentColor = Warna.MerahNormal
+    )
 }
 
 @Composable

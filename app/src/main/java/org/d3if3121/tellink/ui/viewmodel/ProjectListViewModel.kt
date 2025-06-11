@@ -170,7 +170,6 @@ class ProjectListViewModel @Inject constructor(
 
     fun updateProject(projectId: String, project: Project) = viewModelScope.launch {
         updateProjectResponse = repo.updateProject(projectId, project)
-
     }
 
     fun deleteProject(id: String) = viewModelScope.launch {

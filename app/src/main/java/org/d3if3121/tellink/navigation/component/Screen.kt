@@ -1,8 +1,10 @@
-package org.d3if3121.tellink.navigation
+package org.d3if3121.tellink.navigation.component
 
 sealed class Screen(val route: String) {
     data object Login: Screen("LoginPage")
     data object Register: Screen("RegisterPage")
+    data object Main: Screen("MainPage")
+
     data object Home: Screen("HomePage")
     data object Project: Screen("ProjectPage")
     data object Profile: Screen("ProfilePage")

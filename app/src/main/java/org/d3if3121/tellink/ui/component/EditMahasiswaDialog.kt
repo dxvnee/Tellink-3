@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.data.model.MahasiswaEdit
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaEdit
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel

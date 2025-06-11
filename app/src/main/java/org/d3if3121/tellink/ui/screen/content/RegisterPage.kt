@@ -1,4 +1,4 @@
-//package org.d3if3121.tellink.ui.screen
+package org.d3if3121.tellink.ui.screen.content//package org.d3if3121.tellink.ui.screen
 //
 //import android.util.Log
 //import android.widget.Toast
@@ -50,9 +50,9 @@
 //import androidx.navigation.compose.rememberNavController
 //import org.d3if3121.tellink.components.LoadingIndicator
 //import org.d3if3121.tellink.core.printError
-//import org.d3if3121.tellink.data.model.Mahasiswa
+//import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 //import org.d3if3121.tellink.data.model.response.Response
-//import org.d3if3121.tellink.navigation.Screen
+//import org.d3if3121.tellink.navigation.component.Screen
 //import org.d3if3121.tellink.ui.component.ButtonMerah
 //import org.d3if3121.tellink.ui.component.InputPassword
 //import org.d3if3121.tellink.ui.component.InputPutih

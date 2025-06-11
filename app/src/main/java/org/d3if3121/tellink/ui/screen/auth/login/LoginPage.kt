@@ -11,9 +11,10 @@ import androidx.navigation.NavHostController
 import org.d3if3121.tellink.ui.screen.auth.component.AuthForm
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthPage
 import org.d3if3121.tellink.ui.screen.auth.component.LoginForm
+import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 
 @Composable
-fun LoginPage(navController: NavHostController){
+fun LoginPage(navController: NavHostController, mainViewModel: MainViewModel){
 
     var loginViewModel: LoginPageViewModel = hiltViewModel()
     var appMessage by remember { mutableStateOf("") }
@@ -29,6 +30,7 @@ fun LoginPage(navController: NavHostController){
             LoginStateHandler(
                 loginResponse = loginResponse,
                 navController = navController,
+                mainViewModel = mainViewModel,
                 appMessage = { appMessage = it }
             )
         },

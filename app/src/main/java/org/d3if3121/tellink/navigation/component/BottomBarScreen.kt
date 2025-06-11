@@ -1,8 +1,7 @@
-package org.d3if3121.tellink.navigation
+package org.d3if3121.tellink.navigation.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star

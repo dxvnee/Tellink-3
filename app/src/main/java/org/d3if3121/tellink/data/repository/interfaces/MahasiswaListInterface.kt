@@ -1,9 +1,9 @@
 package org.d3if3121.tellink.data.repository.interfaces
 
 import kotlinx.coroutines.flow.Flow
-import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaEdit
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
 import org.d3if3121.tellink.data.model.response.Response
 
 

@@ -1,4 +1,4 @@
-package org.d3if3121.tellink.ui.screen.projectpage
+package org.d3if3121.tellink.ui.screen.content.projectpage
 
 import android.annotation.SuppressLint
 import org.d3if3121.tellink.R
@@ -34,12 +34,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import org.d3if3121.tellink.navigation.Screen
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.theme.Warna
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.core.printError
-import org.d3if3121.tellink.data.model.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.model.response.Response.Failure
@@ -54,7 +54,7 @@ import org.d3if3121.tellink.ui.component.TeksJudulMerah
 import org.d3if3121.tellink.ui.component.TombolTambah
 import org.d3if3121.tellink.ui.component.TopBar
 import org.d3if3121.tellink.ui.component.cekScroll
-import org.d3if3121.tellink.ui.screen.homepage.TOP_BAR_HEIGHT
+import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.theme.CustomButtonColors
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel

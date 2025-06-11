@@ -1,7 +1,6 @@
 package org.d3if3121.tellink.data.repository
 
 import android.util.Log
-import coil.network.HttpException
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -9,9 +8,9 @@ import com.google.gson.Gson
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
-import org.d3if3121.tellink.data.model.Mahasiswa
-import org.d3if3121.tellink.data.model.MahasiswaEdit
-import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaEdit
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
 import org.d3if3121.tellink.data.model.response.ErrorResponse
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface

@@ -13,14 +13,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.d3if3121.tellink.data.model.MahasiswaLogin
+import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
 import org.d3if3121.tellink.data.model.response.Response.Failure
 import org.d3if3121.tellink.data.model.response.Response.Loading
 import org.d3if3121.tellink.data.model.response.Response.Success
 import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.LoginResponse
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
-import org.d3if3121.tellink.navigation.Screen
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthViewModel
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 import javax.inject.Inject

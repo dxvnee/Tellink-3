@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.d3if3121.tellink.data.model.Mahasiswa
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.response.Response.Failure
 import org.d3if3121.tellink.data.model.response.Response.Loading
 import org.d3if3121.tellink.data.model.response.Response.Success
@@ -40,19 +40,27 @@ class RegisterPageViewModel @Inject constructor(
         nama: String, nim: String, password: String,
         confirmPassword: String, appMessage: (String) -> Unit,
     ){
-        if (nim.isNotEmpty() && nama.isNotEmpty() && password.isNotEmpty()) {
-            val mahasiswa =  Mahasiswa(
-                nim = nim, password = password,
-                nama = nama, jurusan = "Unknown",
-                angkatan = "Unknown",
-            )
+        if (!(nim.isNotEmpty() && nama.isNotEmpty() && password.isNotEmpty())) {
+            appMessage("All fields shouldn't be empty.")
+            return
+        }
+        if (!isValidPassword(password)){
+            appMessage("Password should has 8 characters contains letters, numbers, and not symbols")
+            return
+        }
+        if (password != confirmPassword){
+            appMessage("Password doesn't match!")
+            return
+        }
 
-            if (password == confirmPassword){
-                addMahasiswa(mahasiswa)
-                loadingChange(true)
-            } else { appMessage("Password doesn't match!") }
+        val mahasiswa =  Mahasiswa(
+            nim = nim, password = password,
+            nama = nama, jurusan = "Unknown",
+            angkatan = "Unknown",
+        )
 
-        } else { appMessage("All fields shouldn't be empty.") }
+        addMahasiswa(mahasiswa)
+        loadingChange(true)
     }
 
     private fun registerResponseChange(response: RegisterResponse){
@@ -64,6 +72,15 @@ class RegisterPageViewModel @Inject constructor(
     override fun resetState() {
         loadingChange(false)
         registerResponseChange(Idle)
+    }
+
+    private fun isValidPassword(password: String): Boolean{
+        val minLength = 8
+        val hasLetter = password.any { it.isLetter() }
+        val hasDigit = password.any { it.isDigit() }
+        val hasSymbols = password.any { !it.isLetterOrDigit() }
+
+        return password.length >= minLength && hasLetter && hasDigit && hasSymbols
     }
 
 }

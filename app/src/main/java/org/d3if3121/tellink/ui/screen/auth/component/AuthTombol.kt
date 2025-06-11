@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,13 +25,15 @@ import org.d3if3121.tellink.ui.component.TeksBoldTombol
 import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
-fun AuthTombol(
+fun TombolTeksBawah(
     onClickButton: () -> Unit,
     onClickText: (Int) -> Unit,
 
     textTombol: String,
-    textTeks1: String,
+    textTeks1: String = "",
     textTeks2: String,
+
+    text2Color: Color = Warna.MerahNormal,
 ){
     Column(
         horizontalAlignment = Alignment.End,
@@ -43,7 +46,7 @@ fun AuthTombol(
             modifier = Modifier.fillMaxWidth().padding(top = 25.dp, bottom = 4.dp).size(46.dp),
         )
 
-        TeksSwitchPage(textTeks1, textTeks2, onClickText)
+        TeksSwitchPage(textTeks1, textTeks2, text2Color, onClickText)
     }
 }
 
@@ -51,6 +54,7 @@ fun AuthTombol(
 fun TeksSwitchPage(
     text: String,
     text2: String,
+    text2Color: Color,,
     onClick: (Int) -> Unit
 ){
     Row(verticalAlignment = Alignment.CenterVertically){
@@ -63,7 +67,7 @@ fun TeksSwitchPage(
             text = AnnotatedString(text2),
             onClick = onClick,
             style = TextStyle.Default.copy(
-                Warna.MerahNormal,
+                text2Color,
                 fontSize = 12.sp,
                 fontWeight = FontWeight(500)
             )

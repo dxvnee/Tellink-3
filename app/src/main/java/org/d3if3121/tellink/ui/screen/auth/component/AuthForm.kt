@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.navigation.Screen
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.component.ColumnPadding
 import org.d3if3121.tellink.ui.component.InputPassword
 import org.d3if3121.tellink.ui.component.InputPutih
@@ -73,7 +73,7 @@ fun LoginForm(
         )
     }
 
-    AuthTombol(
+    TombolTeksBawah(
         textTombol = "LOGIN",
         textTeks1 = "Don't have account? ",
         textTeks2 = "Register!",
@@ -150,7 +150,7 @@ fun RegisterForm(
         )
     }
 
-    AuthTombol(
+    TombolTeksBawah(
         textTombol = "REGISTER",
         textTeks1 = "Already have account? ",
         textTeks2 = "Login",

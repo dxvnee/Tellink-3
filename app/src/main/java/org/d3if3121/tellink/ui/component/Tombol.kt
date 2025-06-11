@@ -14,12 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.load.model.ModelLoaderFactory
+import org.d3if3121.tellink.R
 import org.d3if3121.tellink.ui.theme.CustomButtonColors
 import org.d3if3121.tellink.ui.theme.Warna
+import org.d3if3121.tellink.ui.theme.redButtonColor
+import org.d3if3121.tellink.ui.theme.whiteButtonColor
 
 @Composable
 fun TombolGambar(
@@ -94,5 +98,28 @@ fun ButtonMerah(
             content()
         },
         colors = colors
+    )
+}
+
+@Composable
+fun ButtonMerahDynamic(
+    active: Boolean,
+    onclick: () -> Unit,
+    onclickcancel: () -> Unit,
+    onrequestchange: (Boolean) -> Unit,
+){
+    ButtonMerah(
+        onClick = {
+            if (active) { onclickcancel(); onrequestchange(false) }
+            else { onclick(); onrequestchange(true) }
+        },
+        modifier = Modifier.fillMaxWidth().size(46.dp),
+        content = {
+            TeksBoldTombol(
+                text = if (active) stringResource(id = R.string.cancel) else stringResource(id = R.string.request),
+                color = if (active) Warna.MerahNormal else Warna.PutihNormal
+            )
+        },
+        colors = if (active) { whiteButtonColor() } else { redButtonColor() }
     )
 }

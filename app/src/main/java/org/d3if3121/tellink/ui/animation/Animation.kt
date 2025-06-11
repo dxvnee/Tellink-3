@@ -9,6 +9,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -18,9 +19,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import org.d3if3121.tellink.ui.component.cekScroll
+import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 
 @Composable
 fun AnimationFadeSpring(
@@ -114,4 +120,15 @@ fun heightAnimation(
     )
 
     return offset
+}
+
+@Composable
+fun paddingDpAnimation(
+    lazyListState: LazyListState
+): Dp {
+    val padding by animateDpAsState(
+        targetValue = if (cekScroll(lazyListState)) 0.dp else TOP_BAR_HEIGHT,
+        animationSpec = tween(durationMillis = 500)
+    )
+    return padding
 }

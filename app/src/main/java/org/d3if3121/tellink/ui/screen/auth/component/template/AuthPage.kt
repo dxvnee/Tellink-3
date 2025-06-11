@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.data.model.response.Response
-import org.d3if3121.tellink.navigation.Screen
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.component.DialogLoading
 import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.screen.auth.component.AuthContent

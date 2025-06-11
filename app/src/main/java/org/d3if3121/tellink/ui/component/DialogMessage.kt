@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.d3if3121.tellink.components.LoadingIndicator
@@ -43,8 +44,8 @@ fun DialogMessage(
                 center = true,
                 modifier = Modifier.fillMaxWidth()
             ){
-                TeksBold(text = textJudul, modifier = Modifier.padding(bottom = 8.dp))
-                TeksNormal(text = textDialog,  modifier = Modifier.padding(bottom = 12.dp))
+                TeksBold(textJudul, Modifier.padding(bottom = 8.dp), TextAlign.Center)
+                TeksNormal(textDialog,  Modifier.padding(bottom = 12.dp), TextAlign.Center)
 
                 ButtonMerah(
                     onClick = onClick,
@@ -69,7 +70,7 @@ fun DialogLoading(visible: Boolean){
                 contentAlignment = Alignment.Center
             ){
                 LoadingIndicator()
-                TeksNormal(text = "Loading..", modifier = Modifier.offset(y = 32.dp), size = 12.sp)
+                TeksNormal("Loading..", Modifier.offset(y = 32.dp), TextAlign.Center, size = 12.sp)
             }
         }
     }
