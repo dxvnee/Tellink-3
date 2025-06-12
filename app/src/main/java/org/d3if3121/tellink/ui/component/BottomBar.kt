@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,14 +38,15 @@ fun BottomBar(navController: NavHostController, home: Boolean = false, homeActio
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-
-
-    BottomNavigation(
-        backgroundColor = Warna.PutihGelap,
-        modifier = Modifier.height(70.dp)
-    ){
-        screens.forEach{ screen ->
-            AddItem(screen = screen, currentDestination = currentDestination, navController = navController, home, homeAction)
+    Column {
+        GarisAbu()
+        BottomNavigation(
+            backgroundColor = Warna.PutihNormal,
+            modifier = Modifier.height(70.dp)
+        ){
+            screens.forEach{ screen ->
+                AddItem(screen = screen, currentDestination = currentDestination, navController = navController, home, homeAction)
+            }
         }
     }
 

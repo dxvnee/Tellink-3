@@ -6,6 +6,8 @@ import org.d3if3121.tellink.data.model.response.Response
 
 
 typealias ProjectListResponse = Response<List<Project>>
+typealias ProjectWithMahasiswaResponse = Response<List<Project>>
+
 typealias ProjectListByNimResponse = Response<List<Project>>
 typealias ProjectListUserResponse = Response<List<Project>>
 typealias AddProjectResponse = Response<String>
@@ -27,6 +29,7 @@ interface ProjectListInterface {
     suspend fun deleteProject(id: String): DeleteProjectResponse
 
     suspend fun getProjectById(nim: String): Project
+    suspend fun getProjectWithMahasiswa(): ProjectWithMahasiswaResponse
 
     suspend fun addRequest(projectId: String, nim: String): AddRequestResponse
     suspend fun addAccept(projectId: String, nim: String): AddAcceptResponse

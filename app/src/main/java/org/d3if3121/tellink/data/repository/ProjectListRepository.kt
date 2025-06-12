@@ -2,6 +2,7 @@ package org.d3if3121.tellink.data.repository
 
 import android.content.Context
 import android.net.Uri
+import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -15,6 +16,9 @@ import kotlinx.coroutines.tasks.await
 import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
+import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
+import org.d3if3121.tellink.data.retrofit.RetrofitInterface
+import retrofit2.HttpException
 
 class ProjectListRepository (
     private val projectRef: CollectionReference,
@@ -78,6 +82,18 @@ class ProjectListRepository (
         awaitClose {
             listener.remove()
         }
+    }
+
+    override suspend fun getProjectWithMahasiswa() = try {
+        val response = RetrofitInterface.api.getProjectWithMahasiswa()
+
+        if (response.success){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
     }
 
 
@@ -256,7 +272,7 @@ class ProjectListRepository (
         val id = projectRef.add(project).await().id
 
         if (project.imageupload != null){
-            val imageUrl = uploadImagetoFirebase(project.imageupload.uri, id)
+            val imageUrl = uploadImagetoFirebase(project.imageupload.toUri(), id)
             projectRef.document(id).update("image", imageUrl).await()
         }
         Response.Success(id)

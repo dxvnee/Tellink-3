@@ -79,7 +79,7 @@ fun LoginStateHandler(
             loginPageViewModel.resetState()
 
             mainViewModel.addCurrentUser(loginResponse.data)
-            navController.navigate(Screen.Home.route)
+            navController.navigate(Screen.Main.route)
         }
         is Failure -> {
             loginPageViewModel.resetState()

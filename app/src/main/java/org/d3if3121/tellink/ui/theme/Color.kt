@@ -2,6 +2,9 @@ package org.d3if3121.tellink.ui.theme
 
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import org.d3if3121.tellink.ui.animation.AnimationFade
@@ -41,11 +44,20 @@ fun whiteButtonColor(): ButtonColors{
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun topAppBarColors(): TopAppBarColors{
+    return TopAppBarDefaults.mediumTopAppBarColors(
+        containerColor = Warna.PutihNormal,
+        titleContentColor = Warna.PutihNormal
+    )
+}
+
 @Composable
 fun ChangeNavColor(visible: Boolean){
     if(visible){
         DynamicNavigationBarColor(backgroundColor = Warna.HitamNormal.copy(alpha = 0.4f))
     } else {
-        DynamicNavigationBarColor(backgroundColor = Warna.PutihGelap)
+        DynamicNavigationBarColor(backgroundColor = Warna.PutihNormal)
     }
 }

@@ -16,7 +16,8 @@ fun TeksNormal(
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Warna.HitamNormal,
-    size: TextUnit = 16.sp,
+    size: TextUnit = 14.sp,
+    lineHeight: TextUnit = size * 1.2f
 ){
     Text(
         text = text,
@@ -25,6 +26,7 @@ fun TeksNormal(
         fontWeight = FontWeight.Normal,
         textAlign = textAlign,
         modifier = modifier,
+        lineHeight = lineHeight
     )
 }
 
@@ -34,7 +36,7 @@ fun TeksBold(
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Warna.HitamNormal,
-    size: TextUnit = 18.sp,
+    size: TextUnit = 16.sp,
 ){
     Text(
         text = text,
@@ -61,14 +63,13 @@ fun TeksNormalAbu(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = Warna.AbuTua,
-    size: TextUnit = 16.sp,
+    size: TextUnit = 14.sp,
 ){
     Text(
         text = text,
         color = color,
         fontSize = size,
         fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
         modifier = modifier
     )
 }
@@ -78,14 +79,14 @@ fun TeksBoldAbu(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = Warna.AbuTua,
-    size: TextUnit = 16.sp,
+    size: TextUnit = 14.sp,
 ){
     Text(
         text = text,
         color = color,
         fontSize = size,
-        fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
+        fontWeight = FontWeight.ExtraBold,
         modifier = modifier
     )
 }

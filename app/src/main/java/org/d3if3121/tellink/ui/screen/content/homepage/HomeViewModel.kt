@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.screen.content.homepage
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,6 +16,7 @@ import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.AddRequestResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListResponse
+import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
 import org.d3if3121.tellink.ui.screen.auth.component.template.AuthViewModel
 import javax.inject.Inject
 
@@ -26,6 +28,12 @@ class HomeViewModel @Inject constructor(
 
     override var loading: Boolean by mutableStateOf(false)
 
+    private val _gambarDialog = MutableStateFlow(false)
+    val gambarDialog: StateFlow<Boolean> = _gambarDialog
+
+    private val _gambarString = MutableStateFlow("")
+    val gambarString: StateFlow<String> = _gambarString
+
     private val _projectListResponse = MutableStateFlow<ProjectListResponse>(Idle)
     val projectListResponse: StateFlow<ProjectListResponse> = _projectListResponse
 
@@ -35,8 +43,12 @@ class HomeViewModel @Inject constructor(
     private val _projectList = MutableStateFlow<List<Project>?>(emptyList())
     val projectList: StateFlow<List<Project>?> = _projectList
 
+    private val _projectListWithMahasiswaResponse = MutableStateFlow<ProjectWithMahasiswaResponse>(Idle)
+    val projectListWithMahasiswaResponse: StateFlow<ProjectWithMahasiswaResponse> = _projectListWithMahasiswaResponse
+
     init {
         getProjectList()
+        getProjectListWithMahasiswa()
     }
 
     private fun getProjectList() = viewModelScope.launch {
@@ -46,6 +58,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getProjectListWithMahasiswa() = viewModelScope.launch {
+        _projectListWithMahasiswaResponse.value = repo.getProjectWithMahasiswa()
+    }
     fun deleteRequest(projectId: String, nim: String) = viewModelScope.launch {
         _requestResponse.value = repo.deleteRequest(projectId, nim)
     }
@@ -60,6 +75,20 @@ class HomeViewModel @Inject constructor(
 
     fun requestResponseChange(response: AddRequestResponse){
         _requestResponse.value = response
+    }
+
+    fun onDialogGambar(active: Boolean, gambarBaru: String){
+        gambarChange(active)
+        gambarStringChange(gambarBaru)
+        Log.d("etre", _gambarString.value)
+    }
+
+    fun gambarChange(active: Boolean){
+        _gambarDialog.value = active
+    }
+
+    fun gambarStringChange(gambarBaru: String){
+        _gambarString.value = gambarBaru
     }
 
     override fun resetState(){

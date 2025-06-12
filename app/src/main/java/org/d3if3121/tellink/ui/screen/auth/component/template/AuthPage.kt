@@ -32,7 +32,7 @@ fun <T> AuthPage(
 ){
     var dialogMessage by remember { mutableStateOf(false) }
 
-    Surface(modifier = Modifier.fillMaxSize(), color = Warna.PutihGelap){
+    Surface(modifier = Modifier.fillMaxSize(), color = Warna.PutihNormal){
         LaunchedEffect(appMessage){
             dialogMessage = appMessage.isNotEmpty()
         }

@@ -4,13 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
@@ -21,12 +21,18 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.d3if3121.tellink.ui.component.cekScroll
-import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
+import org.d3if3121.tellink.ui.component.topbar.cekScroll
+import org.d3if3121.tellink.ui.component.topbar.scrollDirectionDetector
+
+
 
 @Composable
 fun AnimationFadeSpring(
@@ -110,6 +116,7 @@ fun heightAnimation(
     targetScale: Float = -3f,
     durationMillis: Int = 2000,
 ): Float {
+
     val offset by rememberInfiniteTransition().animateFloat(
         initialValue = initialScale,
         targetValue = targetScale,
@@ -123,12 +130,46 @@ fun heightAnimation(
 }
 
 @Composable
-fun paddingDpAnimation(
-    lazyListState: LazyListState
-): Dp {
-    val padding by animateDpAsState(
-        targetValue = if (cekScroll(lazyListState)) 0.dp else TOP_BAR_HEIGHT,
-        animationSpec = tween(durationMillis = 500)
+fun topBarHeightAnimation(
+    lazyListState: LazyListState,
+    isAlpha: Boolean,
+): State<Dp> {
+    val isVisible = !cekScroll(lazyListState) || scrollDirectionDetector(lazyListState) == "Up"
+
+    val targetHeight = if (isVisible) 64.dp else if(!isAlpha) 53.dp else 0.dp
+    return animateDpAsState(
+        targetValue = targetHeight,
+        animationSpec = tween(
+            durationMillis = 70,
+            easing = FastOutSlowInEasing
+        ),
+        label = "TopBarHeight"
     )
-    return padding
+}
+@Composable
+fun rememberAlphaDone(
+    alpha: Float,
+    topBarHeight: Dp
+): Boolean{
+    var alphaDone by remember { mutableStateOf(false) }
+
+    LaunchedEffect(alpha){
+        alphaDone = alpha == 0f
+    }
+    return alphaDone
+}
+@Composable
+fun topBarAlphaAnimation(
+    topBarHeight: Dp,
+): State<Float>{
+
+    val alpha = if(topBarHeight > 54.dp) 1f else 0f
+    return animateFloatAsState(
+        targetValue = alpha,
+        animationSpec = tween(
+            durationMillis = 130,
+            easing = FastOutSlowInEasing
+        ),
+        label = "AnimatedTopBarAlpha"
+    )
 }

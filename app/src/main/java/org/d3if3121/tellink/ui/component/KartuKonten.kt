@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,34 +22,36 @@ import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahKartuType
+import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
 import org.d3if3121.tellink.ui.screen.content.projectpage.formatRelativeTime
 
 @Composable
 fun KartuKonten(
     mahasiswa: Mahasiswa,
     project: Project,
+    homeViewModel: HomeViewModel,
     buttonbehaviour: ButtonMerahBehaviour,
 ){
     CardPutihBesar {
         Row {
-            Gambar(painterResource(id = R.drawable.photo), 52.dp)
+            Gambar(painterResource(id = R.drawable.photo), 53.dp, Modifier.padding(end = 10.dp))
 
             Column {
-                TeksBoldMerah(mahasiswa.nama)
-                TeksNormalAbu(mahasiswa.jurusan, Modifier.offset(y = (-3).dp))
-                TeksBoldAbu(formatRelativeTime(project.date), Modifier.offset(y = (-8).dp))
+                TeksBoldMerah(mahasiswa.nama, Modifier.offset(y = (-2).dp))
+                TeksBoldAbu(mahasiswa.jurusan, Modifier.offset(y = (-7).dp))
+                TeksNormalAbu(formatRelativeTime(project.date), Modifier.offset(y = (-13).dp))
             }
         }
 
-        TeksBold(project.title, Modifier.padding(top = 9.dp, bottom = 5.dp))
+        TeksBold(project.title, Modifier.padding(top = 0.dp, bottom = 5.dp))
 
         DisplayTag(project.tag)
 
-        project.image?.let {
-            AsyncGambar(project.image)
-        }
+        Space(15)
 
-        TeksNormal(project.desc , Modifier.padding(top = 12.dp, bottom = 12.dp), TextAlign.Justify)
+        AsyncGambar(project.image, homeViewModel)
+
+        TeksNormal(project.desc, Modifier.padding(top = 12.dp, bottom = 12.dp), TextAlign.Justify)
 
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center){
             ButtonMerahKartuType(buttonbehaviour)

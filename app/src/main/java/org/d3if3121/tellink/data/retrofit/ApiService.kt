@@ -1,6 +1,7 @@
 package org.d3if3121.tellink.data.retrofit
 
 
+import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.response.ApiResponse
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
@@ -17,9 +18,12 @@ interface ApiService {
         @Path("nim") nim : String
     ): Response<ProjectListByNimResponse>
 
-    @POST("api/loginMahasiswa")
+    @POST("api/login")
     suspend fun loginMahasiswa(@Body mahasiswa: MahasiswaLogin) : ApiResponse<Mahasiswa>
 
-    @POST("api/registerMahasiswa")
+    @POST("api/register")
     suspend fun registerMahasiswa(@Body mahasiswa: Mahasiswa): ApiResponse<Unit>
+
+    @GET("api/feeds")
+    suspend fun getProjectWithMahasiswa(): ApiResponse<List<Project>>
 }

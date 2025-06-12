@@ -88,9 +88,7 @@ fun TambahProjectDialog(
                         nim = user.nim,
                         title = judul,
                         desc = desc,
-                        imageupload = ImageUpload(
-                            uri = uri!!,
-                        ),
+                        imageupload = uri.toString(),
                         tag = selectedTag,
                         date = isoDate
                     )

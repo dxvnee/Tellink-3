@@ -15,25 +15,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.d3if3121.tellink.R
+import org.d3if3121.tellink.ui.component.ColumnPaddingKiriKanan
 import org.d3if3121.tellink.ui.component.InputPutihSearch
+import org.d3if3121.tellink.ui.component.InputPutihSearchNative
 import org.d3if3121.tellink.ui.component.TeksJudulMerah
 
 @Composable
 fun HomeTopContent(){
     var search by remember { mutableStateOf("") }
 
-    TeksJudulMerah(text = "Welcome to Tellink", Modifier.padding(top = 20.dp))
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 17.dp)
-    ){
-        InputPutihSearch(
-            input = search,
-            placeholder = stringResource(id = R.string.search),
-            onInputChange = { search = it },
-            keyboardType = KeyboardType.Number,
-            modifier = Modifier.fillMaxWidth()
-        )
+    ColumnPaddingKiriKanan {
+        TeksJudulMerah(text = "Welcome to Tellink", Modifier.padding(top = 16.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 17.dp)
+        ){
+            InputPutihSearchNative(
+                input = search,
+                placeholder = "Cari sesuatu...",
+                onInputChange = { search = it },
+                keyboardType = KeyboardType.Text,
+                fontSize = 15,
+            )
+
+        }
     }
 }

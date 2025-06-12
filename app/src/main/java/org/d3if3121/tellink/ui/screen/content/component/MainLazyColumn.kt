@@ -20,12 +20,10 @@ fun <T> MainLazyColumn(
     topContent: @Composable () -> Unit,
     mainContent: @Composable (T) -> Unit,
     list: List<T>?,
-    padding: Dp,
     lazyListState: LazyListState,
 ){
     LazyColumn(
         modifier = Modifier
-            .padding(top = padding, start = 17.dp, end = 17.dp)
             .fillMaxWidth()
             .fillMaxHeight()
             .background(color = Warna.PutihNormal),

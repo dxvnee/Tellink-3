@@ -11,10 +11,7 @@ import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
 import org.d3if3121.tellink.ui.screen.auth.login.LoginPage
 import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
 import org.d3if3121.tellink.ui.screen.content.component.MainPage
-import org.d3if3121.tellink.ui.screen.content.homepage.MainPage
-import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
-import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 
 
 @Composable

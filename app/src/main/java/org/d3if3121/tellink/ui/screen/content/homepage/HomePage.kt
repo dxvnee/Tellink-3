@@ -1,7 +1,6 @@
 package org.d3if3121.tellink.ui.screen.content.homepage
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,23 +18,22 @@ import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.model.response.Response.Loading
 import org.d3if3121.tellink.data.model.response.Response.Failure
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListResponse
-import org.d3if3121.tellink.ui.animation.paddingDpAnimation
 import org.d3if3121.tellink.ui.component.DialogLoading
 import org.d3if3121.tellink.ui.component.DialogMessage
+import org.d3if3121.tellink.ui.component.GarisAbu
 import org.d3if3121.tellink.ui.component.KartuKonten
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.MainLazyColumn
 import org.d3if3121.tellink.ui.screen.content.homepage.component.HomeTopContent
 
-
-val TOP_BAR_HEIGHT = 70.dp
+val TOP_BAR_HEIGHT = 10.dp
 
 @Composable
 fun HomePage(
     lazyListState: LazyListState,
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel()
 ){
-    val projectListResponse by homeViewModel.projectListResponse.collectAsState()
+    val projectListResponse by homeViewModel.projectListWithMahasiswaResponse.collectAsState()
 
     var dialogMessage by remember { mutableStateOf(false) }
     var judulDialog by remember { mutableStateOf("") }
@@ -63,13 +61,11 @@ fun HomeContent(
     homeViewModel: HomeViewModel,
     lazyListState: LazyListState
 ) {
-    val padding = paddingDpAnimation(lazyListState)
     val projectList by homeViewModel.projectList.collectAsState()
 
     MainLazyColumn(
         topContent = { HomeTopContent() },
-        mainContent = { project -> HomeMainContent(mahasiswa, project, homeViewModel) },
-        padding = padding,
+        mainContent = { project -> HomeMainContent(project, homeViewModel) },
         lazyListState = lazyListState,
         list = projectList
     )
@@ -77,15 +73,16 @@ fun HomeContent(
 
 @Composable
 fun HomeMainContent(
-    mahasiswa: Mahasiswa,
     project: Project,
     homeViewModel: HomeViewModel
 ){
     var requestornot by remember { mutableStateOf(false) }
+    var mahasiswa = project.mahasiswa ?: Mahasiswa()
 
     KartuKonten(
         mahasiswa = mahasiswa,
         project = project,
+        homeViewModel = homeViewModel,
         buttonbehaviour = ButtonMerahBehaviour.Dynamic(
             active = requestornot ,
             onclick = { homeViewModel.addRequest(project.id, mahasiswa.nim) },
@@ -93,7 +90,7 @@ fun HomeMainContent(
             onrequestchange = { requestornot = it},
         ),
     )
-    Spacer(modifier = Modifier.height(20.dp))
+    GarisAbu(Modifier.padding(start = 10.dp, end = 10.dp))
 }
 
 

@@ -51,13 +51,12 @@ fun CardPutihBesar( content: @Composable () -> Unit ){
     Card(
         modifier = Modifier.fillMaxWidth().fillMaxHeight(),
         colors = CardDefaults.cardColors(containerColor = Warna.PutihNormal),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(6.dp)
+        shape = RoundedCornerShape(0.dp),
     ){
         Column (
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier.padding(17.dp).fillMaxWidth().fillMaxHeight()
+            modifier = Modifier.padding(16.dp).fillMaxWidth().fillMaxHeight()
         ) {
             content()
         }

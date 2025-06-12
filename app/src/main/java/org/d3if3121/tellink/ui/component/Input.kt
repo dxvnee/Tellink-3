@@ -1,10 +1,15 @@
 package org.d3if3121.tellink.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +17,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -35,7 +41,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +51,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -88,9 +98,9 @@ fun InputPutih(
             unfocusedTextColor = Warna.HitamNormal,
             focusedPlaceholderColor = Warna.MerahNormal,
             focusedIndicatorColor = Warna.MerahNormal,
-            unfocusedIndicatorColor = Warna.AbuMuda,
-            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda,
-            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda
+            unfocusedIndicatorColor = Warna.PutihGelap,
+            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap,
+            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
         ),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
         maxLines = if(expand) Int.MAX_VALUE else 1,
@@ -175,7 +185,7 @@ fun InputPutihSearch(
     keyboardType: KeyboardType,
     modifier: Modifier = Modifier,
     iconModifier: Modifier = Modifier,
-    fontSize: Int = 17,
+    fontSize: Int = 15,
 ){
     var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
@@ -197,17 +207,23 @@ fun InputPutihSearch(
         onValueChange = onInputChange,
         singleLine = true,
         placeholder = {
-            Text(
-                text = placeholder,
-                color = Warna.AbuTua,
-                fontSize = fontSize.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center
-            )
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                Text(
+                    text = placeholder,
+                    color = Warna.AbuTua,
+                    fontSize = fontSize.sp,
+                    fontWeight = FontWeight.Normal,
+                    textAlign = TextAlign.Center
+                )
+            }
+
         },
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(16.dp),
         modifier = modifier
-            .height(48.dp)
+            .height(47.dp)
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
             },
@@ -216,9 +232,9 @@ fun InputPutihSearch(
             unfocusedTextColor = Warna.HitamNormal,
             focusedPlaceholderColor = Warna.MerahNormal,
             focusedIndicatorColor = Warna.MerahNormal,
-            unfocusedIndicatorColor = Warna.AbuMuda,
-            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda,
-            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda
+            unfocusedIndicatorColor = Warna.PutihGelap,
+            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap,
+            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
         ),
 
 
@@ -227,7 +243,74 @@ fun InputPutihSearch(
         )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InputPutihSearchNative(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
+    iconModifier: Modifier = Modifier,
+    fontSize: Int = 15,
+    isFocusedColor: Color = Warna.PutihNormal,
+    unfocusedColor: Color = Warna.PutihGelap,
+    height: Dp = 40.dp
+) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .height(height)
+            .background(if (isFocused) isFocusedColor else unfocusedColor)
+            .border(
+                width = 2.dp,
+                color = if (isFocused) Warna.MerahNormal else Color.Transparent,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(horizontal = 12.dp, vertical = 10.dp)
+            .onFocusChanged { isFocused = it.isFocused }
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search icon",
+                modifier = iconModifier.size(25.dp),
+                tint = if(isFocused) Warna.HitamNormal else Warna.AbuTua
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            BasicTextField(
+                value = input,
+                onValueChange = onInputChange,
+                singleLine = true,
+                textStyle = TextStyle(
+                    color = Warna.HitamNormal,
+                    fontSize = fontSize.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically),
+                decorationBox = { innerTextField ->
+                    if (input.isEmpty()) {
+                        Text(
+                            text = placeholder,
+                            color = Warna.AbuTua,
+                            fontSize = fontSize.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    }
+                    innerTextField()
+                }
+            )
+        }
+    }
+}
+
+
 @Composable
 fun InputPassword(
     input: String,
@@ -265,9 +348,9 @@ fun InputPassword(
             unfocusedTextColor = Warna.HitamNormal,
             focusedPlaceholderColor = Warna.MerahNormal,
             focusedIndicatorColor = Warna.MerahNormal,
-            unfocusedIndicatorColor = Warna.AbuMuda,
-            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda,
-            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.AbuMuda
+            unfocusedIndicatorColor = Warna.PutihGelap,
+            focusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap,
+            unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
         ),
 
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),

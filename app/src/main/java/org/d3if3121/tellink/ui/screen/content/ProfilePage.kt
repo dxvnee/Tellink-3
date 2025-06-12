@@ -35,8 +35,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.ui.component.BottomBar
 import org.d3if3121.tellink.ui.component.ButtonMerah
 import org.d3if3121.tellink.ui.component.EditMahasiswaDialog
-import org.d3if3121.tellink.ui.component.TopBar
-import org.d3if3121.tellink.ui.component.cekScroll
+import org.d3if3121.tellink.ui.component.topbar.TopBar
+import org.d3if3121.tellink.ui.component.topbar.cekScroll
 import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 
@@ -264,7 +264,7 @@ fun ProfilePage(
 //                    search = it
 //                }
 //            )
-            TopBar(lazyListState = lazyListState, helloActive = false, TOP_BAR_ZERO = 70, viewmodel = viewmodel)
+//            TopBar(lazyListState = lazyListState, helloActive = false, TOP_BAR_ZERO = 70)
         },
         content = { paddingValues ->
             Column(modifier = Modifier.background(color = Warna.PutihNormal)) {

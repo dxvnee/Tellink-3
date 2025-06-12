@@ -54,7 +54,7 @@ fun TombolTeksBawah(
 fun TeksSwitchPage(
     text: String,
     text2: String,
-    text2Color: Color,,
+    text2Color: Color,
     onClick: (Int) -> Unit
 ){
     Row(verticalAlignment = Alignment.CenterVertically){

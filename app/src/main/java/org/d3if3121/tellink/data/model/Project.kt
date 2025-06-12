@@ -1,6 +1,5 @@
 package org.d3if3121.tellink.data.model
-
-import java.util.Date
+import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 
 data class Project(
     val id: String = "",
@@ -15,7 +14,8 @@ data class Project(
     val tag: List<String>,
     val likes: Int? = 0,
 
-    val imageupload: ImageUpload? = null
+    val imageupload: String? = null,
+    val mahasiswa: Mahasiswa? = null
 ){
     constructor() : this("", "", "", "", "", "", emptyList(), emptyList(),"", emptyList(), 0)
 
@@ -28,5 +28,6 @@ data class Project(
         const val IMAGE = "image"
         const val REQUESTS = "requests"
         const val ACCEPT = "accept"
+        const val MAHASISWA = "mahasiswa"
     }
 }

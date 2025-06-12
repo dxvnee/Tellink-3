@@ -1,11 +1,9 @@
 package org.d3if3121.tellink.ui.component
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.d3if3121.tellink.ui.theme.Warna
 
@@ -17,7 +15,7 @@ fun TeksJudulMerah(
     Text(
         text = text,
         color = Warna.MerahNormal,
-        fontSize = 21.sp,
+        fontSize = 28.sp,
         fontWeight = FontWeight.ExtraBold,
         modifier = modifier
     )
