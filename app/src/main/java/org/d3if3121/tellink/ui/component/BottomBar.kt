@@ -27,7 +27,9 @@ import org.d3if3121.tellink.ui.theme.Warna
 
 
 @Composable
-fun BottomBar(navController: NavHostController, home: Boolean = false, homeAction: () -> Unit = {}){
+fun BottomBar(navController: NavHostController?, home: Boolean = false){
+    if (navController == null) return
+
     val screens = listOf(
         BottomBarScreen.BottomMenuPage,
         BottomBarScreen.BottomSkillPage,
@@ -45,7 +47,7 @@ fun BottomBar(navController: NavHostController, home: Boolean = false, homeActio
             modifier = Modifier.height(70.dp)
         ){
             screens.forEach{ screen ->
-                AddItem(screen = screen, currentDestination = currentDestination, navController = navController, home, homeAction)
+                AddItem(screen = screen, currentDestination = currentDestination, navController = navController)
             }
         }
     }
@@ -57,8 +59,6 @@ fun RowScope.AddItem(
     screen: BottomBarScreen,
     currentDestination: NavDestination?,
     navController: NavHostController,
-    home: Boolean = false,
-    homeAction: () -> Unit
 ){
     BottomNavigationItem (
         modifier = Modifier.padding(top = 10.dp, bottom = 36.dp),
@@ -84,18 +84,10 @@ fun RowScope.AddItem(
         selectedContentColor = Warna.MerahTua,
         unselectedContentColor = Warna.AbuTua,
         onClick = {
-
             navController.navigate(screen.route){
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
-
-            if (home) {
-                homeAction()
-            }
         }
-
     )
-
-
 }

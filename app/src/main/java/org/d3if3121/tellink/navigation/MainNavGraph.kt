@@ -4,7 +4,11 @@ package org.d3if3121.tellink.navigation
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,11 +34,14 @@ fun MainNavGraph(
     currentUser: Mahasiswa,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onTopbartypeChange: (TopbarType) -> Unit,
+    navControllerContent: (NavHostController) -> Unit
 ){
     val navController = rememberNavController()
 
     val mahasiswaListViewModel: MahasiswaListViewModel = hiltViewModel()
     val projectListViewModel: ProjectListViewModel = hiltViewModel()
+
+    navControllerContent(navController)
 
     NavHost(
         navController = navController,

@@ -1,6 +1,5 @@
 package org.d3if3121.tellink.ui.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,12 +24,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import org.d3if3121.tellink.components.LoadingIndicator
+import org.d3if3121.tellink.ui.animation.AnimationFadeSpring
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
-import org.jetbrains.annotations.Async
 
 @Composable
 fun Gambar(
@@ -55,44 +54,36 @@ fun AsyncGambar(
         }
     }
 }
-
 @Composable
 fun AsyncGambarValue(gambar: String, homeViewModel: HomeViewModel) {
-    var state by remember { mutableStateOf<AsyncImagePainter.State>(AsyncImagePainter.State.Empty) }
+    var success by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(16f/9f)
+            .aspectRatio(16f / 9f)
             .clip(RoundedCornerShape(10.dp))
-    ){
-        AsyncImage(
+    ) {
+        SubcomposeAsyncImage(
             model = gambar,
-            contentDescription = null,
+            contentDescription = "Gambar Content",
             contentScale = ContentScale.Crop,
-            onState = { state = it },
-            modifier = Modifier
-                .matchParentSize()
-                .clickable {
-                   homeViewModel.onDialogGambar(true, gambar)
-                },
-        )
-
-        when(state){
-            is AsyncImagePainter.State.Error -> {
+            modifier = Modifier.matchParentSize().clickable {
+                homeViewModel.onDialogGambar(true, gambar)
+            },
+            loading = { ColumnCenter(modifier = Modifier.fillMaxSize()) { LoadingIndicator() } },
+            error = {
                 Icon(
                     imageVector = Icons.Default.BrokenImage,
                     contentDescription = "Error",
                     modifier = Modifier.align(Alignment.Center)
                 )
+            },
+            success = {
+                LaunchedEffect(Unit){ success = true }
+                AnimationFadeSpring(success) { SubcomposeAsyncImageContent() }
             }
-            is AsyncImagePainter.State.Loading -> {
-                ColumnCenter(modifier = Modifier.fillMaxSize()) {
-                    LoadingIndicator()
-                }
-
-            }
-            else -> Unit
-        }
+        )
     }
 }
+

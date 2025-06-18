@@ -80,7 +80,6 @@ class HomeViewModel @Inject constructor(
     fun onDialogGambar(active: Boolean, gambarBaru: String){
         gambarChange(active)
         gambarStringChange(gambarBaru)
-        Log.d("etre", _gambarString.value)
     }
 
     fun gambarChange(active: Boolean){

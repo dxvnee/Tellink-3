@@ -51,9 +51,10 @@ fun TeksBold(
 @Composable
 fun TeksBoldTombol(
     text: String,
-    color: Color = Warna.PutihNormal
+    color: Color = Warna.PutihNormal,
+    size: Int = 16
 ){
-    TeksBold(text, color = color, size = 16.sp)
+    TeksBold(text, color = color, size = size.sp)
 }
 
 

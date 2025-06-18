@@ -96,6 +96,8 @@ fun DialogGambar(homeViewModel: HomeViewModel){
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clickable { homeViewModel.gambarChange(false) }
+
                     .background(Warna.HitamNormal.copy(alpha = 0.4f))
             )
         }

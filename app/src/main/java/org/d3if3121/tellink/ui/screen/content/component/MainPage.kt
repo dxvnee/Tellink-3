@@ -35,6 +35,8 @@ fun MainPage(
     val lazyListState = rememberLazyListState()
     val homeViewModel: HomeViewModel = hiltViewModel()
 
+    var navControllerContent = remember { mutableStateOf<NavHostController?>(null) }
+
     DialogGambar(homeViewModel)
 
     MainScaffold(
@@ -48,9 +50,20 @@ fun MainPage(
         },
         content = {
             Box(modifier = Modifier.background(Warna.PutihGelap).fillMaxSize()){
-                MainNavGraph(lazyListState, currentUser, homeViewModel){ currentTopbarType = it }
+                MainNavGraph(
+                    lazyListState = lazyListState,
+                    currentUser = currentUser,
+                    homeViewModel = homeViewModel,
+                    onTopbartypeChange = { currentTopbarType = it },
+                    navControllerContent = { navControllerContent.value = it }
+                )
             }
         },
-        bottombar = { BottomBar(navController = navController, home = true){} },
+        bottombar = {
+            BottomBar(
+                navController = navControllerContent.value,
+                home = true
+            )
+        }
     )
 }
