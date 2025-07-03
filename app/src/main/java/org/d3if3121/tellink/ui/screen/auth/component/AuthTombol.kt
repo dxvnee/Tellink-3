@@ -43,24 +43,25 @@ fun TombolTeksBawah(
         ButtonMerah(
             onClick = onClickButton,
             content = { TeksBoldTombol(textTombol) },
-            modifier = Modifier.fillMaxWidth().padding(top = 25.dp, bottom = 4.dp).size(46.dp),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp).size(39.dp),
         )
 
-        TeksSwitchPage(textTeks1, textTeks2, text2Color, onClickText)
+        TeksSwitchPage(textTeks1, textTeks2, text2Color, onClick = onClickText)
     }
 }
 
 @Composable
 fun TeksSwitchPage(
-    text: String,
+    text: String = "",
     text2: String,
     text2Color: Color,
-    onClick: (Int) -> Unit
+    textSize: Int = 12,
+    onClick: (Int) -> Unit,
 ){
     Row(verticalAlignment = Alignment.CenterVertically){
         Text(
             text = text,
-            fontSize = 12.sp,
+            fontSize = textSize.sp,
             fontWeight = FontWeight(500)
         )
         ClickableText(
@@ -68,7 +69,7 @@ fun TeksSwitchPage(
             onClick = onClick,
             style = TextStyle.Default.copy(
                 text2Color,
-                fontSize = 12.sp,
+                fontSize = textSize.sp,
                 fontWeight = FontWeight(500)
             )
         )

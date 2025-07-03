@@ -1,7 +1,5 @@
 package org.d3if3121.tellink.ui.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,14 +13,20 @@ class MainViewModel @Inject constructor(
     private val repo: MahasiswaListInterface
 ): ViewModel() {
 
-    val loading by mutableStateOf(false)
-
     private val _currentUser = MutableStateFlow(Mahasiswa())
     val currentUser: StateFlow<Mahasiswa> = _currentUser
+
+    private val _alphaDone = MutableStateFlow(false)
+    val alphaDone: StateFlow<Boolean> = _alphaDone
+
 
     fun addCurrentUser(mahasiswa: Mahasiswa?) {
         mahasiswa?.let{
             _currentUser.value = it
         }
+    }
+
+    fun alphaDoneChange(status: Boolean){
+        _alphaDone.value = status
     }
 }

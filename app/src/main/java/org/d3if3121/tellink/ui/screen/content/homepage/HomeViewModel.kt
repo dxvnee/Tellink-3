@@ -17,14 +17,14 @@ import org.d3if3121.tellink.data.repository.interfaces.AddRequestResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
-import org.d3if3121.tellink.ui.screen.auth.component.template.AuthViewModel
+import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repo: ProjectListInterface
-): ViewModel(), AuthViewModel {
+): ViewModel(), ContentViewModel<List<Project>> {
 
     override var loading: Boolean by mutableStateOf(false)
 
@@ -47,20 +47,14 @@ class HomeViewModel @Inject constructor(
     val projectListWithMahasiswaResponse: StateFlow<ProjectWithMahasiswaResponse> = _projectListWithMahasiswaResponse
 
     init {
-        getProjectList()
         getProjectListWithMahasiswa()
     }
 
-    private fun getProjectList() = viewModelScope.launch {
-        delay(1000)
-        repo.getProjectList().collect(){
-            _projectListResponse.value = it
-        }
-    }
-
     private fun getProjectListWithMahasiswa() = viewModelScope.launch {
+        delay(1000)
         _projectListWithMahasiswaResponse.value = repo.getProjectWithMahasiswa()
     }
+
     fun deleteRequest(projectId: String, nim: String) = viewModelScope.launch {
         _requestResponse.value = repo.deleteRequest(projectId, nim)
     }
@@ -69,15 +63,15 @@ class HomeViewModel @Inject constructor(
         _requestResponse.value = repo.addRequest(projectId, nim)
     }
 
-    fun projectListChange(projectList: List<Project>?){
-        _projectList.value = projectList
+    override fun responseChange(data: List<Project>?) {
+        _projectList.value = data
     }
 
     fun requestResponseChange(response: AddRequestResponse){
         _requestResponse.value = response
     }
 
-    fun onDialogGambar(active: Boolean, gambarBaru: String){
+    override fun onDialogGambar(active: Boolean, gambarBaru: String){
         gambarChange(active)
         gambarStringChange(gambarBaru)
     }
@@ -94,12 +88,13 @@ class HomeViewModel @Inject constructor(
         loadingChange(false)
         requestResponseChange(Idle)
     }
+
     override fun loadingChange(state: Boolean){
         loading = state
     }
 }
 
-//
+
 //
 //@Composable
 //fun HomeStateHandler(projectviewmodel: HomeViewModel, projectListResponse: ProjectListResponse){

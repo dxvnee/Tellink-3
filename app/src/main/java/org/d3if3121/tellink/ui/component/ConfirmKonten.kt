@@ -116,51 +116,16 @@ fun ConfirmKonten(
             .padding(top = 20.dp, start = 17.dp, end = 17.dp, bottom = 20.dp)
             .fillMaxWidth()
             .fillMaxHeight()
-    ) {
+    ){
         PilihanPutih(
-            text1 = "Accepted",
-            text2 = "Requested",
+            text1 = "Aktif",
+            text2 = "Nonaktif",
             condition = secondmode,
-            color1 = if(secondmode) {
-                ButtonColors(
-                    containerColor =  Warna.PutihNormal,
-                    contentColor = Warna.MerahNormal,
-                    disabledContentColor = Warna.MerahNormal,
-                    disabledContainerColor = Warna.MerahNormal
-                )
-            } else {
-                ButtonColors(
-                    containerColor =  Warna.MerahNormal,
-                    contentColor = Warna.MerahNormal,
-                    disabledContentColor = Warna.MerahNormal,
-                    disabledContainerColor = Warna.PutihNormal
-                )
-            },
-            color2 = if(secondmode) {
-                ButtonColors(
-                    containerColor =  Warna.MerahNormal,
-                    contentColor = Warna.MerahNormal,
-                    disabledContentColor = Warna.MerahNormal,
-                    disabledContainerColor = Warna.MerahNormal
-                )
-            } else {
-                ButtonColors(
-                    containerColor =  Warna.PutihNormal,
-                    contentColor = Warna.MerahNormal,
-                    disabledContentColor = Warna.PutihNormal,
-                    disabledContainerColor = Warna.MerahNormal
-                )
-            },
-            onclick1 = {
-                secondmode = false
-            },
-            onclick2 = {
-                secondmode = true
-            }
+            onclick1 = { secondmode = true },
+            onclick2 = { secondmode = false }
         )
-        LazyColumn(
 
-        ) {
+        LazyColumn{
             if (secondmode == false){
                 items(
                     items = project.requests!!,
@@ -209,14 +174,6 @@ fun ConfirmKonten(
                     )
                 }
             }
-
-
         }
-
     }
-
-
-
-
-
 }

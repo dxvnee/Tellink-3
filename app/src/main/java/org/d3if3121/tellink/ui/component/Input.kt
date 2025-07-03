@@ -2,15 +2,13 @@ package org.d3if3121.tellink.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -52,14 +50,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import org.d3if3121.tellink.R
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.theme.Warna
+import kotlin.math.exp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputPutih(
     input: String,
@@ -87,8 +85,8 @@ fun InputPutih(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(
-                max = if(expand) Int.MAX_VALUE.dp else 50.dp,
-                min = if(expand) 180.dp else 50.dp
+                max = if (expand) Int.MAX_VALUE.dp else 50.dp,
+                min = if (expand) 180.dp else 50.dp
             )
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
@@ -103,7 +101,7 @@ fun InputPutih(
             unfocusedContainerColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
         ),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
-        maxLines = if(expand) Int.MAX_VALUE else 1,
+        maxLines = if (expand) Int.MAX_VALUE else 1,
         minLines = 1,
     )
 }
@@ -116,32 +114,42 @@ fun InputPutihSearchProfile(
     onInputChange: (String) -> Unit,
     keyboardType: KeyboardType,
     modifier: Modifier = Modifier,
-    fontSize: Int = 17
-){
+    fontSize: Int = 17,
+) {
     var isFocused by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
-            .border(1.dp, if (!isFocused) Warna.AbuMuda else Warna.MerahNormal, RoundedCornerShape(10.dp)).fillMaxHeight(),
+            .border(
+                1.dp,
+                if (!isFocused) Warna.AbuMuda else Warna.MerahNormal,
+                RoundedCornerShape(10.dp)
+            )
+            .fillMaxHeight(),
         colors = if (!isFocused) CardDefaults.cardColors(Warna.AbuMuda) else CardDefaults.cardColors(
-            Warna.PutihNormal)
+            Warna.PutihNormal
+        )
 
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxHeight().padding(start = 10.dp)
-        ){
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(start = 10.dp)
+        ) {
             Icon(
                 modifier = Modifier.size(25.dp),
                 imageVector = Icons.Default.Search,
                 contentDescription = "eheh",
                 tint = Warna.AbuTua
             )
-            Column (
+            Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
-                modifier = Modifier.fillMaxHeight().padding(start = 7.dp)
-            ){
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(start = 7.dp)
+            ) {
                 if (input.isEmpty()) {
                     Text(
                         text = placeholder,
@@ -157,7 +165,7 @@ fun InputPutihSearchProfile(
                     )
                 }
                 BasicTextField(
-                    value =  input,
+                    value = input,
                     onValueChange = onInputChange,
                     textStyle = TextStyle(
                         fontSize = fontSize.sp,
@@ -177,6 +185,7 @@ fun InputPutihSearchProfile(
 
     }
 }
+
 @Composable
 fun InputPutihSearch(
     input: String,
@@ -186,7 +195,7 @@ fun InputPutihSearch(
     modifier: Modifier = Modifier,
     iconModifier: Modifier = Modifier,
     fontSize: Int = 15,
-){
+) {
     var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         leadingIcon = {
@@ -196,7 +205,7 @@ fun InputPutihSearch(
                 contentDescription = "eheh",
                 tint = Warna.AbuTua,
 
-            )
+                )
         },
         textStyle = TextStyle(
             color = Warna.HitamNormal,
@@ -243,6 +252,37 @@ fun InputPutihSearch(
         )
 }
 
+
+@Composable
+fun SearchBarWithButton(
+    search: String,
+    onSearchChange: (String) -> Unit,
+    navControllerGlobal: NavHostController,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 17.dp)
+    ) {
+        InputPutihSearchNative(
+            input = search,
+            placeholder = "Search...",
+            onInputChange = { onSearchChange(it) },
+            keyboardType = KeyboardType.Text,
+            fontSize = 15,
+            modifier = Modifier
+                .weight(8f)
+                .padding(end = 10.dp)
+        )
+
+        TombolTambah(modifier = Modifier.weight(1f)) {
+            navControllerGlobal.navigate(Screen.ProjectAdd.route)
+        }
+    }
+}
+
 @Composable
 fun InputPutihSearchNative(
     input: String,
@@ -254,7 +294,7 @@ fun InputPutihSearchNative(
     fontSize: Int = 15,
     isFocusedColor: Color = Warna.PutihNormal,
     unfocusedColor: Color = Warna.PutihGelap,
-    height: Dp = 40.dp
+    height: Dp = 40.dp,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
@@ -276,7 +316,7 @@ fun InputPutihSearchNative(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search icon",
                 modifier = iconModifier.size(25.dp),
-                tint = if(isFocused) Warna.HitamNormal else Warna.AbuTua
+                tint = if (isFocused) Warna.HitamNormal else Warna.AbuTua
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -292,7 +332,6 @@ fun InputPutihSearchNative(
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
                 modifier = Modifier
-                    .weight(1f)
                     .align(Alignment.CenterVertically),
                 decorationBox = { innerTextField ->
                     if (input.isEmpty()) {
@@ -312,14 +351,115 @@ fun InputPutihSearchNative(
 
 
 @Composable
+fun InputPutihNative(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
+    expand: Boolean = false,
+) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    val backgroundColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
+    val borderColor = if (isFocused) Warna.MerahNormal else Warna.PutihGelap
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = if (expand) 180.dp else 50.dp, max = if (expand) Dp.Infinity else 41.dp)
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
+            .background(color = backgroundColor, shape = RoundedCornerShape(10.dp))
+            .padding(horizontal = 16.dp)
+    ) {
+        RowStartCenter(modifier = Modifier.fillMaxSize()){
+            BasicTextField(
+                value = input,
+                onValueChange = onInputChange,
+                decorationBox = { if (input.isEmpty()) {
+                    Text(text = placeholder, modifier = Modifier.padding(top = if(expand) 8.dp else 0.dp), color = Warna.AbuTua, fontSize = 15.sp, fontWeight = FontWeight.Normal) }
+                    Box(modifier = Modifier.padding(top = if(expand) 10.dp else 0.dp)){ it() }
+                },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+                textStyle = TextStyle(color = Warna.HitamNormal, fontSize = 15.sp,),
+                modifier = Modifier.fillMaxWidth().onFocusChanged { isFocused = it.isFocused },
+                maxLines = if (expand) Int.MAX_VALUE else 1,
+                singleLine = !expand
+            )
+        }
+    }
+}
+
+
+@Composable
+fun InputPasswordNative(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    passwordVisible: MutableState<Boolean>,
+    modifier: Modifier = Modifier,
+    iconWeight: Float = 2f
+) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    val backgroundColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
+    val borderColor = if (isFocused) Warna.MerahNormal else Warna.PutihGelap
+    val shape = RoundedCornerShape(10.dp)
+
+    val image =
+        if (passwordVisible.value) painterResource(id = R.drawable.baseline_visibility_24)
+        else painterResource(id = R.drawable.baseline_visibility_off_24)
+
+    Box(
+        modifier = modifier.height(40.dp).clip(shape).background(color = backgroundColor, shape = shape)
+            .fillMaxSize()
+
+            .border(width = 2.dp, color = borderColor, shape = shape)
+            .onFocusChanged { focusState ->
+                isFocused = focusState.isFocused
+            },
+    ){
+        Row (modifier = Modifier.fillMaxSize().padding(start = 17.dp), verticalAlignment = Alignment.CenterVertically){
+            BasicTextField(
+                value = input,
+                onValueChange = onInputChange,
+                decorationBox = {
+                    if (input.isEmpty()) {
+                        Text(text = placeholder, color = Warna.AbuTua, fontSize = 15.sp, fontWeight = FontWeight.Normal, maxLines = 1)
+                    }
+                    it()
+                },
+                modifier = Modifier.weight(iconWeight),
+                textStyle = TextStyle(color = Warna.HitamNormal, fontSize = 15.sp),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+                visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+            )
+
+
+            Box(modifier = Modifier.weight(1f)){
+                IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
+                    Icon(
+                        painter = image,
+                        contentDescription = if (passwordVisible.value) "Hide password" else "Show password",
+                        tint = Warna.MerahNormal
+                    )
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
 fun InputPassword(
     input: String,
     placeholder: String,
     onInputChange: (String) -> Unit,
     keyboardType: KeyboardType,
     passwordVisible: MutableState<Boolean>,
-    modifiers: Modifier = Modifier
-){
+    modifiers: Modifier = Modifier,
+) {
     var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = input,

@@ -35,7 +35,6 @@ fun ConfirmPage(
     navController: NavHostController,
     projectId: String? = "996GZuXUa03N1JRmSkyM",
 ){
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,11 +60,8 @@ fun ConfirmPage(
                                     tint = Warna.AbuTua
                                 )
                             }
-
                         }
-                        Column (
-
-                        ){
+                        Column {
                             Text(
                                 text = "Confirm Project",
                                 color = Warna.MerahNormal,
@@ -74,8 +70,6 @@ fun ConfirmPage(
 
                                 )
                         }
-
-
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -84,7 +78,6 @@ fun ConfirmPage(
                 ),
                 modifier = Modifier
                     .background(color = Warna.PutihNormal).padding(top = 0.dp)
-
             )
         },
 

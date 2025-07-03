@@ -11,21 +11,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import org.d3if3121.tellink.R
 import org.d3if3121.tellink.ui.component.ColumnPaddingKiriKanan
-import org.d3if3121.tellink.ui.component.InputPutihSearch
 import org.d3if3121.tellink.ui.component.InputPutihSearchNative
-import org.d3if3121.tellink.ui.component.TeksJudulMerah
+import org.d3if3121.tellink.ui.component.TeksJudulHitam
+
 
 @Composable
 fun HomeTopContent(){
     var search by remember { mutableStateOf("") }
 
     ColumnPaddingKiriKanan {
-        TeksJudulMerah(text = "Welcome to Tellink", Modifier.padding(top = 16.dp))
+        TeksJudulHitam(text = "Welcome to Tellink", Modifier.padding(top = 16.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
@@ -37,8 +35,8 @@ fun HomeTopContent(){
                 onInputChange = { search = it },
                 keyboardType = KeyboardType.Text,
                 fontSize = 15,
+                modifier = Modifier.fillMaxWidth()
             )
-
         }
     }
 }

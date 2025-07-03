@@ -61,3 +61,16 @@ fun ChangeNavColor(visible: Boolean){
         DynamicNavigationBarColor(backgroundColor = Warna.PutihNormal)
     }
 }
+
+val activeColors = ButtonColors(
+    containerColor = Warna.MerahNormal,
+    contentColor = Warna.PutihNormal,
+    disabledContentColor = Warna.MerahNormal,
+    disabledContainerColor = Warna.PutihNormal
+)
+val inactiveColors = ButtonColors(
+    containerColor = Warna.PutihGelap,
+    contentColor = Warna.AbuTua,
+    disabledContentColor = Warna.PutihGelap,
+    disabledContainerColor = Warna.AbuTua
+)

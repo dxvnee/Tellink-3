@@ -2,9 +2,7 @@ package org.d3if3121.tellink.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -32,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -75,28 +74,27 @@ fun ButtonCommon(
 
 @Composable
 fun TombolTambah(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ){
-    Button(
-        modifier = Modifier.size(49.dp).fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        colors = CustomButtonColors.PutihMerah,
-        onClick = onClick
-    ) {
-        Text(
-            modifier = Modifier.offset(-5.dp),
-            text = "+",
-            color = Warna.PutihNormal,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Normal,
-        )
+    Box(
+        modifier = modifier
+            .size(38.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(Warna.MerahNormal)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ){
+        TeksBoldTombol("+")
     }
+
 }
 
 @Composable
 fun ButtonRequest(
-    active: Boolean,
-    text: String
+    text: String,
+    onClick: () -> Unit
 ){
     Box(
         contentAlignment = Alignment.Center,
@@ -104,9 +102,7 @@ fun ButtonRequest(
             .clip(RoundedCornerShape(7.dp))
             .width(110.dp).height(33.dp)
             .background(Warna.MerahNormal)
-            .clickable {
-
-            }
+            .clickable { onClick() }
     ){
         TeksBoldTombol(text, size = 14)
     }
@@ -130,7 +126,6 @@ fun ButtonMerah(
         },
         colors = colors
     )
-
 }
 
 @Composable
@@ -140,28 +135,40 @@ fun IconWithText(
     size: Dp = 32.dp,
     offset: Dp = 0.dp,
     paddingStart: Dp = 2.dp,
+    onClick: () -> Unit
 ){
     Row(verticalAlignment = Alignment.CenterVertically){
-        Box(
-            modifier = Modifier.size(size).offset(y = offset)
-                .clickable {  }
-        ){
+        IconTombol(onClick = onClick, imageVector = imageVector, size = size, offset = offset)
+        TeksNormal(text, Modifier.fillMaxHeight().padding(start = paddingStart), size = 14.sp)
+    }
+}
+
+@Composable
+fun IconTombol(
+    imageVector: ImageVector,
+    size: Dp,
+    onClick: () -> Unit,
+    offset: Dp = 0.dp
+){
+    ColumnCenter(modifier = Modifier.fillMaxHeight()){
+        Box(modifier = Modifier.size(size).offset(y = offset).clickable { onClick() }){
             Icon(
                 imageVector = imageVector,
                 contentDescription = "Star",
                 tint = Warna.HitamNormal,
-                modifier = Modifier.size(size).clickable {  }
+                modifier = Modifier.size(size)
             )
         }
-        TeksNormal(text, Modifier.fillMaxHeight().padding(start = paddingStart), size = 14.sp)
     }
 }
+
 @Composable
-fun ButtonMerahDynamic(
-    active: Boolean,
-    onclick: () -> Unit,
-    onclickcancel: () -> Unit,
-    onrequestchange: (Boolean) -> Unit,
+fun FeedBottomComponent(
+    onLikeClick: () -> Unit,
+    onCommentClick: () -> Unit,
+    onShareClick: () -> Unit,
+
+    content: @Composable () -> Unit
 ){
     RowStartCenter {
         IconWithText(
@@ -169,7 +176,7 @@ fun ButtonMerahDynamic(
             text = "2.3k",
             size = 30.dp,
             paddingStart = 2.dp
-        )
+        ){ onLikeClick() }
 
         SpaceWidth(15)
 
@@ -179,7 +186,7 @@ fun ButtonMerahDynamic(
             size = 27.dp,
             offset = 1.dp,
             paddingStart = 2.dp
-        )
+        ){ onCommentClick() }
 
         SpaceWidth(15)
 
@@ -189,13 +196,10 @@ fun ButtonMerahDynamic(
             size = 30.dp,
             offset = (-0.6).dp,
             paddingStart = 0.dp
-        )
+        ){ onShareClick() }
 
         RowEnd(modifier = Modifier.fillMaxWidth()) {
-            ButtonRequest(
-                active = active,
-                text = "Request!"
-            )
+            content()
         }
     }
 
@@ -216,4 +220,34 @@ fun ButtonMerahDynamic(
 //        colors = if (active) { whiteButtonColor() } else { redButtonColor() }
 //    )
 
+}
+
+@Composable
+fun ButtonMerahDynamic(
+    buttonText: String,
+    onLikeClick: () -> Unit,
+    onCommentClick: () -> Unit,
+    onShareClick: () -> Unit,
+    onButtonClick: () -> Unit,
+){
+    FeedBottomComponent(
+        onLikeClick = onLikeClick,
+        onCommentClick = onCommentClick,
+        onShareClick = onShareClick,
+    ){  ButtonRequest(text = buttonText){ onButtonClick() } }
+}
+
+@Composable
+fun ButtonMerahProject(
+    buttonText: String,
+    onLikeClick: () -> Unit,
+    onCommentClick: () -> Unit,
+    onShareClick: () -> Unit,
+    onButtonClick: () -> Unit,
+){
+    FeedBottomComponent(
+        onLikeClick = onLikeClick,
+        onCommentClick = onCommentClick,
+        onShareClick = onShareClick,
+    ){  ButtonRequest(text = buttonText){ onButtonClick()} }
 }

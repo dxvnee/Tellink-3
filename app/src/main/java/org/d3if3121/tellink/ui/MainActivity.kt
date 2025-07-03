@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             TellinkTheme {
                 GlobalNavGraph()
-//                EditPage(rememberNavController())
             }
         }
     }

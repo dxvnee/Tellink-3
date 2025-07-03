@@ -1,9 +1,9 @@
 package org.d3if3121.tellink.ui.component.topbar
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,8 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,6 +35,7 @@ import androidx.navigation.NavHostController
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.navigation.component.Screen
+import org.d3if3121.tellink.ui.animation.contentHeightAnimation
 import org.d3if3121.tellink.ui.animation.topBarAlphaAnimation
 import org.d3if3121.tellink.ui.animation.topBarHeightAnimation
 import org.d3if3121.tellink.ui.component.Gambar
@@ -56,6 +54,7 @@ import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 @Composable
 fun TopBar(
     lazyListState: LazyListState,
+    lazyListStateProject: LazyListState,
     topbarType: TopbarType,
     mainViewModel: MainViewModel = hiltViewModel(),
     navController: NavHostController,
@@ -63,8 +62,8 @@ fun TopBar(
     val currentUser by mainViewModel.currentUser.collectAsState()
 
     when(topbarType){
-        TopbarType.HOME -> { TopBarNormal(currentUser, lazyListState, navController, TopbarType.HOME) }
-        TopbarType.PROJECT -> { TopBarNormal(currentUser, lazyListState, navController, TopbarType.PROJECT) }
+        TopbarType.HOME -> { TopBarNormal(currentUser, true, mainViewModel, lazyListState, navController, TopbarType.HOME) }
+        TopbarType.PROJECT -> { TopBarNormal(currentUser, false, mainViewModel, lazyListStateProject, navController, TopbarType.PROJECT) }
         TopbarType.PROFILE -> { TopBarSearch() }
     }
 }
@@ -104,14 +103,17 @@ fun TopBarSearch(){
     )
 }
 
+
 @Composable
 fun TopBarNormal(
     currentUser: Mahasiswa,
+    animation: Boolean,
+    mainViewModel: MainViewModel,
     lazyListState: LazyListState,
     navController: NavHostController,
     topbarType: TopbarType
 ){
-    AnimatedTopBar(lazyListState = lazyListState){
+    AnimatedTopBar(lazyListState = lazyListState, animation = animation, mainViewModel = mainViewModel) {
         Gambar(painterResource(id = R.drawable.photo), 50.dp)
 
         Column(modifier = Modifier.padding(start = 10.dp)) {
@@ -132,11 +134,14 @@ fun TopBarNormal(
 
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnimatedTopBar(
+    animation: Boolean,
+    mainViewModel: MainViewModel,
     lazyListState: LazyListState,
     content: @Composable () -> Unit
 ){
@@ -147,13 +152,46 @@ fun AnimatedTopBar(
     LaunchedEffect(alpha){ alphaDone = alpha == 0f }
 
     TopAppBar(
-        title = { RowStartCenter(Modifier.fillMaxWidth().padding(end = 5.dp).alpha(alpha)){ content() } },
+        title = { RowStartCenter(Modifier.fillMaxWidth().padding(end = 5.dp).alpha(if (animation) alpha else 1f)){ content() } },
         colors = topAppBarColors(),
         modifier = Modifier.background(color = Warna.PutihNormal)
             .animateContentSize(animationSpec = tween(durationMillis = 500))
-            .height(height = topBarHeight)
+            .height(height = if (animation) topBarHeight else 69.dp )
 
     )
+    mainViewModel.alphaDoneChange(alphaDone)
 }
+
+@Composable
+fun AnimatedTopContainer(
+    lazyListState: LazyListState,
+    content: @Composable () -> Unit
+) {
+    var alphaDone by remember { mutableStateOf(false) }
+    val contentHeight by contentHeightAnimation(lazyListState = lazyListState, isAlpha = alphaDone)
+    val alpha by topBarAlphaAnimation(contentHeight)
+
+    LaunchedEffect(alpha) {
+        alphaDone = alpha == 0f
+    }
+
+
+    Log.d("Hehe", contentHeight.value.toString())
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(contentHeight)
+            .background(Warna.PutihNormal)
+            .animateContentSize(animationSpec = tween(durationMillis = 500))
+            .alpha(alpha)
+            .padding(horizontal = 16.dp),
+    ){
+        content()
+    }
+    Log.d("MANTAP2", alphaDone.toString())
+
+}
+
+
 
 

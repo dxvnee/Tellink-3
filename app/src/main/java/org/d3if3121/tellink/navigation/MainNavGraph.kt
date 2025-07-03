@@ -3,6 +3,7 @@
 package org.d3if3121.tellink.navigation
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,14 +26,22 @@ import org.d3if3121.tellink.ui.screen.content.ProfilePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
 import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPage
+import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPageViewModel
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
+import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 
 @Composable
 fun MainNavGraph(
-    lazyListState: LazyListState,
     currentUser: Mahasiswa,
+    navControllerGlobal: NavHostController,
+
+    lazyListState: LazyListState,
+    lazyListState2: LazyListState,
+
     homeViewModel: HomeViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
+
     onTopbartypeChange: (TopbarType) -> Unit,
     navControllerContent: (NavHostController) -> Unit
 ){
@@ -40,6 +49,8 @@ fun MainNavGraph(
 
     val mahasiswaListViewModel: MahasiswaListViewModel = hiltViewModel()
     val projectListViewModel: ProjectListViewModel = hiltViewModel()
+
+    val projectViewModel: ProjectPageViewModel = hiltViewModel()
 
     navControllerContent(navController)
 
@@ -55,7 +66,13 @@ fun MainNavGraph(
         }
 
         composable(route = Screen.Project.route){
-            ProjectPage(navController, mahasiswaListViewModel, projectListViewModel)
+            ProjectPage(
+                navControllerGlobal = navControllerGlobal,
+                lazyListState = lazyListState2,
+                currentUser = currentUser,
+                projectViewModel = projectViewModel,
+                mainViewModel = mainViewModel,
+            )
             onTopbartypeChange(TopbarType.PROJECT)
         }
 

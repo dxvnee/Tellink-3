@@ -25,10 +25,11 @@ import org.d3if3121.tellink.ui.theme.Warna
 @Composable
 fun DisplayTag(
     selectedTag: List<String> = emptyList(),
+    modifier: Modifier = Modifier,
     onTagRemove: (String) -> Unit = {}
 ){
     FlowRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         maxItemsInEachRow = 5,
         overflow = FlowRowOverflow.Clip
     ){

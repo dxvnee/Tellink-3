@@ -52,7 +52,7 @@ fun TeksBold(
 fun TeksBoldTombol(
     text: String,
     color: Color = Warna.PutihNormal,
-    size: Int = 16
+    size: Int = 15
 ){
     TeksBold(text, color = color, size = size.sp)
 }

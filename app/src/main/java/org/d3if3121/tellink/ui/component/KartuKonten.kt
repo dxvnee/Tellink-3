@@ -14,16 +14,16 @@ import androidx.compose.ui.unit.dp
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.ui.formula.formatRelativeTime
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahKartuType
-import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
-import org.d3if3121.tellink.ui.screen.content.projectpage.formatRelativeTime
+import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
 
 @Composable
-fun KartuKonten(
+fun <T> KartuKonten(
     mahasiswa: Mahasiswa,
     project: Project,
-    homeViewModel: HomeViewModel,
+    viewModel: ContentViewModel<T>,
     buttonbehaviour: ButtonMerahBehaviour,
 ){
     CardPutihBesar {
@@ -37,13 +37,13 @@ fun KartuKonten(
             }
         }
 
-        TeksBold(project.title, Modifier.padding(top = 0.dp, bottom = 5.dp))
+        TeksBold(project.title)
 
-        DisplayTag(project.tag)
+        DisplayTag(project.tag, Modifier.padding(top = 5.dp))
 
         Space(15)
 
-        AsyncGambar(project.image, homeViewModel)
+        AsyncGambar(project.image, viewModel)
 
         Space(12)
 

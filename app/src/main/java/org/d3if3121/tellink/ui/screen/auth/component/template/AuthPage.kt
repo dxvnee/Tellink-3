@@ -1,22 +1,19 @@
 package org.d3if3121.tellink.ui.screen.auth.component.template
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.component.DialogLoading
 import org.d3if3121.tellink.ui.component.DialogMessage
+import org.d3if3121.tellink.ui.component.SurfacePutih
 import org.d3if3121.tellink.ui.screen.auth.component.AuthContent
 import org.d3if3121.tellink.ui.screen.auth.component.AuthHeader
-import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
 fun <T> AuthPage(
@@ -32,7 +29,7 @@ fun <T> AuthPage(
 ){
     var dialogMessage by remember { mutableStateOf(false) }
 
-    Surface(modifier = Modifier.fillMaxSize(), color = Warna.PutihNormal){
+    SurfacePutih {
         LaunchedEffect(appMessage){
             dialogMessage = appMessage.isNotEmpty()
         }

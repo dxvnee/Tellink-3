@@ -2,6 +2,7 @@ package org.d3if3121.tellink.data.repository
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -13,12 +14,19 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.d3if3121.tellink.data.model.NimRequest
 import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.ProjectAdd
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
 import org.d3if3121.tellink.data.retrofit.RetrofitInterface
+import org.d3if3121.tellink.ui.formula.toMultipartBody
+import org.d3if3121.tellink.ui.formula.toRequestBody
 import retrofit2.HttpException
+import java.io.File
 
 class ProjectListRepository (
     private val projectRef: CollectionReference,
@@ -93,6 +101,30 @@ class ProjectListRepository (
             Response.Failure(Exception(response.message))
         }
     } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
+    }
+
+    override suspend fun getProjectByNim(nim: String) = try {
+        val response = RetrofitInterface.api.getProjectsByNim(NimRequest(nim))
+
+        if (response.success){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException) {
+        Response.Failure(errorToErrorMessage(e))
+    }
+
+    override suspend fun getRequestByNim(nim: String) = try {
+        val response = RetrofitInterface.api.getRequestsByNim(NimRequest(nim))
+
+        if (response.success){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException) {
         Response.Failure(errorToErrorMessage(e))
     }
 
@@ -235,7 +267,6 @@ class ProjectListRepository (
                     .orderBy("title")
                     .addSnapshotListener { projectSnapshot, projectError ->
                         if (projectSnapshot != null) {
-
                             val projectList = projectSnapshot.map { document ->
                                 val projectData = document.toProject()
                                 val projectOwnerNim = document.getString("nim") ?: ""
@@ -261,24 +292,29 @@ class ProjectListRepository (
         }
     }
 
+//    override suspend fun addProject(project: Project) = try {
+//        val id = projectRef.add(project).await().id
+//
+//        if (project.imageupload != null){
+//            val imageUrl = uploadImagetoFirebase(project.imageupload.toUri(), id)
+//            projectRef.document(id).update("image", imageUrl).await()
+//        }
+//        Response.Success(id)
+//
+//    } catch (e: Exception){
+//        Response.Failure(e)
+//    }
 
+    override suspend fun addProject(projectPart: RequestBody, imageMultipart: MultipartBody.Part?) = try {
+        val response = RetrofitInterface.api.addProject(projectPart, imageMultipart)
 
-
-
-
-
-    override suspend fun addProject(project: Project) = try {
-
-        val id = projectRef.add(project).await().id
-
-        if (project.imageupload != null){
-            val imageUrl = uploadImagetoFirebase(project.imageupload.toUri(), id)
-            projectRef.document(id).update("image", imageUrl).await()
+        if (response.success){
+            Response.Success(response.message)
+        } else {
+            Response.Failure(Exception(response.message))
         }
-        Response.Success(id)
-
-    } catch (e: Exception){
-        Response.Failure(e)
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
     }
 
     override suspend fun updateProject(projectId: String, project: Project) = try {
@@ -297,8 +333,6 @@ class ProjectListRepository (
         Response.Failure(Exception("No project found for the given NIM."))
     }
 
-
-
     override suspend fun deleteProject(id: String) = try {
         val process = projectRef.document(id).delete().await()
         val querySnapshot = mahasiswaRef.whereArrayContains("requests", id).get().await()
@@ -313,7 +347,6 @@ class ProjectListRepository (
     } catch (e: Exception){
         Response.Failure(e)
     }
-
 
     override suspend fun getProjectById(id: String): Project {
         try {
@@ -339,13 +372,11 @@ class ProjectListRepository (
         }
     }
 
-
     suspend fun uploadImagetoFirebase(uri: Uri, id: String): String {
 
         val storage = FirebaseStorage.getInstance()
         val storageReference = storage.reference.child("images/" + id)
         val uploadTask = storageReference.putFile(uri)
-
 
         return try {
             uploadTask.await()

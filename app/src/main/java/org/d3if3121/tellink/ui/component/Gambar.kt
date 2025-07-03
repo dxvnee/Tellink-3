@@ -1,5 +1,8 @@
 package org.d3if3121.tellink.ui.component
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -22,13 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
+import coil.compose.rememberAsyncImagePainter
+import org.d3if3121.tellink.R
 import org.d3if3121.tellink.components.LoadingIndicator
-import org.d3if3121.tellink.ui.animation.AnimationFadeSpring
-import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
+import org.d3if3121.tellink.ui.animation.AnimationFade
+import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
 
 @Composable
 fun Gambar(
@@ -44,18 +50,29 @@ fun Gambar(
 }
 
 @Composable
-fun AsyncGambar(
+fun <T> AsyncGambar(
     gambar: String?,
-    homeViewModel: HomeViewModel
+    viewModel: ContentViewModel<T>
 ){
    gambar?.let {
         if (gambar.isNotEmpty()){
-            AsyncGambarValue(gambar, homeViewModel)
+            AsyncGambarValue(gambar, viewModel)
         }
+   }
+}
+
+@Composable
+fun <T> AsyncGambarValue(gambar: String, viewModel: ContentViewModel<T>) {
+    SubcomposeImage(gambar = gambar) {
+        viewModel.onDialogGambar(true, gambar)
     }
 }
+
 @Composable
-fun AsyncGambarValue(gambar: String, homeViewModel: HomeViewModel) {
+fun SubcomposeImage(
+    gambar: String,
+    onClick: () -> Unit
+){
     var success by remember { mutableStateOf(false) }
 
     Box(
@@ -63,14 +80,12 @@ fun AsyncGambarValue(gambar: String, homeViewModel: HomeViewModel) {
             .fillMaxWidth()
             .aspectRatio(16f / 9f)
             .clip(RoundedCornerShape(10.dp))
-    ) {
+    ){
         SubcomposeAsyncImage(
             model = gambar,
             contentDescription = "Gambar Content",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize().clickable {
-                homeViewModel.onDialogGambar(true, gambar)
-            },
+            modifier = Modifier.matchParentSize().clickable { onClick() },
             loading = { ColumnCenter(modifier = Modifier.fillMaxSize()) { LoadingIndicator() } },
             error = {
                 Icon(
@@ -81,9 +96,47 @@ fun AsyncGambarValue(gambar: String, homeViewModel: HomeViewModel) {
             },
             success = {
                 LaunchedEffect(Unit){ success = true }
-                AnimationFadeSpring(success) { SubcomposeAsyncImageContent() }
+                AnimationFade(success) { SubcomposeAsyncImageContent() }
             }
         )
+    }
+}
+
+@Composable
+fun AddProjectImage(
+    imageUri: Uri?,
+    onImageUri: (Uri?) -> Unit
+){
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+        uri: Uri? -> onImageUri(uri)
+    }
+
+    val painter = if(imageUri != null){ rememberAsyncImagePainter(imageUri) } else { painterResource(id = R.drawable.add_image_background) }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(16f / 9f)
+            .clip(RoundedCornerShape(10.dp))
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = "AddProjectImage",
+            modifier = Modifier.matchParentSize().clickable { launcher.launch("image/*") },
+            contentScale = ContentScale.Crop,
+        )
+
+        if(imageUri == null){
+            ColumnCenter{
+                Image(
+                    painter = painterResource(id = R.drawable.add_image),
+                    contentDescription = "AddProjectImage",
+                    modifier = Modifier.size(85.dp)
+                )
+                TeksNormal("Add image...")
+            }
+        }
     }
 }
 

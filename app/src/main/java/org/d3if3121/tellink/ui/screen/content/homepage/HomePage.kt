@@ -13,17 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.data.model.Project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
-import org.d3if3121.tellink.data.model.response.Response.Success
-import org.d3if3121.tellink.data.model.response.Response.Idle
-import org.d3if3121.tellink.data.model.response.Response.Loading
-import org.d3if3121.tellink.data.model.response.Response.Failure
-import org.d3if3121.tellink.data.repository.interfaces.ProjectListResponse
 import org.d3if3121.tellink.ui.component.DialogLoading
 import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.GarisAbu
 import org.d3if3121.tellink.ui.component.KartuKonten
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.MainLazyColumn
+import org.d3if3121.tellink.ui.screen.content.component.StateHandler
 import org.d3if3121.tellink.ui.screen.content.homepage.component.HomeTopContent
 
 val TOP_BAR_HEIGHT = 10.dp
@@ -46,9 +42,9 @@ fun HomePage(
         textTombol = "OK"
     ){ dialogMessage = false }
 
-    ProjectListStateHandler(
-        homeViewModel = homeViewModel,
-        projectListResponse = projectListResponse,
+    StateHandler(
+        viewModel = homeViewModel,
+        listResponse = projectListResponse,
 
         isLoading = { DialogLoading(true) },
         isSuccess = { HomeContent(homeViewModel, lazyListState) },
@@ -64,55 +60,46 @@ fun HomeContent(
     val projectList by homeViewModel.projectList.collectAsState()
 
     MainLazyColumn(
+        list = projectList,
+        lazyListState = lazyListState,
         topContent = { HomeTopContent() },
         mainContent = { project -> HomeMainContent(project, homeViewModel) },
-        lazyListState = lazyListState,
-        list = projectList
     )
 }
 
 @Composable
 fun HomeMainContent(
-    project: Project,
+    project: Project?,
     homeViewModel: HomeViewModel
 ){
     var requestornot by remember { mutableStateOf(false) }
-    var mahasiswa = project.mahasiswa ?: Mahasiswa()
 
-    KartuKonten(
-        mahasiswa = mahasiswa,
-        project = project,
-        homeViewModel = homeViewModel,
-        buttonbehaviour = ButtonMerahBehaviour.Dynamic(
-            active = requestornot ,
-            onclick = { homeViewModel.addRequest(project.id, mahasiswa.nim) },
-            onclickcancel = { homeViewModel.deleteRequest(project.id, mahasiswa.nim) },
-            onrequestchange = { requestornot = it},
-        ),
-    )
+    if (project != null) {
+        var mahasiswa = project.mahasiswa ?: Mahasiswa()
+
+        KartuKonten(
+            mahasiswa = mahasiswa,
+            project = project,
+            viewModel = homeViewModel,
+            buttonbehaviour = ButtonMerahBehaviour.Dynamic(
+                active = requestornot,
+                onclick = { homeViewModel.addRequest(project.id, mahasiswa.nim) },
+                onclickcancel = { homeViewModel.deleteRequest(project.id, mahasiswa.nim) },
+                onrequestchange = { requestornot = it },
+
+                buttonText = "+ Request",
+                onLikeClick = {},
+                onCommentClick = {},
+                onShareClick = {},
+                onButtonClick = {},
+            ),
+        )
+    }
     GarisAbu(Modifier.padding(start = 10.dp, end = 10.dp))
 }
 
 
-@Composable
-fun ProjectListStateHandler(
-    homeViewModel: HomeViewModel,
-    projectListResponse: ProjectListResponse,
 
-    isLoading: @Composable () -> Unit,
-    isSuccess: @Composable () -> Unit,
-    isFailure: (String) -> Unit,
-){
-    when(projectListResponse){
-        is Failure -> { isFailure("Internal Server Error") }
-        is Loading -> { isLoading() }
-        is Success -> {
-            homeViewModel.projectListChange(projectListResponse.data)
-            isSuccess()
-        }
-        is Idle -> {}
-    }
-}
 
 
 

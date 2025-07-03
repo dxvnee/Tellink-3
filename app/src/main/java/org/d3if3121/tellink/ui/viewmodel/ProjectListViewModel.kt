@@ -133,7 +133,7 @@ class ProjectListViewModel @Inject constructor(
     }
 
     fun addProject(project: Project) = viewModelScope.launch {
-        addProjectResponse = repo.addProject(project)
+//        addProjectResponse = repo.addProject(project)
     }
 
     fun addRequest(projectId: String, nim: String) = viewModelScope.launch {

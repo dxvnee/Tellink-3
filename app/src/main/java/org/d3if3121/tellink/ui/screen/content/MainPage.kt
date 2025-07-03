@@ -1,9 +1,6 @@
-package org.d3if3121.tellink.ui.screen.content.component
+package org.d3if3121.tellink.ui.screen.content
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,11 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.navigation.MainNavGraph
 import org.d3if3121.tellink.ui.component.BottomBar
+import org.d3if3121.tellink.ui.component.BoxWarna
 import org.d3if3121.tellink.ui.component.DialogGambar
 import org.d3if3121.tellink.ui.component.MainScaffold
 import org.d3if3121.tellink.ui.component.topbar.TopBar
@@ -33,6 +30,7 @@ fun MainPage(
     val currentUser by mainViewModel.currentUser.collectAsState()
     var currentTopbarType by remember { mutableStateOf(TopbarType.HOME) }
     val lazyListState = rememberLazyListState()
+    val lazyListStateProject = rememberLazyListState()
     val homeViewModel: HomeViewModel = hiltViewModel()
 
     var navControllerContent = remember { mutableStateOf<NavHostController?>(null) }
@@ -43,17 +41,24 @@ fun MainPage(
         topbar = {
             TopBar(
                 lazyListState = lazyListState,
+                lazyListStateProject = lazyListStateProject,
                 topbarType = currentTopbarType,
                 navController = navController,
                 mainViewModel = mainViewModel
             )
         },
         content = {
-            Box(modifier = Modifier.background(Warna.PutihGelap).fillMaxSize()){
+            BoxWarna(Warna.PutihGelap){
                 MainNavGraph(
-                    lazyListState = lazyListState,
                     currentUser = currentUser,
+                    navControllerGlobal = navController,
+
+                    lazyListState = lazyListState,
+                    lazyListState2 = lazyListStateProject,
+
                     homeViewModel = homeViewModel,
+                    mainViewModel = mainViewModel,
+
                     onTopbartypeChange = { currentTopbarType = it },
                     navControllerContent = { navControllerContent.value = it }
                 )

@@ -20,17 +20,14 @@ import androidx.navigation.NavHostController
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.component.ColumnPadding
-import org.d3if3121.tellink.ui.component.InputPassword
-import org.d3if3121.tellink.ui.component.InputPutih
+import org.d3if3121.tellink.ui.component.InputPasswordNative
+import org.d3if3121.tellink.ui.component.InputPutihNative
 import org.d3if3121.tellink.ui.component.Space
 import org.d3if3121.tellink.ui.screen.auth.login.LoginPageViewModel
 import org.d3if3121.tellink.ui.screen.auth.register.RegisterPageViewModel
 
-
 @Composable
-fun AuthForm(
-    content: @Composable () -> Unit
-){
+fun AuthForm(content: @Composable () -> Unit){
     ColumnPadding {
         LazyColumn {
             item {
@@ -51,7 +48,7 @@ fun LoginForm(
     var passwordVisible = remember { mutableStateOf(false) }
 
     AuthField(text = stringResource(id = R.string.nim)){
-        InputPutih(
+        InputPutihNative(
             input = nim,
             placeholder = stringResource(id = R.string.enter_nim),
             onInputChange = { nim = it },
@@ -63,15 +60,18 @@ fun LoginForm(
     Space(18)
 
     AuthField(text = stringResource(id = R.string.password)){
-        InputPassword(
+        InputPasswordNative(
             input = password,
             placeholder = stringResource(id = R.string.enter_password),
             onInputChange = { password = it },
             keyboardType = KeyboardType.Password,
             passwordVisible = passwordVisible,
-            modifiers = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            iconWeight = 6f
         )
     }
+
+    Space(26)
 
     TombolTeksBawah(
         textTombol = "LOGIN",
@@ -102,7 +102,7 @@ fun RegisterForm(
     var confirmPasswordVisible = remember { mutableStateOf(false) }
 
     AuthField(text = stringResource(id = R.string.nim)){
-        InputPutih(
+        InputPutihNative(
             input = nim,
             placeholder = stringResource(id = R.string.enter_nim),
             onInputChange = { nim = it },
@@ -119,7 +119,7 @@ fun RegisterForm(
         modifier = Modifier.fillMaxWidth()
     ){
         AuthField(text = stringResource(id = R.string.password), Modifier.weight(1f).padding(end = 10.dp)){
-            InputPassword(
+            InputPasswordNative(
                 input = password,
                 placeholder = stringResource(id = R.string.enter_password),
                 onInputChange = { password = it },
@@ -128,7 +128,7 @@ fun RegisterForm(
             )
         }
         AuthField(text = stringResource(id = R.string.confirm_password), Modifier.weight(1f).padding(start = 10.dp)){
-            InputPassword(
+            InputPasswordNative(
                 input = confirmPassword,
                 placeholder = stringResource(id = R.string.enter_password),
                 onInputChange = { confirmPassword = it },
@@ -141,7 +141,7 @@ fun RegisterForm(
     Space(18)
 
     AuthField(text = stringResource(id = R.string.full_name)){
-        InputPutih(
+        InputPutihNative(
             input = nama,
             placeholder = stringResource(id = R.string.enter_name),
             onInputChange = { nama = it },
@@ -149,6 +149,7 @@ fun RegisterForm(
             modifier = Modifier.fillMaxWidth()
         )
     }
+    Space(26)
 
     TombolTeksBawah(
         textTombol = "REGISTER",

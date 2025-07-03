@@ -10,8 +10,8 @@ import org.d3if3121.tellink.ui.theme.Warna
 @Composable
 fun MainScaffold(
     content: @Composable () -> Unit,
-    topbar: @Composable () -> Unit,
-    bottombar: @Composable () -> Unit,
+    topbar: @Composable () -> Unit = {},
+    bottombar: @Composable () -> Unit = {},
 ){
     Scaffold(
         topBar = { topbar() },

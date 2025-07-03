@@ -10,7 +10,8 @@ import org.d3if3121.tellink.ui.animation.animationFadeScaleIn
 import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
 import org.d3if3121.tellink.ui.screen.auth.login.LoginPage
 import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
-import org.d3if3121.tellink.ui.screen.content.component.MainPage
+import org.d3if3121.tellink.ui.screen.content.MainPage
+import org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage.ProjectAddPage
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 
 
@@ -34,6 +35,9 @@ fun GlobalNavGraph(){
         }
         composable(route = Screen.Main.route){
             MainPage(navController, mainViewModel)
+        }
+        composable(route = Screen.ProjectAdd.route){
+            ProjectAddPage(navController, mainViewModel)
         }
 
     }

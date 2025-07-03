@@ -40,7 +40,7 @@ fun DropdownTag(
 
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        InputPutihSearch(
+        InputPutihSearchNative(
             input = searchTags,
             placeholder = stringResource(id = R.string.search_tag),
             onInputChange = { input ->
@@ -58,15 +58,8 @@ fun DropdownTag(
 
         )
 
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = it }
-        ) {
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
+        ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 filteredTag.forEach { tag ->
                     DropdownMenuItem(
                         onClick = {

@@ -2,8 +2,13 @@ package org.d3if3121.tellink.ui.screen.content.component
 
 sealed class ButtonMerahBehaviour {
     data class Project(
-        val onclickbutton: () -> Unit,
-        val onclicktext: () -> Unit,
+        val buttonText: String,
+
+        val onLikeClick: () -> Unit,
+        val onCommentClick: () -> Unit,
+        val onShareClick: () -> Unit,
+        val onButtonClick: () -> Unit,
+        val onTextClick: () -> Unit,
     ): ButtonMerahBehaviour()
 
     data class Accept(
@@ -15,6 +20,12 @@ sealed class ButtonMerahBehaviour {
         val onclick: () -> Unit,
         val onclickcancel: () -> Unit,
         val onrequestchange: (Boolean) -> Unit,
+
+        val buttonText: String,
+        val onLikeClick: () -> Unit,
+        val onCommentClick: () -> Unit,
+        val onShareClick: () -> Unit,
+        val onButtonClick: () -> Unit
     ): ButtonMerahBehaviour()
 
     object None : ButtonMerahBehaviour()

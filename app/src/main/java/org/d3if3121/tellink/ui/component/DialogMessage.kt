@@ -72,15 +72,25 @@ fun DialogLoading(visible: Boolean){
             center = true,
             modifier = Modifier.padding(top = 330.dp, bottom = 330.dp, start = 124.dp, end = 124.dp)
         ){
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ){
-                LoadingIndicator()
-                TeksNormal("Loading..", Modifier.offset(y = 32.dp), TextAlign.Center, size = 12.sp)
-            }
+           LoadingIndicatorBox()
         }
     }
+}
+
+@Composable
+fun LoadingIndicatorBox(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
+        LoadingIndicatorText()
+    }
+}
+
+@Composable
+fun LoadingIndicatorText(){
+    LoadingIndicator()
+    TeksNormal("Loading..", Modifier.offset(y = 32.dp), TextAlign.Center, size = 12.sp)
 }
 
 @Composable
