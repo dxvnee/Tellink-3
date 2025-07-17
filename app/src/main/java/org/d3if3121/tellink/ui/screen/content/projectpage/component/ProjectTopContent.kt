@@ -28,8 +28,8 @@ fun ProjectTopContent(
             condition = secondPage,
             text1 = "My Project",
             text2 = "Requested",
-            onclick1 = { projectPageViewModel.secondPageChange(true) },
-            onclick2 = { projectPageViewModel.secondPageChange(false) }
+            onclick1 = { projectPageViewModel.secondPageChange( false ) },
+            onclick2 = { projectPageViewModel.secondPageChange(true ) }
         )
         Space(10)
 

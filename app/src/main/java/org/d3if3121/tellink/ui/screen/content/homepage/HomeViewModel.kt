@@ -1,6 +1,5 @@
 package org.d3if3121.tellink.ui.screen.content.homepage
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,28 +10,33 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.project.Project
+import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.AddRequestResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
-import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
+import org.d3if3121.tellink.ui.screen.content.component.ContentLoadingViewModel
+import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repo: ProjectListInterface
-): ViewModel(), ContentViewModel<List<Project>> {
+    private val repo: ProjectListInterface): ViewModel(),
+    ContentLoadingViewModel<List<Project>>,
+    GambarHandler
+{
 
     override var loading: Boolean by mutableStateOf(false)
 
-    private val _gambarDialog = MutableStateFlow(false)
-    val gambarDialog: StateFlow<Boolean> = _gambarDialog
+    private val _dialogMessage = MutableStateFlow(DialogMessage())
+    val dialogMessage : StateFlow<DialogMessage> = _dialogMessage
 
-    private val _gambarString = MutableStateFlow("")
-    val gambarString: StateFlow<String> = _gambarString
+    override val gambarDialog = MutableStateFlow(false)
+    override val gambarString = MutableStateFlow("")
 
     private val _projectListResponse = MutableStateFlow<ProjectListResponse>(Idle)
     val projectListResponse: StateFlow<ProjectListResponse> = _projectListResponse
@@ -46,13 +50,16 @@ class HomeViewModel @Inject constructor(
     private val _projectListWithMahasiswaResponse = MutableStateFlow<ProjectWithMahasiswaResponse>(Idle)
     val projectListWithMahasiswaResponse: StateFlow<ProjectWithMahasiswaResponse> = _projectListWithMahasiswaResponse
 
-    init {
-        getProjectListWithMahasiswa()
+
+    fun getProjectListWithMahasiswa() = viewModelScope.launch {
+        projectListWithMahasiswaChange(Response.Loading)
+        delay(500)
+
+        projectListWithMahasiswaChange(repo.getProjectWithMahasiswa())
     }
 
-    private fun getProjectListWithMahasiswa() = viewModelScope.launch {
-        delay(1000)
-        _projectListWithMahasiswaResponse.value = repo.getProjectWithMahasiswa()
+    private fun projectListWithMahasiswaChange(state: ProjectWithMahasiswaResponse) {
+        _projectListWithMahasiswaResponse.value = state
     }
 
     fun deleteRequest(projectId: String, nim: String) = viewModelScope.launch {
@@ -76,12 +83,12 @@ class HomeViewModel @Inject constructor(
         gambarStringChange(gambarBaru)
     }
 
-    fun gambarChange(active: Boolean){
-        _gambarDialog.value = active
+    override fun gambarChange(active: Boolean){
+        gambarDialog.value = active
     }
 
-    fun gambarStringChange(gambarBaru: String){
-        _gambarString.value = gambarBaru
+    override fun gambarStringChange(gambarBaru: String){
+        gambarString.value = gambarBaru
     }
 
     override fun resetState(){
@@ -92,32 +99,8 @@ class HomeViewModel @Inject constructor(
     override fun loadingChange(state: Boolean){
         loading = state
     }
+
+    override fun dialogChange(title: String, message: String) {
+        _dialogMessage.value = DialogMessage(title, message)
+    }
 }
-
-
-//
-//@Composable
-//fun HomeStateHandler(projectviewmodel: HomeViewModel, projectListResponse: ProjectListResponse){
-//
-//
-//    when(val addRequestResponse = projectviewmodel.addRequestResponse){
-//        is Loading -> {
-//
-//        }
-//        is Success -> {
-//            projectviewmodel.resetAddRequestResponse()
-//        }
-//        is Failure -> printError(addRequestResponse.e)
-//        Response.Idle -> {}
-//    }
-//    when(val deleteRequestResponse = projectviewmodel.deleteRequestResponse){
-//        is Loading -> {
-//
-//        }
-//        is Success -> {
-//            projectviewmodel.resetDeleteRequestResponse()
-//        }
-//        is Failure -> printError(deleteRequestResponse.e)
-//        Response.Idle -> {}
-//    }
-//}

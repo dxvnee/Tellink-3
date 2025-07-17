@@ -10,17 +10,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage.ProjectAddPageContent
 import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
 fun ColumnPadding(modifier: Modifier = Modifier, content: @Composable () -> Unit){
     Column(modifier = modifier.padding(16.dp)){ content() }
+}
+
+@Composable
+fun ColumnPaddingLazy(modifier: Modifier = Modifier, content: @Composable () -> Unit){
+    Column(modifier = modifier.padding(16.dp)){ LazyColumn { item { content() } } }
 }
 
 @Composable
@@ -72,6 +79,26 @@ fun RowEnd(modifier: Modifier = Modifier, content: @Composable () -> Unit){
     Row(
         horizontalArrangement = Arrangement.End,
         modifier = modifier
+    ){
+        content()
+    }
+}
+
+@Composable
+fun RowBottom(modifier: Modifier = Modifier, content: @Composable () -> Unit){
+    Row(
+        verticalAlignment = Alignment.Bottom,
+        modifier = modifier
+    ){
+        content()
+    }
+}
+
+@Composable
+fun ColumnEnd(modifier: Modifier = Modifier, content: @Composable () -> Unit){
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = modifier.fillMaxWidth()
     ){
         content()
     }

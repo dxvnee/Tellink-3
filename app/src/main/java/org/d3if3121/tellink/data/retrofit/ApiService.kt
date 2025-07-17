@@ -3,7 +3,8 @@ package org.d3if3121.tellink.data.retrofit
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.d3if3121.tellink.data.model.NimRequest
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.project.Project
+import org.d3if3121.tellink.data.model.project.ProjectIdRequest
 import org.d3if3121.tellink.data.model.response.ApiResponse
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
@@ -29,10 +30,27 @@ interface ApiService {
     @POST("api/requestbynim")
     suspend fun getRequestsByNim(@Body nim: NimRequest): ApiResponse<List<Project>>
 
+    @POST("api/projectsbyid")
+    suspend fun getProjectById(@Body id: ProjectIdRequest): ApiResponse<Project>
+
     @Multipart
     @POST("api/addproject")
     suspend fun addProject(
         @Part("project") project: RequestBody,
         @Part image: MultipartBody.Part?
     ): ApiResponse<Unit>
+
+    @Multipart
+    @POST("api/editproject")
+    suspend fun editProject(
+        @Part("project") project: RequestBody,
+        @Part image: MultipartBody.Part?,
+        @Part("id") id: RequestBody
+    ): ApiResponse<Unit>
+
+    @POST("api/deleteproject")
+    suspend fun deleteProject(@Body id: ProjectIdRequest): ApiResponse<String>
+
+    @POST("api/requestedbynim")
+    suspend fun getMahasiswaReqByProjectId(@Body projectId: ProjectIdRequest): ApiResponse<List<Mahasiswa>>
 }

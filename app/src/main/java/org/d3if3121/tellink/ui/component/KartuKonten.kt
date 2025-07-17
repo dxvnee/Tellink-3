@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,21 +13,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.ui.formula.formatRelativeTime
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahKartuType
-import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
+import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
 
 @Composable
-fun <T> KartuKonten(
+fun KartuKonten(
     mahasiswa: Mahasiswa,
     project: Project,
-    viewModel: ContentViewModel<T>,
+    viewModel: GambarHandler,
     buttonbehaviour: ButtonMerahBehaviour,
+    onClick: () -> Unit = {}
 ){
-    CardPutihBesar {
+    CardPutihBesar(modifier = Modifier.clickable { onClick() }) {
         Row {
             Gambar(painterResource(id = R.drawable.photo), 53.dp, Modifier.padding(end = 10.dp))
 

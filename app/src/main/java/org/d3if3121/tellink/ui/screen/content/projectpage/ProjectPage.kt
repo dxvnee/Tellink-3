@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.screen.content.projectpage
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
@@ -13,13 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
+import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.component.ColumnCenter
-import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.GarisAbu
 import org.d3if3121.tellink.ui.component.KartuKonten
-import org.d3if3121.tellink.ui.component.LoadingIndicatorBox
+import org.d3if3121.tellink.ui.component.LoadingIndicatorCenter
 import org.d3if3121.tellink.ui.screen.content.component.ButtonMerahBehaviour
 import org.d3if3121.tellink.ui.screen.content.component.MainLazyColumn
 import org.d3if3121.tellink.ui.screen.content.component.StateHandler
@@ -58,28 +59,22 @@ fun ProjectPageComponent(
     navControllerGlobal: NavHostController
 ){
     val secondPage by projectViewModel.secondPage.collectAsState()
+    val dialogMessage by projectViewModel.dialogMessage.collectAsState()
+    var dialogActive by remember { mutableStateOf(false) }
+    val alphaDone by mainViewModel.alphaDone.collectAsState()
+    var search by remember { mutableStateOf("") }
+
+
+    val projectList by projectViewModel.projectList.collectAsState()
 
     LaunchedEffect(secondPage){
         if (!secondPage) { projectViewModel.getProjectListByNim(currentUser.nim)
         } else { projectViewModel.getRequestListByNim(currentUser.nim) }
     }
 
-    var dialogMessage by remember { mutableStateOf(false) }
-    val alphaDone by mainViewModel.alphaDone.collectAsState()
-    var judulDialog by remember { mutableStateOf("") }
-    var isiDialog by remember { mutableStateOf("") }
-    var search by remember { mutableStateOf("") }
-
-
-    val projectList by projectViewModel.projectList.collectAsState()
-
-    DialogMessage(
-        visible = dialogMessage,
-        textJudul = judulDialog,
-        textDialog = isiDialog,
-        textTombol = "OK"
-    ){ dialogMessage = false }
-
+    LaunchedEffect(dialogMessage){
+        dialogActive = dialogMessage.message.isNotEmpty()
+    }
 
     MainLazyColumn(
         list = projectList,
@@ -94,28 +89,36 @@ fun ProjectPageComponent(
             )
         },
         mainContent = { project ->
-            ProjectContent(project = project, secondPage = secondPage, projectViewModel = projectViewModel){ isiDialog = it }
+            ProjectContent(project = project, secondPage = secondPage, navControllerGlobal = navControllerGlobal, projectViewModel = projectViewModel)
         },
+
     )
+
+
 }
 
 @Composable
 fun ProjectContent(
     project: Project?,
     secondPage: Boolean,
+    navControllerGlobal: NavHostController,
     projectViewModel: ProjectPageViewModel,
-    onIsiDialogChange: (String) -> Unit
 ){
     val projectListResponse by projectViewModel.projectListByNim.collectAsState()
     val requestListResponse by projectViewModel.requestListByNim.collectAsState()
 
     StateHandler(
         viewModel = projectViewModel,
-        listResponse = if (secondPage) projectListResponse else requestListResponse,
+        listResponse = if (secondPage) requestListResponse else projectListResponse,
 
-        isLoading = { ColumnCenter { LoadingIndicatorBox() } },
-        isSuccess = { ProjectMainContent(project = project, projectViewModel = projectViewModel)},
-        isFailure = { onIsiDialogChange("Error Fetching Data") },
+        isSuccess = {
+            ProjectMainContent(
+                project = project,
+                projectViewModel = projectViewModel,
+                navControllerGlobal = navControllerGlobal
+            )
+        },
+        isLoading = { ColumnCenter(Modifier.height(500.dp)) { LoadingIndicatorCenter() } },
     )
 }
 
@@ -123,25 +126,27 @@ fun ProjectContent(
 @Composable
 fun ProjectMainContent(
     project: Project?,
-    projectViewModel: ProjectPageViewModel
+    projectViewModel: ProjectPageViewModel,
+    navControllerGlobal: NavHostController
 ){
     if (project == null) return
 
-    var mahasiswa = project.mahasiswa ?: Mahasiswa()
+    val mahasiswa = project.mahasiswa ?: Mahasiswa()
 
     KartuKonten(
         mahasiswa = mahasiswa,
         project = project,
         viewModel = projectViewModel,
         buttonbehaviour = ButtonMerahBehaviour.Project(
-            buttonText = "Edit",
+            buttonText = "Start!",
             onLikeClick = {},
             onCommentClick = {},
             onShareClick = {},
             onButtonClick = {},
             onTextClick = {},
         )
-    )
+    ){ navControllerGlobal.navigate("${Screen.ProjectEdit.route}/${project.id}") }
+
     GarisAbu(Modifier.padding(start = 10.dp, end = 10.dp))
 }
 

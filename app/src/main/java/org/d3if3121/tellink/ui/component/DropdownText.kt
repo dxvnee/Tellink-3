@@ -33,7 +33,6 @@ fun DropdownTag(
 ) {
     var searchTags by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-    var selectedTag by remember { mutableStateOf("") }
 
     val items = Tag()
     val filteredTag = items.getFilteredTags(searchTags)

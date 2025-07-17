@@ -7,10 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.AddProjectResponse
 import org.d3if3121.tellink.data.repository.interfaces.AddRequestResponse
@@ -98,30 +96,30 @@ class ProjectListViewModel @Inject constructor(
 
 
 
-
-
-    fun getProjectById(id: String) =  viewModelScope.launch {
-        if (!projectMap.containsKey(id)) {
-            val result = repo.getProjectById(id)
-            Log.d("idproject", result.toString())
-
-            projectMap = projectMap + (id to result)
-        }
-        project = projectMap[id] ?: Project()
-    }
-
-    suspend fun getProjectByIdSuspend(id: String): Project {
-        return withContext(Dispatchers.IO) {
-            if (!projectMap.containsKey(id)) {
-                val result = repo.getProjectById(id)
-                Log.d("idproject", result.toString())
-
-                projectMap = projectMap + (id to result)
-            }
-
-            projectMap[id] ?: Project()
-        }
-    }
+//
+//
+//    fun getProjectById(id: String) =  viewModelScope.launch {
+//        if (!projectMap.containsKey(id)) {
+//            val result = repo.getProjectById(id)
+//            Log.d("idproject", result.toString())
+//
+//            projectMap = projectMap + (id to result)
+//        }
+//        project = projectMap[id] ?: Project()
+//    }
+//
+//    suspend fun getProjectByIdSuspend(id: String): Project {
+//        return withContext(Dispatchers.IO) {
+//            if (!projectMap.containsKey(id)) {
+//                val result = repo.getProjectById(id)
+//                Log.d("idproject", result.toString())
+//
+//                projectMap = projectMap + (id to result)
+//            }
+//
+//            projectMap[id] ?: Project()
+//        }
+//    }
 
 
     fun editUser(nama: String, jurusan: String){

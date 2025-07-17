@@ -1,10 +1,8 @@
 package org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage
 
 import android.net.Uri
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.runtime.Composable
@@ -25,20 +23,19 @@ import org.d3if3121.tellink.R
 import org.d3if3121.tellink.data.model.response.Response.Success
 import org.d3if3121.tellink.ui.component.AddProjectImage
 import org.d3if3121.tellink.ui.component.ButtonMerah
-import org.d3if3121.tellink.ui.component.ColumnPadding
+import org.d3if3121.tellink.ui.component.ColumnPaddingLazy
 import org.d3if3121.tellink.ui.component.DialogLoading
 import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.DisplayTag
 import org.d3if3121.tellink.ui.component.DropdownTag
 import org.d3if3121.tellink.ui.component.InputPutihNative
-import org.d3if3121.tellink.ui.component.MainScaffold
 import org.d3if3121.tellink.ui.component.RowEnd
+import org.d3if3121.tellink.ui.component.ScaffoldSurfacePutih
 import org.d3if3121.tellink.ui.component.Space
-import org.d3if3121.tellink.ui.component.SurfacePutih
 import org.d3if3121.tellink.ui.component.TeksBoldMerah
 import org.d3if3121.tellink.ui.component.TeksBoldTombol
 import org.d3if3121.tellink.ui.component.TopBarContent
-import org.d3if3121.tellink.ui.screen.content.component.StateHandlerAdd
+import org.d3if3121.tellink.ui.screen.content.component.StateHandlerPost
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 
 @Composable
@@ -46,51 +43,27 @@ fun ProjectAddPage(
     navController: NavController,
     mainViewModel: MainViewModel
 ){
-    MainScaffold(
-        content = {
-            SurfacePutih {
-                ProjectAddPageMainContent(navController, mainViewModel)
-            }
-        },
-    )
-}
-
-@Composable
-fun ProjectAddPageMainContent(
-    navController: NavController,
-    mainViewModel: MainViewModel
-){
-
     val projectAddViewModel: ProjectAddPageViewModel = hiltViewModel()
     val projectAddResponse by projectAddViewModel.projectAddResponse.collectAsState()
 
     val dialogMessage by projectAddViewModel.dialogMessage.collectAsState()
     var dialogActive by remember { mutableStateOf(false) }
 
-    LaunchedEffect(dialogMessage){
-        dialogActive = dialogMessage.message.isNotEmpty()
-    }
 
-    StateHandlerAdd(
-        viewModel = projectAddViewModel,
-        response = projectAddResponse,
+    LaunchedEffect(dialogMessage){ dialogActive = dialogMessage.message.isNotEmpty() }
+
+    StateHandlerPost(viewModel = projectAddViewModel, response = projectAddResponse)
+
+    ScaffoldSurfacePutih(
+        topbar = {
+            TopBarContent(
+                text = "Add Post",
+                icon = Icons.Filled.ArrowBackIosNew,
+                navController = navController
+            )
+        },
+        content = { ColumnPaddingLazy { ProjectAddPageContent(projectAddViewModel, mainViewModel) } }
     )
-
-    ColumnPadding(Modifier.fillMaxSize()){
-        TopBarContent(
-            text = "Add Post",
-            icon = Icons.Filled.ArrowBackIosNew,
-            navController = navController
-        )
-
-        Space(20)
-
-        LazyColumn {
-            item {
-                ProjectAddPageContent(projectAddViewModel, mainViewModel)
-            }
-        }
-    }
 
     DialogLoading(projectAddViewModel.loading)
 
@@ -106,12 +79,12 @@ fun ProjectAddPageMainContent(
     )
 }
 
+
 @Composable
 fun ProjectAddPageContent(
     projectCrudViewModel: ProjectAddPageViewModel,
     mainViewModel: MainViewModel
 ){
-
     val currentUser by mainViewModel.currentUser.collectAsState()
     val context = LocalContext.current
 
@@ -122,9 +95,7 @@ fun ProjectAddPageContent(
     var selectedTag by remember { mutableStateOf(listOf<String>()) }
 
 
-    AddProjectImage(imageUri){ imageUri = it }
-
-    Space(20)
+    AddProjectImage(imageUri){ imageUri = it }; Space(20)
 
     TeksBoldMerah("Title: ", Modifier.padding(bottom = 5.dp))
 
@@ -133,9 +104,7 @@ fun ProjectAddPageContent(
         placeholder = stringResource(id = R.string.edit_title),
         onInputChange = { judul = it },
         keyboardType = KeyboardType.Text,
-    )
-
-    Space(20)
+    ); Space(20)
 
     TeksBoldMerah("Description: ", Modifier.padding(bottom = 5.dp))
 
@@ -145,9 +114,7 @@ fun ProjectAddPageContent(
         placeholder = stringResource(id = R.string.edit_title),
         onInputChange = { desc = it },
         keyboardType = KeyboardType.Text,
-    )
-
-    Space(20)
+    ); Space(20)
 
     TeksBoldMerah("Tags: ", Modifier)
 
@@ -164,9 +131,7 @@ fun ProjectAddPageContent(
         onTagSelected = { tag ->
             if (selectedTag.size < 3){ selectedTag = selectedTag + tag }
         }
-    )
-
-    Space(20)
+    ); Space(20)
 
     RowEnd(Modifier.fillMaxWidth()){
         ButtonMerah(

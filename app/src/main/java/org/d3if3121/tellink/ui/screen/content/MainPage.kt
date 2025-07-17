@@ -1,8 +1,10 @@
 package org.d3if3121.tellink.ui.screen.content
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,14 +14,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.navigation.MainNavGraph
 import org.d3if3121.tellink.ui.component.BottomBar
-import org.d3if3121.tellink.ui.component.BoxWarna
 import org.d3if3121.tellink.ui.component.DialogGambar
+import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.MainScaffold
 import org.d3if3121.tellink.ui.component.topbar.TopBar
 import org.d3if3121.tellink.ui.component.topbar.TopbarType
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
-import org.d3if3121.tellink.ui.theme.Warna
+import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPageViewModel
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
+import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.ui.component.DialogMessageMain
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -29,13 +33,30 @@ fun MainPage(
 ){
     val currentUser by mainViewModel.currentUser.collectAsState()
     var currentTopbarType by remember { mutableStateOf(TopbarType.HOME) }
+
     val lazyListState = rememberLazyListState()
     val lazyListStateProject = rememberLazyListState()
-    val homeViewModel: HomeViewModel = hiltViewModel()
 
-    var navControllerContent = remember { mutableStateOf<NavHostController?>(null) }
+    val navControllerContent = remember { mutableStateOf<NavHostController?>(null) }
+
+
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val projectViewModel: ProjectPageViewModel = hiltViewModel()
+
+    val dialogMessageHome by homeViewModel.dialogMessage.collectAsState()
+    val dialogMessageProject by projectViewModel.dialogMessage.collectAsState()
+
+    val (dialogMessage, activeViewModel) = when {
+        dialogMessageHome.message.isNotEmpty() -> { dialogMessageHome to homeViewModel }
+        dialogMessageProject.message.isNotEmpty() -> dialogMessageProject to projectViewModel
+        else -> DialogMessage("", "") to homeViewModel
+    }
+
+    val dialogActive = dialogMessage.message.isNotEmpty()
+
 
     DialogGambar(homeViewModel)
+    DialogGambar(projectViewModel)
 
     MainScaffold(
         topbar = {
@@ -48,21 +69,20 @@ fun MainPage(
             )
         },
         content = {
-            BoxWarna(Warna.PutihGelap){
-                MainNavGraph(
-                    currentUser = currentUser,
-                    navControllerGlobal = navController,
+            MainNavGraph(
+                currentUser = currentUser,
+                navControllerGlobal = navController,
 
-                    lazyListState = lazyListState,
-                    lazyListState2 = lazyListStateProject,
+                lazyListState = lazyListState,
+                lazyListState2 = lazyListStateProject,
 
-                    homeViewModel = homeViewModel,
-                    mainViewModel = mainViewModel,
+                homeViewModel = homeViewModel,
+                projectViewModel = projectViewModel,
+                mainViewModel = mainViewModel,
 
-                    onTopbartypeChange = { currentTopbarType = it },
-                    navControllerContent = { navControllerContent.value = it }
-                )
-            }
+                onTopbartypeChange = { currentTopbarType = it },
+                navControllerContent = { navControllerContent.value = it }
+            )
         },
         bottombar = {
             BottomBar(
@@ -70,5 +90,11 @@ fun MainPage(
                 home = true
             )
         }
+    )
+
+    DialogMessageMain(
+        dialogActive = dialogActive,
+        dialogMessage = dialogMessage,
+        viewModel = activeViewModel
     )
 }

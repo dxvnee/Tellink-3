@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.outlined.ModeComment
@@ -35,6 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.d3if3121.tellink.ui.screen.auth.component.TeksSwitchPage
+import org.d3if3121.tellink.ui.screen.auth.component.TeksSwitchPageWithIcon
 import org.d3if3121.tellink.ui.theme.CustomButtonColors
 import org.d3if3121.tellink.ui.theme.Warna
 
@@ -163,12 +169,51 @@ fun IconTombol(
 }
 
 @Composable
+fun IconNormalWithBox(
+    imageVector: ImageVector,
+    size: Dp,
+    color: Color,
+    colorIcon: Color,
+    offset: Dp = 0.dp
+){
+    Box(
+        modifier = Modifier.size(size + 2.dp).clip(RoundedCornerShape(4.dp)).background(color),
+        contentAlignment = Alignment.Center
+    ){
+        IconNormal(
+            imageVector = imageVector,
+            size = size,
+            color = colorIcon,
+            offset = offset
+        )
+    }
+}
+@Composable
+fun IconNormal(
+    imageVector: ImageVector,
+    color: Color,
+    size: Dp,
+    offset: Dp = 0.dp
+){
+    ColumnCenter(modifier = Modifier.fillMaxHeight()){
+        Box(modifier = Modifier.size(size).offset(y = offset)){
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "Star",
+                tint = color,
+                modifier = Modifier.size(size)
+            )
+        }
+    }
+}
+
+@Composable
 fun FeedBottomComponent(
     onLikeClick: () -> Unit,
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit,
 
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit = {}
 ){
     RowStartCenter {
         IconWithText(
@@ -244,10 +289,46 @@ fun ButtonMerahProject(
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit,
     onButtonClick: () -> Unit,
+    onTextClick: () -> Unit,
 ){
-    FeedBottomComponent(
-        onLikeClick = onLikeClick,
-        onCommentClick = onCommentClick,
-        onShareClick = onShareClick,
-    ){  ButtonRequest(text = buttonText){ onButtonClick()} }
+    Column {
+        FeedBottomComponent(
+            onLikeClick = onLikeClick,
+            onCommentClick = onCommentClick,
+            onShareClick = onShareClick,
+        )
+
+        Space(20)
+
+        RowBottom {
+            Column {
+                TeksSwitchPageWithIcon(
+                    text1 = "3",
+                    text2 = " accepted to join project",
+
+                    size = 13.dp,
+                    imageVector = Icons.Filled.Check,
+                    color = Warna.MerahTua,
+                    colorIcon = Warna.PutihNormal,
+                    text1Color = Warna.MerahTua,
+                    text2Color = Warna.MerahTua
+                ){ }
+
+                Space(3)
+
+                TeksSwitchPageWithIcon(
+                    text1 = "1323",
+                    text2 = " requested to join project",
+
+                    size = 13.dp,
+                    imageVector = Icons.Filled.AccessTime,
+                    color = Warna.AbuTua,
+                    colorIcon = Warna.PutihNormal,
+                    text1Color = Warna.AbuTua,
+                    text2Color = Warna.AbuTua
+                ){ }
+            }
+            ColumnEnd{ ButtonRequest(text = buttonText){ onButtonClick()} }
+        }
+    }
 }

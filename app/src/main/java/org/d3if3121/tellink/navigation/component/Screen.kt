@@ -9,6 +9,7 @@ sealed class Screen(val route: String) {
 
     data object Project: Screen("ProjectPage")
     data object ProjectAdd: Screen("ProjectAddPage")
+    data object ProjectEdit: Screen("ProjectEditPage")
 
     data object Profile: Screen("ProfilePage")
     data object EditProject: Screen("EditProjectPage")

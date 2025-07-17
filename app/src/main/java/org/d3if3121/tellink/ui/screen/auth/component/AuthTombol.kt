@@ -10,17 +10,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.d3if3121.tellink.ui.component.BorderBox
 import org.d3if3121.tellink.ui.component.ButtonMerah
+import org.d3if3121.tellink.ui.component.IconNormalWithBox
+import org.d3if3121.tellink.ui.component.SpaceWidth
 import org.d3if3121.tellink.ui.component.TeksBoldTombol
 import org.d3if3121.tellink.ui.theme.Warna
 
@@ -55,15 +62,23 @@ fun TeksSwitchPage(
     text: String = "",
     text2: String,
     text2Color: Color,
+    text1Color: Color = Warna.HitamNormal,
     textSize: Int = 12,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     onClick: (Int) -> Unit,
 ){
-    Row(verticalAlignment = Alignment.CenterVertically){
+    Row(verticalAlignment = verticalAlignment){
         Text(
             text = text,
             fontSize = textSize.sp,
-            fontWeight = FontWeight(500)
+            fontWeight = FontWeight(500),
+            style = TextStyle.Default.copy(
+                text1Color,
+                fontSize = textSize.sp,
+                fontWeight = FontWeight(500)
+            )
         )
+
         ClickableText(
             text = AnnotatedString(text2),
             onClick = onClick,
@@ -73,5 +88,40 @@ fun TeksSwitchPage(
                 fontWeight = FontWeight(500)
             )
         )
+
     }
+}
+
+@Composable
+fun TeksSwitchPageWithIcon(
+    imageVector: ImageVector,
+    color: Color,
+    colorIcon: Color,
+    size: Dp,
+    text1: String,
+    text2: String,
+    text1Color: Color,
+    text2Color: Color,
+    onTextClick: () -> Unit
+){
+    Row {
+        IconNormalWithBox(
+            imageVector = imageVector,
+            color = color,
+            colorIcon = colorIcon,
+            size = size,
+        )
+
+        SpaceWidth(7)
+
+        TeksSwitchPage(
+            text = text1,
+            text2 = text2,
+            text2Color = text2Color,
+            text1Color = text1Color,
+            textSize = 13,
+            verticalAlignment = Alignment.Bottom
+        ){ onTextClick() }
+    }
+
 }

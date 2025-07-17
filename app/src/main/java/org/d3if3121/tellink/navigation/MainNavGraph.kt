@@ -3,12 +3,8 @@
 package org.d3if3121.tellink.navigation
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,7 +17,6 @@ import org.d3if3121.tellink.ui.animation.animationFadeScaleIn
 import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
 import org.d3if3121.tellink.ui.component.topbar.TopbarType
 import org.d3if3121.tellink.ui.screen.content.ConfirmPage
-import org.d3if3121.tellink.ui.screen.content.EditPage
 import org.d3if3121.tellink.ui.screen.content.ProfilePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
@@ -40,6 +35,7 @@ fun MainNavGraph(
     lazyListState2: LazyListState,
 
     homeViewModel: HomeViewModel = hiltViewModel(),
+    projectViewModel: ProjectPageViewModel = hiltViewModel(),
     mainViewModel: MainViewModel = hiltViewModel(),
 
     onTopbartypeChange: (TopbarType) -> Unit,
@@ -48,9 +44,6 @@ fun MainNavGraph(
     val navController = rememberNavController()
 
     val mahasiswaListViewModel: MahasiswaListViewModel = hiltViewModel()
-    val projectListViewModel: ProjectListViewModel = hiltViewModel()
-
-    val projectViewModel: ProjectPageViewModel = hiltViewModel()
 
     navControllerContent(navController)
 
@@ -79,16 +72,6 @@ fun MainNavGraph(
         composable(route = Screen.Profile.route){
             ProfilePage(navController, mahasiswaListViewModel)
             onTopbartypeChange(TopbarType.PROFILE)
-        }
-
-        composable(route ="${Screen.EditProject.route}/{projectId}",
-            arguments = listOf(navArgument("projectId"){
-                type = NavType.StringType
-                nullable = false
-            })
-        ){ backStackEntry ->
-            val projectId = backStackEntry.arguments?.getString("projectId")
-            EditPage(navController = navController, projectId = projectId)
         }
 
         composable(route ="${Screen.ConfirmPage.route}/{projectId}",

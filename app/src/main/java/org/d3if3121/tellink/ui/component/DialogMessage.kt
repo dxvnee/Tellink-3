@@ -20,9 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.d3if3121.tellink.components.LoadingIndicator
+import org.d3if3121.tellink.data.model.dialog.DialogMessage
 import org.d3if3121.tellink.ui.animation.AnimationFade
 import org.d3if3121.tellink.ui.animation.AnimationFadeSpring
-import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
+import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
+import org.d3if3121.tellink.ui.screen.content.component.LoadingDialogHandler
 import org.d3if3121.tellink.ui.theme.ChangeNavColor
 import org.d3if3121.tellink.ui.theme.Warna
 
@@ -45,7 +47,7 @@ fun DialogMessage(
     }
 
     AnimationFadeSpring(visible = visible){
-        ColumnCenter {
+        ColumnCenter(Modifier.fillMaxSize()) {
             CardPutih(
                 height = 155.dp,
                 center = true,
@@ -65,14 +67,30 @@ fun DialogMessage(
 }
 
 @Composable
+fun DialogMessageMain (
+    dialogActive: Boolean,
+    dialogMessage: DialogMessage,
+    viewModel: LoadingDialogHandler
+){
+    DialogMessage(
+        visible = dialogActive,
+        textJudul = dialogMessage.title,
+        textDialog = dialogMessage.message,
+        textTombol = "OK"
+    ){ viewModel.dialogChange("", "")}
+}
+
+@Composable
 fun DialogLoading(visible: Boolean){
-    AnimationFade (visible = visible){
-        CardPutih(
-            height = 10.dp,
-            center = true,
-            modifier = Modifier.padding(top = 330.dp, bottom = 330.dp, start = 124.dp, end = 124.dp)
-        ){
-           LoadingIndicatorBox()
+    ColumnCenter(Modifier.fillMaxSize()) {
+        AnimationFade (visible = visible){
+            CardPutih(
+                height = 10.dp,
+                center = true,
+                modifier = Modifier.padding(top = 330.dp, bottom = 330.dp, start = 124.dp, end = 124.dp)
+            ){
+                LoadingIndicatorBox()
+            }
         }
     }
 }
@@ -88,13 +106,23 @@ fun LoadingIndicatorBox(){
 }
 
 @Composable
+fun LoadingIndicatorCenter(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
+        LoadingIndicator()
+    }
+}
+
+@Composable
 fun LoadingIndicatorText(){
     LoadingIndicator()
     TeksNormal("Loading..", Modifier.offset(y = 32.dp), TextAlign.Center, size = 12.sp)
 }
 
 @Composable
-fun DialogGambar(homeViewModel: HomeViewModel){
+fun DialogGambar(homeViewModel: GambarHandler){
 
     val dialogGambar  by homeViewModel.gambarDialog.collectAsState()
     val gambar by homeViewModel.gambarString.collectAsState()

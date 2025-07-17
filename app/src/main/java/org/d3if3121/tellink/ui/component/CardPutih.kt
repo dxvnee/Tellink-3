@@ -43,9 +43,9 @@ fun CardPutih(
 }
 
 @Composable
-fun CardPutihBesar( content: @Composable () -> Unit ){
+fun CardPutihBesar(modifier: Modifier = Modifier, content: @Composable () -> Unit ){
     Card(
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        modifier = modifier.fillMaxWidth().fillMaxHeight(),
         colors = CardDefaults.cardColors(containerColor = Warna.PutihNormal),
         shape = RoundedCornerShape(0.dp),
     ){

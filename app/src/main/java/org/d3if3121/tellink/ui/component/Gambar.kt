@@ -1,6 +1,7 @@
 package org.d3if3121.tellink.ui.component
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -34,7 +35,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.d3if3121.tellink.R
 import org.d3if3121.tellink.components.LoadingIndicator
 import org.d3if3121.tellink.ui.animation.AnimationFade
-import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
+import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
 
 @Composable
 fun Gambar(
@@ -50,9 +51,9 @@ fun Gambar(
 }
 
 @Composable
-fun <T> AsyncGambar(
+fun AsyncGambar(
     gambar: String?,
-    viewModel: ContentViewModel<T>
+    viewModel: GambarHandler
 ){
    gambar?.let {
         if (gambar.isNotEmpty()){
@@ -62,7 +63,7 @@ fun <T> AsyncGambar(
 }
 
 @Composable
-fun <T> AsyncGambarValue(gambar: String, viewModel: ContentViewModel<T>) {
+fun AsyncGambarValue(gambar: String, viewModel: GambarHandler) {
     SubcomposeImage(gambar = gambar) {
         viewModel.onDialogGambar(true, gambar)
     }
@@ -71,7 +72,7 @@ fun <T> AsyncGambarValue(gambar: String, viewModel: ContentViewModel<T>) {
 @Composable
 fun SubcomposeImage(
     gambar: String,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ){
     var success by remember { mutableStateOf(false) }
 
@@ -105,6 +106,7 @@ fun SubcomposeImage(
 @Composable
 fun AddProjectImage(
     imageUri: Uri?,
+    gambarString: String = "",
     onImageUri: (Uri?) -> Unit
 ){
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
@@ -120,22 +122,40 @@ fun AddProjectImage(
             .aspectRatio(16f / 9f)
             .clip(RoundedCornerShape(10.dp))
     ) {
-        Image(
-            painter = painter,
-            contentDescription = "AddProjectImage",
-            modifier = Modifier.matchParentSize().clickable { launcher.launch("image/*") },
-            contentScale = ContentScale.Crop,
-        )
+        if(gambarString != "" && imageUri == null){
+            SubcomposeImage(gambarString){ launcher.launch("image/*") }
+        } else {
+            NormalImage(
+                modifier = Modifier.matchParentSize(),
+                painter = painter,
+                imageUri = imageUri
+            ){ launcher.launch("image/*") }
+        }
+    }
+}
 
-        if(imageUri == null){
-            ColumnCenter{
-                Image(
-                    painter = painterResource(id = R.drawable.add_image),
-                    contentDescription = "AddProjectImage",
-                    modifier = Modifier.size(85.dp)
-                )
-                TeksNormal("Add image...")
-            }
+@Composable
+fun NormalImage(
+    modifier: Modifier,
+    painter: Painter,
+    imageUri: Uri?,
+    onClick: () -> Unit
+){
+    Image(
+        painter = painter,
+        contentDescription = "AddProjectImage",
+        modifier = modifier.clickable { onClick() },
+        contentScale = ContentScale.Crop,
+    )
+
+    if(imageUri == null){
+        ColumnCenter{
+            Image(
+                painter = painterResource(id = R.drawable.add_image),
+                contentDescription = "AddProjectImage",
+                modifier = Modifier.size(85.dp)
+            )
+            TeksNormal("Add image...")
         }
     }
 }

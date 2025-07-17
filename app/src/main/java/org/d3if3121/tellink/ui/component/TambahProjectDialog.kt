@@ -41,8 +41,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import org.d3if3121.tellink.R
-import org.d3if3121.tellink.data.model.ImageUpload
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.ui.theme.Warna
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel

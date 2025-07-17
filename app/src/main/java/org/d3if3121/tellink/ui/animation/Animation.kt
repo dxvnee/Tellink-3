@@ -95,13 +95,13 @@ fun AnimationFadeZIndex(
 @Composable
 fun AnimationPairButtonColor2(condition: Boolean): Pair<Color, Float>{
     val backgroundColor2 by animateColorAsState(
-        targetValue = if (!condition) activeColors.containerColor
+        targetValue = if (condition) activeColors.containerColor
         else inactiveColors.containerColor,
         animationSpec = tween(durationMillis = 300),
         label = "btn2Color"
     )
     val fontWeight2 by animateFloatAsState(
-        targetValue = if (!condition) FontWeight.Bold.weight.toFloat() else FontWeight.Normal.weight.toFloat(),
+        targetValue = if (condition) FontWeight.Bold.weight.toFloat() else FontWeight.Normal.weight.toFloat(),
         animationSpec = tween(300),
         label = "font2"
     )
@@ -112,13 +112,13 @@ fun AnimationPairButtonColor2(condition: Boolean): Pair<Color, Float>{
 @Composable
 fun AnimationPairButtonColor1(condition: Boolean): Pair<Color, Float>{
     val backgroundColor1 by animateColorAsState(
-        targetValue = if (condition) activeColors.containerColor
+        targetValue = if (!condition) activeColors.containerColor
         else inactiveColors.containerColor,
         animationSpec = tween(durationMillis = 300),
         label = "btn1Color"
     )
     val fontWeight1 by animateFloatAsState(
-        targetValue = if (condition) FontWeight.Bold.weight.toFloat() else FontWeight.Normal.weight.toFloat(),
+        targetValue = if (!condition) FontWeight.Bold.weight.toFloat() else FontWeight.Normal.weight.toFloat(),
         animationSpec = tween(300),
         label = "font1"
     )

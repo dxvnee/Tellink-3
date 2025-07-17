@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import org.d3if3121.tellink.data.model.project.ProjectIdRequest
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaEdit
 import org.d3if3121.tellink.data.model.mahasiswa.MahasiswaLogin
@@ -15,6 +16,7 @@ import org.d3if3121.tellink.data.model.response.ErrorResponse
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.MahasiswaListInterface
 import org.d3if3121.tellink.data.retrofit.RetrofitInterface
+import retrofit2.HttpException
 
 class MahasiswaListRepository (
     private val mahasiswaRef: CollectionReference
@@ -130,6 +132,18 @@ class MahasiswaListRepository (
         } else {
             return Mahasiswa()
         }
+    }
+
+    override suspend fun getMahasiswaReqByProjectId(projectId: String) = try {
+        val response = RetrofitInterface.api.getMahasiswaReqByProjectId(ProjectIdRequest(projectId))
+
+        if (response.success){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
     }
 
 //    override suspend fun getMahasiswaByNim3(nim: String): Mahasiswa? {

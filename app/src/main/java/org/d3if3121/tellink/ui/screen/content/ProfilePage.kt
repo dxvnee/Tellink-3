@@ -35,7 +35,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.d3if3121.tellink.ui.component.BottomBar
 import org.d3if3121.tellink.ui.component.ButtonMerah
 import org.d3if3121.tellink.ui.component.EditMahasiswaDialog
-import org.d3if3121.tellink.ui.component.topbar.TopBar
 import org.d3if3121.tellink.ui.component.topbar.cekScroll
 import org.d3if3121.tellink.ui.screen.content.homepage.TOP_BAR_HEIGHT
 import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel

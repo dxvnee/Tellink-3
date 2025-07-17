@@ -14,6 +14,8 @@ typealias UpdateMahasiswaResponse = Response<String>
 typealias DeleteMahasiswaResponse = Response<Void>
 typealias MahasiswaByNimResponse = Response<Mahasiswa>
 
+typealias MahasiswaReqByProjectIdResponse = Response<List<Mahasiswa>>
+
 typealias LoginResponse = Response<Mahasiswa>
 
 interface MahasiswaListInterface {
@@ -28,6 +30,9 @@ interface MahasiswaListInterface {
     suspend fun loginMahasiswa(mahasiswa: MahasiswaLogin): LoginResponse
 
     suspend fun getMahasiswaByNim(nim: String): Mahasiswa
+
+    suspend fun getMahasiswaReqByProjectId(projectId: String): MahasiswaReqByProjectIdResponse
+
     suspend fun checkRequestProject(id: String, nim: String): Boolean
     suspend fun markProject(nim: String, projectId: List<String>)
 }

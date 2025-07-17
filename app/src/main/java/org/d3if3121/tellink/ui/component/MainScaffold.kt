@@ -1,10 +1,14 @@
 package org.d3if3121.tellink.ui.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
@@ -24,3 +28,15 @@ fun MainScaffold(
         contentColor = Warna.PutihNormal
     )
 }
+
+@Composable
+fun ScaffoldSurfacePutih(
+    topbar: @Composable () -> Unit,
+    content: @Composable () -> Unit
+){
+    MainScaffold(
+        topbar = { topbar() },
+        content = { SurfacePutih { content() } },)
+}
+
+

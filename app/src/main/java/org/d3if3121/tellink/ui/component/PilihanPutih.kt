@@ -47,7 +47,7 @@ fun PilihanPutih(
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = backgroundColor1,
-                    contentColor = if (condition) Color.White else Color.Black
+                    contentColor = if (condition) Color.Black else Color.White
                 ),
                 onClick = onclick1
             ) {
@@ -66,7 +66,7 @@ fun PilihanPutih(
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = backgroundColor2,
-                    contentColor = if (!condition) Color.White else Color.Black
+                    contentColor = if (condition) Color.White else Color.Black
                 ),
                 onClick = onclick2
             ) {

@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.d3if3121.tellink.data.model.DialogMessage
-import org.d3if3121.tellink.data.model.ProjectAdd
+import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.project.ProjectAdd
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.model.response.Response.Loading
@@ -23,14 +23,14 @@ import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.ui.formula.toMultipartBody
 import org.d3if3121.tellink.ui.formula.toRequestBody
 import org.d3if3121.tellink.ui.formula.uriToFile
-import org.d3if3121.tellink.ui.screen.content.component.AddViewModel
+import org.d3if3121.tellink.ui.screen.content.component.LoadingDialogHandler
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class ProjectAddPageViewModel @Inject constructor(
     private val repo: ProjectListInterface
-): ViewModel(), AddViewModel {
+):  ViewModel(), LoadingDialogHandler {
 
     override var loading: Boolean by mutableStateOf(false)
 

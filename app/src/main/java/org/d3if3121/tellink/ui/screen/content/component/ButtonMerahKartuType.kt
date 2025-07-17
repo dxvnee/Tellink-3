@@ -1,7 +1,5 @@
 package org.d3if3121.tellink.ui.screen.content.component
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -12,35 +10,21 @@ import org.d3if3121.tellink.R
 import org.d3if3121.tellink.ui.component.ButtonMerah
 import org.d3if3121.tellink.ui.component.ButtonMerahDynamic
 import org.d3if3121.tellink.ui.component.ButtonMerahProject
-import org.d3if3121.tellink.ui.component.Space
 import org.d3if3121.tellink.ui.component.TeksBoldTombol
-import org.d3if3121.tellink.ui.screen.auth.component.TeksSwitchPage
-import org.d3if3121.tellink.ui.screen.auth.component.TombolTeksBawah
-import org.d3if3121.tellink.ui.theme.Warna
 
 
 @Composable
 fun ButtonMerahKartuType(buttonbehaviour: ButtonMerahBehaviour){
     when (buttonbehaviour) {
         is ButtonMerahBehaviour.Project -> {
-            Column {
-                ButtonMerahProject(
-                    buttonText = buttonbehaviour.buttonText,
-                    onLikeClick = buttonbehaviour.onLikeClick,
-                    onCommentClick = buttonbehaviour.onCommentClick,
-                    onShareClick = buttonbehaviour.onShareClick,
-                    onButtonClick = buttonbehaviour.onButtonClick
-                )
-
-                Space(2)
-
-                TeksSwitchPage(
-                    text = "3242",
-                    text2 = " people requested to join this project..",
-                    text2Color = Warna.AbuTua,
-                    textSize = 13
-                ){ buttonbehaviour.onTextClick }
-            }
+            ButtonMerahProject(
+                buttonText = buttonbehaviour.buttonText,
+                onLikeClick = buttonbehaviour.onLikeClick,
+                onCommentClick = buttonbehaviour.onCommentClick,
+                onShareClick = buttonbehaviour.onShareClick,
+                onButtonClick = buttonbehaviour.onButtonClick,
+                onTextClick = buttonbehaviour.onTextClick
+            )
         }
         is ButtonMerahBehaviour.Accept -> {
             ButtonMerah(

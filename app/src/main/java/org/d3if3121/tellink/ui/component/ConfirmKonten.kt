@@ -40,140 +40,140 @@ fun ConfirmKonten(
     viewmodel: MahasiswaListViewModel = hiltViewModel(),
     projectviewmodel: ProjectListViewModel = hiltViewModel()
 ){
-    var refreshKey by remember { mutableStateOf(0) }
-
-    LaunchedEffect(refreshKey) {
-        projectviewmodel.getProjectById(projectId)
-    }
-    Log.d("idproject", projectId)
-    projectviewmodel.getProjectById(projectId)
-    var project = projectviewmodel.project
-
-    var judul by remember { mutableStateOf("") }
-    var desc by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
-    var selectedTag by remember { mutableStateOf(listOf<String>()) }
-
-    var secondmode by remember { mutableStateOf(false) }
-
-
-
-    val context = LocalContext.current
-
-
-    when(val updateProjectResponse = projectviewmodel.updateProjectResponse){
-        is Loading -> {
-
-        }
-        is Success -> {
-            Toast.makeText(context, "Edit Success!", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.Project.route)
-        }
-        is Failure -> printError(updateProjectResponse.e)
-        Response.Idle -> {}
-    }
-
-    when(val deleteProjectResponse = projectviewmodel.deleteProjectResponse){
-        is Loading -> {
-
-        }
-        is Success -> {
-            Toast.makeText(context, "Delete Success!", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.Project.route)
-        }
-        is Failure -> printError(deleteProjectResponse.e)
-        Response.Idle -> {}
-    }
-
-    when(val addAcceptResponse = projectviewmodel.addAcceptResponse){
-        is Loading -> {
-
-        }
-        is Success -> {
-            Toast.makeText(context, "Accepted!", Toast.LENGTH_SHORT).show()
-            projectviewmodel.resetAddAcceptResponse()
-            refreshKey++
-        }
-        is Failure -> printError(addAcceptResponse.e)
-        Response.Idle -> {}
-    }
-
-    when(val deleteAcceptResponse = projectviewmodel.deleteAcceptResponse){
-        is Loading -> {
-
-        }
-        is Success -> {
-            Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show()
-            projectviewmodel.resetDeleteRequestResponse()
-            refreshKey++
-        }
-        is Failure -> printError(deleteAcceptResponse.e)
-        Response.Idle -> {}
-    }
-
-    Column(
-        modifier = Modifier
-            .padding(top = 20.dp, start = 17.dp, end = 17.dp, bottom = 20.dp)
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ){
-        PilihanPutih(
-            text1 = "Aktif",
-            text2 = "Nonaktif",
-            condition = secondmode,
-            onclick1 = { secondmode = true },
-            onclick2 = { secondmode = false }
-        )
-
-        LazyColumn{
-            if (secondmode == false){
-                items(
-                    items = project.requests!!,
-                    key = { it }
-                ) { nim ->
-
-                    val mahasiswa = viewmodel.mahasiswaMapProfile[nim] ?: Mahasiswa()
-
-                    LaunchedEffect(nim) {
-                        viewmodel.getMahasiswaByNimProfile(nim)
-                    }
-
-                    KartuProfilPutih(
-                        fotoprofil = R.drawable.photo,
-                        nama = mahasiswa.nama,
-                        nim = mahasiswa.nim,
-                        jurusan = mahasiswa.jurusan,
-
-                        onclick = {
-                            projectviewmodel.addAccept(projectId, nim)
-                        }
-                    )
-                }
-            } else {
-                items(
-                    items = project.accept!!,
-                    key = { it }
-                ) { nim ->
-
-                    val mahasiswa = viewmodel.mahasiswaMapProfile[nim] ?: Mahasiswa()
-
-                    LaunchedEffect(nim) {
-                        viewmodel.getMahasiswaByNimProfile(nim)
-                    }
-
-                    KartuProfilPutih(
-                        fotoprofil = R.drawable.photo,
-                        nama = mahasiswa.nama,
-                        nim = mahasiswa.nim,
-                        jurusan = mahasiswa.jurusan,
-                        accepted = true,
-
-                        onclickkick = {
-                            projectviewmodel.deleteAccept(projectId, nim)
-                        }
-                    )
-                }
-            }
-        }
-    }
+//    var refreshKey by remember { mutableStateOf(0) }
+//
+//    LaunchedEffect(refreshKey) {
+//        projectviewmodel.getProjectById(projectId)
+//    }
+//    Log.d("idproject", projectId)
+//    projectviewmodel.getProjectById(projectId)
+//    var project = projectviewmodel.project
+//
+//    var judul by remember { mutableStateOf("") }
+//    var desc by remember { mutableStateOf("") }
+//    var errorMessage by remember { mutableStateOf("") }
+//    var selectedTag by remember { mutableStateOf(listOf<String>()) }
+//
+//    var secondmode by remember { mutableStateOf(false) }
+//
+//
+//
+//    val context = LocalContext.current
+//
+//
+//    when(val updateProjectResponse = projectviewmodel.updateProjectResponse){
+//        is Loading -> {
+//
+//        }
+//        is Success -> {
+//            Toast.makeText(context, "Edit Success!", Toast.LENGTH_SHORT).show()
+//            navController.navigate(Screen.Project.route)
+//        }
+//        is Failure -> printError(updateProjectResponse.e)
+//        Response.Idle -> {}
+//    }
+//
+//    when(val deleteProjectResponse = projectviewmodel.deleteProjectResponse){
+//        is Loading -> {
+//
+//        }
+//        is Success -> {
+//            Toast.makeText(context, "Delete Success!", Toast.LENGTH_SHORT).show()
+//            navController.navigate(Screen.Project.route)
+//        }
+//        is Failure -> printError(deleteProjectResponse.e)
+//        Response.Idle -> {}
+//    }
+//
+//    when(val addAcceptResponse = projectviewmodel.addAcceptResponse){
+//        is Loading -> {
+//
+//        }
+//        is Success -> {
+//            Toast.makeText(context, "Accepted!", Toast.LENGTH_SHORT).show()
+//            projectviewmodel.resetAddAcceptResponse()
+//            refreshKey++
+//        }
+//        is Failure -> printError(addAcceptResponse.e)
+//        Response.Idle -> {}
+//    }
+//
+//    when(val deleteAcceptResponse = projectviewmodel.deleteAcceptResponse){
+//        is Loading -> {
+//
+//        }
+//        is Success -> {
+//            Toast.makeText(context, "Deleted!", Toast.LENGTH_SHORT).show()
+//            projectviewmodel.resetDeleteRequestResponse()
+//            refreshKey++
+//        }
+//        is Failure -> printError(deleteAcceptResponse.e)
+//        Response.Idle -> {}
+//    }
+//
+//    Column(
+//        modifier = Modifier
+//            .padding(top = 20.dp, start = 17.dp, end = 17.dp, bottom = 20.dp)
+//            .fillMaxWidth()
+//            .fillMaxHeight()
+//    ){
+//        PilihanPutih(
+//            text1 = "Aktif",
+//            text2 = "Nonaktif",
+//            condition = secondmode,
+//            onclick1 = { secondmode = true },
+//            onclick2 = { secondmode = false }
+//        )
+//
+//        LazyColumn{
+//            if (secondmode == false){
+//                items(
+//                    items = project.requests!!,
+//                    key = { it }
+//                ) { nim ->
+//
+//                    val mahasiswa = viewmodel.mahasiswaMapProfile[nim] ?: Mahasiswa()
+//
+//                    LaunchedEffect(nim) {
+//                        viewmodel.getMahasiswaByNimProfile(nim)
+//                    }
+//
+//                    KartuProfilPutih(
+//                        fotoprofil = R.drawable.photo,
+//                        nama = mahasiswa.nama,
+//                        nim = mahasiswa.nim,
+//                        jurusan = mahasiswa.jurusan,
+//
+//                        onclick = {
+//                            projectviewmodel.addAccept(projectId, nim)
+//                        }
+//                    )
+//                }
+//            } else {
+//                items(
+//                    items = project.accept!!,
+//                    key = { it }
+//                ) { nim ->
+//
+//                    val mahasiswa = viewmodel.mahasiswaMapProfile[nim] ?: Mahasiswa()
+//
+//                    LaunchedEffect(nim) {
+//                        viewmodel.getMahasiswaByNimProfile(nim)
+//                    }
+//
+//                    KartuProfilPutih(
+//                        fotoprofil = R.drawable.photo,
+//                        nama = mahasiswa.nama,
+//                        nim = mahasiswa.nim,
+//                        jurusan = mahasiswa.jurusan,
+//                        accepted = true,
+//
+//                        onclickkick = {
+//                            projectviewmodel.deleteAccept(projectId, nim)
+//                        }
+//                    )
+//                }
+//            }
+//        }
+//    }
 }

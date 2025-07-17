@@ -1,36 +1,41 @@
 package org.d3if3121.tellink.ui.screen.content.projectpage
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.d3if3121.tellink.data.model.Project
+import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.model.response.Response.Idle
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
-import org.d3if3121.tellink.ui.screen.content.component.ContentViewModel
+import org.d3if3121.tellink.ui.screen.content.component.ContentLoadingViewModel
+import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
 import javax.inject.Inject
 
 @HiltViewModel
 class ProjectPageViewModel @Inject constructor(
     private val repo: ProjectListInterface
-): ViewModel(), ContentViewModel<List<Project>> {
+): ViewModel(), ContentLoadingViewModel<List<Project>>, GambarHandler {
     override var loading: Boolean by mutableStateOf(false)
 
-    private val _secondPage = MutableStateFlow(true)
+    private val _dialogMessage = MutableStateFlow(DialogMessage())
+    val dialogMessage : StateFlow<DialogMessage> = _dialogMessage
+
+    private val _secondPage = MutableStateFlow(false)
     val secondPage: StateFlow<Boolean> = _secondPage
 
-    private val _gambarDialog = MutableStateFlow(false)
-    val gambarDialog: StateFlow<Boolean> = _gambarDialog
+    override val gambarDialog = MutableStateFlow(false)
 
-    private val _gambarString = MutableStateFlow("")
-    val gambarString: StateFlow<String> = _gambarString
+    override val gambarString = MutableStateFlow("")
 
     private val _projectList = MutableStateFlow<List<Project>?>(emptyList())
     val projectList: StateFlow<List<Project>?> = _projectList
@@ -44,6 +49,8 @@ class ProjectPageViewModel @Inject constructor(
     fun getProjectListByNim(nim: String) = viewModelScope.launch {
         _projectListByNim.value = Response.Loading
         responseChange(emptyList())
+        delay(500)
+
 
         _projectListByNim.value = repo.getProjectByNim(nim)
     }
@@ -64,15 +71,16 @@ class ProjectPageViewModel @Inject constructor(
         gambarStringChange(gambarBaru)
     }
 
-    fun gambarChange(active: Boolean){
-        _gambarDialog.value = active
+    override fun gambarChange(active: Boolean){
+        gambarDialog.value = active
     }
 
-    fun gambarStringChange(gambarBaru: String){
-        _gambarString.value = gambarBaru
+    override fun gambarStringChange(gambarBaru: String){
+        gambarString.value = gambarBaru
     }
 
     fun secondPageChange(active: Boolean){
+        Log.d("gini", active.toString())
         _secondPage.value = active
     }
 
@@ -82,5 +90,9 @@ class ProjectPageViewModel @Inject constructor(
 
     override fun loadingChange(state: Boolean){
         loading = state
+    }
+
+    override fun dialogChange(title: String, message: String) {
+        _dialogMessage.value = DialogMessage(title, message)
     }
 }

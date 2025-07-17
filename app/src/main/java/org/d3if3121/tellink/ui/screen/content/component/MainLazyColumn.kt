@@ -37,7 +37,6 @@ fun <T> MainLazyColumn(
             when{
                 list.isNullOrEmpty() -> {
                     item{
-                        Space(200)
                         mainContent(null)
                     }
                 }

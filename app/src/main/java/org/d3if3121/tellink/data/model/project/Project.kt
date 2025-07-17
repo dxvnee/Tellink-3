@@ -1,4 +1,4 @@
-package org.d3if3121.tellink.data.model
+package org.d3if3121.tellink.data.model.project
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 
 data class Project(

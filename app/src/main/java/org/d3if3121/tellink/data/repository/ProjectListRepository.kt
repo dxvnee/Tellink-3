@@ -2,8 +2,6 @@ package org.d3if3121.tellink.data.repository
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import androidx.core.net.toUri
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -17,16 +15,12 @@ import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.d3if3121.tellink.data.model.NimRequest
-import org.d3if3121.tellink.data.model.Project
-import org.d3if3121.tellink.data.model.ProjectAdd
+import org.d3if3121.tellink.data.model.project.Project
+import org.d3if3121.tellink.data.model.project.ProjectIdRequest
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
-import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
 import org.d3if3121.tellink.data.retrofit.RetrofitInterface
-import org.d3if3121.tellink.ui.formula.toMultipartBody
-import org.d3if3121.tellink.ui.formula.toRequestBody
 import retrofit2.HttpException
-import java.io.File
 
 class ProjectListRepository (
     private val projectRef: CollectionReference,
@@ -305,11 +299,47 @@ class ProjectListRepository (
 //        Response.Failure(e)
 //    }
 
+//
+//    override suspend fun getProjectById(id: String) = try {
+//        val project = projectRef.document(id).get().await()
+//        if (project.exists()){
+//            return project.toProject()
+//        } else {
+//            return Project()
+//        }
+//    } catch (e: Exception) {
+//        return Project()
+//    }
+
     override suspend fun addProject(projectPart: RequestBody, imageMultipart: MultipartBody.Part?) = try {
         val response = RetrofitInterface.api.addProject(projectPart, imageMultipart)
 
         if (response.success){
             Response.Success(response.message)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
+    }
+
+    override suspend fun editProject(id: RequestBody, projectPart: RequestBody, imageMultipart: MultipartBody.Part?) = try {
+        val response = RetrofitInterface.api.editProject(projectPart, imageMultipart, id)
+
+        if (response.success){
+            Response.Success(response.message)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
+    }
+
+    override suspend fun getProjectById(id: String) = try {
+        val response = RetrofitInterface.api.getProjectById(ProjectIdRequest(id))
+
+        if (response.success){
+            Response.Success(response.data)
         } else {
             Response.Failure(Exception(response.message))
         }
@@ -333,33 +363,19 @@ class ProjectListRepository (
         Response.Failure(Exception("No project found for the given NIM."))
     }
 
+
     override suspend fun deleteProject(id: String) = try {
-        val process = projectRef.document(id).delete().await()
-        val querySnapshot = mahasiswaRef.whereArrayContains("requests", id).get().await()
+        val response = RetrofitInterface.api.deleteProject(ProjectIdRequest(id))
 
-        for (document in querySnapshot.documents) {
-            document.reference.update(
-                "requests", FieldValue.arrayRemove(id)
-            ).await()
+        if (response.success){
+            Response.Success(response.message)
+        } else {
+            Response.Failure(Exception(response.message))
         }
-
-        Response.Success(process)
-    } catch (e: Exception){
-        Response.Failure(e)
+    } catch (e: HttpException){
+        Response.Failure(errorToErrorMessage(e))
     }
 
-    override suspend fun getProjectById(id: String): Project {
-        try {
-            val project = projectRef.document(id).get().await()
-            if (project.exists()){
-                return project.toProject()
-            } else {
-                return Project()
-            }
-        } catch (e: Exception) {
-            return Project()
-        }
-    }
 
     suspend fun getImageUrlFromFirebase(projectId: String): String? {
         return try {
