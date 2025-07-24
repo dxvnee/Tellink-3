@@ -11,10 +11,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.dialog.DialogConfig
 import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.data.model.response.Response.Idle
+import org.d3if3121.tellink.data.repository.interfaces.LikeProjectResponse
 import org.d3if3121.tellink.data.repository.interfaces.ProjectListInterface
 import org.d3if3121.tellink.data.repository.interfaces.ProjectWithMahasiswaResponse
 import org.d3if3121.tellink.ui.screen.content.component.ContentLoadingViewModel
@@ -27,8 +28,8 @@ class ProjectPageViewModel @Inject constructor(
 ): ViewModel(), ContentLoadingViewModel<List<Project>>, GambarHandler {
     override var loading: Boolean by mutableStateOf(false)
 
-    private val _dialogMessage = MutableStateFlow(DialogMessage())
-    val dialogMessage : StateFlow<DialogMessage> = _dialogMessage
+    private val _dialogMessage = MutableStateFlow(DialogConfig())
+    val dialogMessage : StateFlow<DialogConfig> = _dialogMessage
 
     private val _secondPage = MutableStateFlow(false)
     val secondPage: StateFlow<Boolean> = _secondPage
@@ -46,11 +47,16 @@ class ProjectPageViewModel @Inject constructor(
     private val _requestListByNim = MutableStateFlow<ProjectWithMahasiswaResponse>(Idle)
     val requestListByNim: StateFlow<ProjectWithMahasiswaResponse> = _requestListByNim
 
+    private val _likeResponse = MutableStateFlow<LikeProjectResponse>(Idle)
+    val likeResponse: StateFlow<LikeProjectResponse> = _likeResponse
+
+
+    override fun dialogReset(){ dialogChange("", "") }
+
     fun getProjectListByNim(nim: String) = viewModelScope.launch {
         _projectListByNim.value = Response.Loading
         responseChange(emptyList())
         delay(500)
-
 
         _projectListByNim.value = repo.getProjectByNim(nim)
     }
@@ -64,6 +70,10 @@ class ProjectPageViewModel @Inject constructor(
 
     override fun responseChange(data: List<Project>?){
         _projectList.value = data?.toList()
+    }
+
+    fun likeProject(projectId: String, nim: String) = viewModelScope.launch {
+        _likeResponse.value = repo.likeProject(projectId, nim)
     }
 
     override fun onDialogGambar(active: Boolean, gambarBaru: String) {
@@ -80,7 +90,6 @@ class ProjectPageViewModel @Inject constructor(
     }
 
     fun secondPageChange(active: Boolean){
-        Log.d("gini", active.toString())
         _secondPage.value = active
     }
 
@@ -92,7 +101,7 @@ class ProjectPageViewModel @Inject constructor(
         loading = state
     }
 
-    override fun dialogChange(title: String, message: String) {
-        _dialogMessage.value = DialogMessage(title, message)
+    override fun dialogChange(title: String, message: String, buttonText: String, onClick: () -> Unit, dismissText: String, onFailure: () -> Unit ){
+        _dialogMessage.value = DialogConfig(title, message, buttonText, onClick, dismissText, onFailure)
     }
 }

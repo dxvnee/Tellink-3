@@ -9,8 +9,8 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 import org.d3if3121.tellink.data.model.response.Response
 import org.d3if3121.tellink.navigation.component.Screen
+import org.d3if3121.tellink.ui.component.AuthDialogMessage
 import org.d3if3121.tellink.ui.component.DialogLoading
-import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.SurfacePutih
 import org.d3if3121.tellink.ui.screen.auth.component.AuthContent
 import org.d3if3121.tellink.ui.screen.auth.component.AuthHeader
@@ -43,7 +43,7 @@ fun <T> AuthPage(
 
         DialogLoading(viewModel.loading)
 
-        DialogMessage(
+        AuthDialogMessage(
             visible =  dialogMessage,
             textJudul = dialogTitle,
             textDialog = appMessage,
@@ -57,6 +57,7 @@ fun <T> AuthPage(
                 }
             }
         )
+
     }
 }
 

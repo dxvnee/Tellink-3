@@ -1,10 +1,8 @@
 package org.d3if3121.tellink.ui.screen.content
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,18 +10,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import org.d3if3121.tellink.data.model.dialog.DialogConfig
 import org.d3if3121.tellink.navigation.MainNavGraph
 import org.d3if3121.tellink.ui.component.BottomBar
+import org.d3if3121.tellink.ui.component.BottomSheetNative
 import org.d3if3121.tellink.ui.component.DialogGambar
 import org.d3if3121.tellink.ui.component.DialogMessage
 import org.d3if3121.tellink.ui.component.MainScaffold
 import org.d3if3121.tellink.ui.component.topbar.TopBar
 import org.d3if3121.tellink.ui.component.topbar.TopbarType
+import org.d3if3121.tellink.ui.screen.content.component.CommentBottomSheet
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
 import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPageViewModel
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
-import org.d3if3121.tellink.data.model.dialog.DialogMessage
-import org.d3if3121.tellink.ui.component.DialogMessageMain
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -49,7 +48,7 @@ fun MainPage(
     val (dialogMessage, activeViewModel) = when {
         dialogMessageHome.message.isNotEmpty() -> { dialogMessageHome to homeViewModel }
         dialogMessageProject.message.isNotEmpty() -> dialogMessageProject to projectViewModel
-        else -> DialogMessage("", "") to homeViewModel
+        else -> DialogConfig("", "") to homeViewModel
     }
 
     val dialogActive = dialogMessage.message.isNotEmpty()
@@ -92,9 +91,7 @@ fun MainPage(
         }
     )
 
-    DialogMessageMain(
-        dialogActive = dialogActive,
-        dialogMessage = dialogMessage,
-        viewModel = activeViewModel
-    )
+    CommentBottomSheet(mainViewModel, homeViewModel, navController)
+
+    DialogMessage(visible =  dialogActive, dialog = dialogMessage)
 }

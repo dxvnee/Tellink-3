@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.d3if3121.tellink.R
+import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.ui.component.ButtonMerah
 import org.d3if3121.tellink.ui.component.ButtonMerahDynamic
 import org.d3if3121.tellink.ui.component.ButtonMerahProject
@@ -14,12 +15,14 @@ import org.d3if3121.tellink.ui.component.TeksBoldTombol
 
 
 @Composable
-fun ButtonMerahKartuType(buttonbehaviour: ButtonMerahBehaviour){
+fun ButtonMerahKartuType(project: Project, buttonbehaviour: ButtonMerahBehaviour){
     when (buttonbehaviour) {
         is ButtonMerahBehaviour.Project -> {
             ButtonMerahProject(
+                project = project,
                 buttonText = buttonbehaviour.buttonText,
                 onLikeClick = buttonbehaviour.onLikeClick,
+                onLikeTextClick = buttonbehaviour.onLikeTextClick,
                 onCommentClick = buttonbehaviour.onCommentClick,
                 onShareClick = buttonbehaviour.onShareClick,
                 onButtonClick = buttonbehaviour.onButtonClick,
@@ -35,8 +38,10 @@ fun ButtonMerahKartuType(buttonbehaviour: ButtonMerahBehaviour){
         }
         is ButtonMerahBehaviour.Dynamic -> {
             ButtonMerahDynamic(
+                project = project,
                 buttonText = buttonbehaviour.buttonText,
                 onLikeClick = buttonbehaviour.onLikeClick,
+                onLikeTextClick = buttonbehaviour.onLikeTextClick,
                 onCommentClick = buttonbehaviour.onCommentClick,
                 onShareClick = buttonbehaviour.onShareClick,
                 onButtonClick = buttonbehaviour.onButtonClick,

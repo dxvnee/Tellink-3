@@ -1,28 +1,58 @@
 package org.d3if3121.tellink.data.model.dialog
 
-
-sealed class DialogInterface(
+class DialogStateInterface(
     val successTitle: String,
     val failureTitle: String,
     val successMessage: String,
     val failureMessage: String,
 ){
-    object Add: DialogInterface(
-        successTitle  = "Post Success",
-        failureTitle  = "Post Failed",
-        successMessage = "Post has uploaded!",
-        failureMessage = "Internal Server Error."
-    )
-    object Edit: DialogInterface(
-        successTitle  = "Edit Success",
-        failureTitle  = "Edit Failed",
-        successMessage = "Edit has uploaded!",
-        failureMessage = "Internal Server Error."
-    )
-    object Delete: DialogInterface(
-        successTitle  = "Delete Success",
-        failureTitle  = "Delete Failed",
-        successMessage = "Delete has uploaded!",
-        failureMessage = "Internal Server Error."
-    )
+    companion object {
+        val ADD = DialogStateInterface(
+            successTitle = "Post Success",
+            failureTitle = "Post Failed",
+            successMessage = "Post has been uploaded!",
+            failureMessage = "Internal Server Error."
+        )
+
+        val EDIT = DialogStateInterface(
+            successTitle = "Edit Success",
+            failureTitle = "Edit Failed",
+            successMessage = "Changes have been saved!",
+            failureMessage = "Edit operation failed."
+        )
+
+        val DELETE = DialogStateInterface(
+            successTitle = "Delete Success",
+            failureTitle = "Delete Failed",
+            successMessage = "Post has been deleted!",
+            failureMessage = "Unable to delete post."
+        )
+    }
 }
+
+class DialogConfirmInterface(
+    val title: String,
+    val message: String,
+    val buttontext: String,
+    val dismissText: String = "",
+){
+    companion object {
+        val DELETE = DialogConfirmInterface(
+            title = "Delete Post",
+            message = "Are you sure?",
+            buttontext = "YES",
+            dismissText = "NO"
+        )
+
+        val EDIT = DialogConfirmInterface(
+            title = "Edit Post",
+            message = "Are you sure?",
+            buttontext = "YES",
+            dismissText = "NO"
+        )
+    }
+}
+
+
+
+

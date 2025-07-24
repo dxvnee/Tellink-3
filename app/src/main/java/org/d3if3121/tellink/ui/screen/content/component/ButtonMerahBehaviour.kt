@@ -5,6 +5,7 @@ sealed class ButtonMerahBehaviour {
         val buttonText: String,
 
         val onLikeClick: () -> Unit,
+        val onLikeTextClick: () -> Unit,
         val onCommentClick: () -> Unit,
         val onShareClick: () -> Unit,
         val onButtonClick: () -> Unit,
@@ -23,6 +24,7 @@ sealed class ButtonMerahBehaviour {
 
         val buttonText: String,
         val onLikeClick: () -> Unit,
+        val onLikeTextClick: () -> Unit,
         val onCommentClick: () -> Unit,
         val onShareClick: () -> Unit,
         val onButtonClick: () -> Unit

@@ -5,6 +5,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface ContentLoadingViewModel<T>: ContentViewModel<T>, LoadingDialogHandler
 
+interface DoubleContentLoadingViewModel<T>: ContentLoadingViewModel<T> {
+    fun responseSecondChange(data: T?)
+}
+
 interface ContentViewModel<T> {
     fun resetState()
     fun responseChange(data: T?)
@@ -22,5 +26,14 @@ interface GambarHandler {
 interface LoadingDialogHandler {
     var loading: Boolean
     fun loadingChange(state: Boolean)
-    fun dialogChange(title: String, message: String)
+    fun dialogChange(
+        title: String,
+        message: String,
+
+        buttonText: String = "",
+        onClick: () -> Unit = {},
+        dismissText: String = "",
+        onFailure: () -> Unit = {},
+    )
+    fun dialogReset()
 }

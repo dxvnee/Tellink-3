@@ -20,3 +20,15 @@ fun LoadingIndicator() {
         )
     }
 }
+
+
+@Composable
+fun LoadingIndicatorSize(size: Int) {
+    Box(contentAlignment = Alignment.Center){
+        CircularProgressIndicator(
+            color = Warna.MerahTua,
+            strokeWidth = 4.dp,
+            modifier = Modifier.size(size.dp)
+        )
+    }
+}

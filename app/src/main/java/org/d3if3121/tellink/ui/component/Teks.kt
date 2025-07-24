@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +18,8 @@ fun TeksNormal(
     textAlign: TextAlign = TextAlign.Start,
     color: Color = Warna.HitamNormal,
     size: TextUnit = 14.sp,
-    lineHeight: TextUnit = size * 1.2f
+    lineHeight: TextUnit = size * 1.2f,
+    onClick: () -> Unit = {}
 ){
     Text(
         text = text,
@@ -25,7 +27,7 @@ fun TeksNormal(
         fontSize = size,
         fontWeight = FontWeight.Normal,
         textAlign = textAlign,
-        modifier = modifier,
+        modifier = modifier.clickable { onClick() },
         lineHeight = lineHeight
     )
 }

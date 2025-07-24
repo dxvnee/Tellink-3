@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.dialog.DialogConfirmInterface
+import org.d3if3121.tellink.data.model.dialog.DialogConfig
 import org.d3if3121.tellink.data.model.project.Project
 import org.d3if3121.tellink.data.model.project.ProjectEdit
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
@@ -43,8 +44,8 @@ class ProjectEditPageViewModel @Inject constructor(
     override val gambarDialog = MutableStateFlow(false)
     override val gambarString =  MutableStateFlow("")
 
-    private val _dialogMessage = MutableStateFlow(DialogMessage())
-    val dialogMessage : StateFlow<DialogMessage> = _dialogMessage
+    private val _dialogMessage = MutableStateFlow(DialogConfig())
+    val dialogMessage : StateFlow<DialogConfig> = _dialogMessage
 
     private val _projectEditResponse = MutableStateFlow<EditProjectResponse>(Idle)
     val projectEditResponse : StateFlow<EditProjectResponse> = _projectEditResponse
@@ -58,6 +59,22 @@ class ProjectEditPageViewModel @Inject constructor(
     private val _projectId = MutableStateFlow<Project?>(Project())
     val projectId : StateFlow<Project?> = _projectId
 
+
+
+    fun getProject(projectId: String) = viewModelScope.launch {
+        _projectIdResponse.value = Loading
+        delay(500)
+        _projectIdResponse.value = repo.getProjectById(projectId)
+    }
+
+    fun editDialog(onClick: () -> Unit){
+        dialogChangeInterface(DialogConfirmInterface.EDIT,
+            onClick = { dialogReset(); onClick() },
+            onFailure = { dialogReset() }
+        )
+    }
+
+    override fun dialogReset(){ dialogChange("", "") }
 
     fun handleEdit(id: String, judul: String, desc: String, selectedTag: List<String>, imageData: String, currentUser: Mahasiswa, imageUri: Uri?, context: Context) {
         projectEditResponseChange(Loading)
@@ -83,20 +100,24 @@ class ProjectEditPageViewModel @Inject constructor(
         editProject(projectId, projectPart, imageMultipart)
     }
 
-    fun getProject(projectId: String) = viewModelScope.launch {
-        _projectIdResponse.value = Loading
+    fun editProject(id: RequestBody, projectPart: RequestBody, imageMultipart: MultipartBody.Part?) = viewModelScope.launch {
+        projectEditResponseChange(Loading)
         delay(500)
-        _projectIdResponse.value = repo.getProjectById(projectId)
+
+        projectEditResponseChange(repo.editProject(id, projectPart, imageMultipart))
     }
 
-    fun deleteProject(projectId: String) = viewModelScope.launch {
+    fun deleteDialog(projectId: String) {
+        dialogChangeInterface(DialogConfirmInterface.DELETE,
+            onClick = { deleteProject(projectId) },
+            onFailure = { dialogReset() }
+        )
+    }
+
+    private fun deleteProject(projectId: String) = viewModelScope.launch {
         _projectDeleteResponse.value = Loading
         delay(500)
         _projectDeleteResponse.value = repo.deleteProject(projectId)
-    }
-
-    fun editProject(id: RequestBody, projectPart: RequestBody, imageMultipart: MultipartBody.Part?) = viewModelScope.launch {
-        projectEditResponseChange(repo.editProject(id, projectPart, imageMultipart))
     }
 
     override fun gambarChange(active: Boolean) {
@@ -116,13 +137,25 @@ class ProjectEditPageViewModel @Inject constructor(
         loading = state
     }
 
-    override fun dialogChange(title: String, message: String){
-        _dialogMessage.value = DialogMessage(title, message)
+
+    fun dialogChangeInterface(dialog: DialogConfirmInterface, onClick: () -> Unit, onFailure: () -> Unit) {
+        dialogChange(
+            title = dialog.title,
+            message = dialog.message,
+            onClick = onClick,
+            buttonText = dialog.buttontext,
+            onFailure = onFailure,
+            dismissText = dialog.dismissText
+        )
+    }
+
+    override fun dialogChange(title: String, message: String, buttonText: String, onClick: () -> Unit, dismissText: String, onFailure: () -> Unit ){
+        _dialogMessage.value = DialogConfig(title, message, buttonText, onClick, dismissText, onFailure)
     }
 
     fun dialogChangeResponse(title: String, message: String){
         projectEditResponseChange(Idle)
-        dialogChange(title, message)
+        dialogChange(title, message, "OK", onClick = { dialogReset() })
     }
 
     fun projectEditResponseChange(response: AddProjectResponse){

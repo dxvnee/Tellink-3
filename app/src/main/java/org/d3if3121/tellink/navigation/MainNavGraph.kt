@@ -16,15 +16,11 @@ import org.d3if3121.tellink.navigation.component.Screen
 import org.d3if3121.tellink.ui.animation.animationFadeScaleIn
 import org.d3if3121.tellink.ui.animation.animationFadeScaleOut
 import org.d3if3121.tellink.ui.component.topbar.TopbarType
-import org.d3if3121.tellink.ui.screen.content.ConfirmPage
-import org.d3if3121.tellink.ui.screen.content.ProfilePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomePage
 import org.d3if3121.tellink.ui.screen.content.homepage.HomeViewModel
 import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPage
 import org.d3if3121.tellink.ui.screen.content.projectpage.ProjectPageViewModel
-import org.d3if3121.tellink.ui.viewmodel.MahasiswaListViewModel
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
-import org.d3if3121.tellink.ui.viewmodel.ProjectListViewModel
 
 @Composable
 fun MainNavGraph(
@@ -43,8 +39,6 @@ fun MainNavGraph(
 ){
     val navController = rememberNavController()
 
-    val mahasiswaListViewModel: MahasiswaListViewModel = hiltViewModel()
-
     navControllerContent(navController)
 
     NavHost(
@@ -54,7 +48,7 @@ fun MainNavGraph(
         exitTransition = { animationFadeScaleOut() },
     ){
         composable(route = Screen.Home.route){
-            HomePage(lazyListState = lazyListState, homeViewModel)
+            HomePage(lazyListState = lazyListState, navControllerGlobal = navControllerGlobal, homeViewModel = homeViewModel, mainViewModel = mainViewModel)
             onTopbartypeChange(TopbarType.HOME)
         }
 
@@ -67,21 +61,6 @@ fun MainNavGraph(
                 mainViewModel = mainViewModel,
             )
             onTopbartypeChange(TopbarType.PROJECT)
-        }
-
-        composable(route = Screen.Profile.route){
-            ProfilePage(navController, mahasiswaListViewModel)
-            onTopbartypeChange(TopbarType.PROFILE)
-        }
-
-        composable(route ="${Screen.ConfirmPage.route}/{projectId}",
-            arguments = listOf(navArgument("projectId"){
-                type = NavType.StringType
-                nullable = false
-            })
-        ){ backStackEntry ->
-            val projectId = backStackEntry.arguments?.getString("projectId")
-            ConfirmPage(navController = navController, projectId = projectId)
         }
     }
 }

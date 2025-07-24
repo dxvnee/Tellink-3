@@ -1,7 +1,11 @@
 package org.d3if3121.tellink.ui.animation
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateColorAsState
@@ -17,10 +21,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -269,5 +276,28 @@ fun topBarAlphaAnimation(
             easing = FastOutSlowInEasing
         ),
         label = "AnimatedTopBarAlpha"
+    )
+}
+
+@Composable
+fun <S> AnimatedContent(
+    targetState: S,
+    modifier: Modifier = Modifier,
+    transitionSpec: AnimatedContentTransitionScope<S>.() -> ContentTransform = {
+        (scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)))
+            .togetherWith(fadeOut(animationSpec = tween(90)))
+    },
+    contentAlignment: Alignment = Alignment.TopStart,
+    label: String = "AnimatedContent",
+    contentKey: (targetState: S) -> Any? = { it },
+    content: @Composable() AnimatedContentScope.(targetState: S) -> Unit
+) {
+    val transition = updateTransition(targetState = targetState, label = label)
+    transition.AnimatedContent(
+        modifier,
+        transitionSpec,
+        contentAlignment,
+        contentKey,
+        content = content
     )
 }

@@ -79,7 +79,8 @@ fun TellinkTheme(
 
 @Composable
 fun DynamicNavigationBarColor(
-    backgroundColor: Color
+    backgroundColor: Color,
+    backgroundColorBottom: Color = backgroundColor
 ){
     val view = LocalView.current
 
@@ -87,7 +88,7 @@ fun DynamicNavigationBarColor(
         SideEffect {
             val window = (view.context as Activity).window
 
-            window.navigationBarColor = backgroundColor.toArgb()
+            window.navigationBarColor = backgroundColorBottom.toArgb()
             window.statusBarColor = backgroundColor.toArgb()
 
             val isLight = backgroundColor.luminance() > 0.5f

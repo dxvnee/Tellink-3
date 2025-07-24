@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.screen.content.projectpage
 
+import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -139,7 +140,8 @@ fun ProjectMainContent(
         viewModel = projectViewModel,
         buttonbehaviour = ButtonMerahBehaviour.Project(
             buttonText = "Start!",
-            onLikeClick = {},
+            onLikeClick = { projectViewModel.likeProject(project.id, mahasiswa.nim) },
+            onLikeTextClick = { navControllerGlobal.navigate("${Screen.Like.route}/${project.id}") },
             onCommentClick = {},
             onShareClick = {},
             onButtonClick = {},

@@ -2,6 +2,7 @@ package org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.data.model.dialog.DialogConfig
 import org.d3if3121.tellink.data.model.project.ProjectAdd
 import org.d3if3121.tellink.data.model.mahasiswa.Mahasiswa
 import org.d3if3121.tellink.data.model.response.Response.Idle
@@ -37,12 +38,13 @@ class ProjectAddPageViewModel @Inject constructor(
     private val _gambarDialog = MutableStateFlow(false)
     val gambarDialog: StateFlow<Boolean> = _gambarDialog
 
-    private val _dialogMessage = MutableStateFlow(DialogMessage())
-    val dialogMessage : StateFlow<DialogMessage> = _dialogMessage
+    private val _dialogMessage = MutableStateFlow(DialogConfig())
+    val dialogMessage : StateFlow<DialogConfig> = _dialogMessage
 
     private val _projectAddResponse = MutableStateFlow<AddProjectResponse>(Idle)
     val projectAddResponse : StateFlow<AddProjectResponse> = _projectAddResponse
 
+    override fun dialogReset(){ dialogChange("", "") }
 
     fun handleAdd(judul: String, desc: String, selectedTag: List<String>, currentUser: Mahasiswa, imageUri: Uri?, context: Context) {
         projectAddResponseChange(Loading)
@@ -73,13 +75,13 @@ class ProjectAddPageViewModel @Inject constructor(
         loading = state
     }
 
-    override fun dialogChange(title: String, message: String){
-        _dialogMessage.value = DialogMessage(title, message)
+    override fun dialogChange(title: String, message: String, buttonText: String, onClick: () -> Unit, dismissText: String, onFailure: () -> Unit ){
+        _dialogMessage.value = DialogConfig(title, message, buttonText, onClick, dismissText, onFailure)
     }
 
     fun dialogChangeResponse(title: String, message: String){
         projectAddResponseChange(Idle)
-        dialogChange(title, message)
+        dialogChange(title, message, "OK", onClick = { dialogReset() })
     }
 
     fun projectAddResponseChange(response: AddProjectResponse){

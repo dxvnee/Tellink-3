@@ -14,6 +14,7 @@ import org.d3if3121.tellink.ui.screen.auth.login.LoginPage
 import org.d3if3121.tellink.ui.screen.auth.register.RegisterPage
 import org.d3if3121.tellink.ui.screen.content.MainPage
 import org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage.ProjectAddPage
+import org.d3if3121.tellink.ui.screen.content.likepage.LikePage
 import org.d3if3121.tellink.ui.screen.content.projectpage.projecteditpage.ProjectEditPage
 import org.d3if3121.tellink.ui.viewmodel.MainViewModel
 
@@ -50,6 +51,16 @@ fun GlobalNavGraph(){
         ){  backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("projectId") ?: ""
             ProjectEditPage(navController, mainViewModel, projectId)
+        }
+        composable(
+            route = "${Screen.Like.route}/{projectId}",
+            arguments = listOf(navArgument("projectId") {
+                type = NavType.StringType
+                nullable = false
+            })
+        ){  backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("projectId") ?: ""
+            LikePage(navController, projectId)
         }
     }
 }

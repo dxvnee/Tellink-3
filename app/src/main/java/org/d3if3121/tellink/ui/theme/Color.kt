@@ -62,6 +62,19 @@ fun ChangeNavColor(visible: Boolean){
     }
 }
 
+@Composable
+fun ChangeNavColorWhiteBottom(visible: Boolean){
+    if(visible){
+        DynamicNavigationBarColor(
+            backgroundColor = Warna.HitamNormal.copy(alpha = 0.4f),
+            backgroundColorBottom = Warna.PutihNormal
+        )
+    } else {
+        DynamicNavigationBarColor(backgroundColor = Warna.PutihNormal)
+    }
+}
+
+
 val activeColors = ButtonColors(
     containerColor = Warna.MerahNormal,
     contentColor = Warna.PutihNormal,

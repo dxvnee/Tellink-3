@@ -134,6 +134,21 @@ class MahasiswaListRepository (
         }
     }
 
+    override suspend fun getMahasiswaLikeByProjectId(projectId: String) = try {
+        Log.d("wahhj", projectId)
+
+        val response = RetrofitInterface.api.getMahasiswaLikeByProjectId(ProjectIdRequest(projectId))
+
+        if (response.success){
+            Response.Success(response.data)
+        } else {
+            Response.Failure(Exception(response.message))
+        }
+    } catch (e: HttpException) {
+        Response.Failure(errorToErrorMessage(e))
+    }
+
+
     override suspend fun getMahasiswaReqByProjectId(projectId: String) = try {
         val response = RetrofitInterface.api.getMahasiswaReqByProjectId(ProjectIdRequest(projectId))
 

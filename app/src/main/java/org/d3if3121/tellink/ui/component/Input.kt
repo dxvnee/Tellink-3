@@ -30,6 +30,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -359,6 +361,44 @@ fun InputPutihNative(
     modifier: Modifier = Modifier,
     expand: Boolean = false,
 ) {
+    BasicTextFieldCustom(
+        input = input,
+        placeholder = placeholder,
+        onInputChange = onInputChange,
+        keyboardType = keyboardType,
+        modifier = modifier.fillMaxWidth(),
+        expand = expand
+    )
+}
+
+@Composable
+fun InputPutihNativeNotWidth(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
+    expand: Boolean = false,
+) {
+    BasicTextFieldCustom(
+        input = input,
+        placeholder = placeholder,
+        onInputChange = onInputChange,
+        keyboardType = keyboardType,
+        modifier = modifier,
+        expand = expand
+    )
+}
+
+@Composable
+fun BasicTextFieldCustom(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
+    expand: Boolean = false,
+){
     var isFocused by remember { mutableStateOf(false) }
 
     val backgroundColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
@@ -366,7 +406,6 @@ fun InputPutihNative(
 
     Box(
         modifier = modifier
-            .fillMaxWidth()
             .heightIn(min = if (expand) 180.dp else 50.dp, max = if (expand) Dp.Infinity else 41.dp)
             .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
             .background(color = backgroundColor, shape = RoundedCornerShape(10.dp))
@@ -389,6 +428,53 @@ fun InputPutihNative(
         }
     }
 }
+
+
+
+@Composable
+fun BasicTextFieldWithTombol(
+    input: String,
+    placeholder: String,
+    onInputChange: (String) -> Unit,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
+) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    val backgroundColor = if (isFocused) Warna.PutihNormal else Warna.PutihGelap
+    val borderColor = if (isFocused) Warna.MerahNormal else Warna.PutihGelap
+
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = modifier
+            .height(47.dp)
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(12.dp))
+            .background(color = backgroundColor, shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 16.dp)
+    ) {
+        if (input.isEmpty() && !isFocused) { Text(text = placeholder, modifier = Modifier, color = Warna.AbuTua, fontSize = 15.sp, fontWeight = FontWeight.Normal) }
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            TextField(
+                value = input,
+                onValueChange = onInputChange,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+                textStyle = TextStyle(color = Warna.HitamNormal, fontSize = 15.sp),
+                modifier = Modifier.weight(1f).onFocusChanged { isFocused = it.isFocused },
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                )
+            )
+        }
+    }
+}
+
+
 
 
 @Composable
@@ -510,8 +596,32 @@ fun InputPassword(
                 )
             }
         }
-
     )
+}
+
+
+@Composable
+fun InputWithTombolBottomSheet(
+    commentText: String,
+    onCommentChange: (String) -> Unit,
+    onFocus: (Boolean) -> Unit,
+    onSend: (String) -> Unit
+){
+    Row(Modifier.fillMaxWidth().padding(vertical = 8.dp).background(Color.White), verticalAlignment = Alignment.Bottom) {
+        BasicTextFieldWithTombol(
+            input = commentText,
+            placeholder = "Comment...",
+            onInputChange = { onCommentChange(it) },
+            keyboardType = KeyboardType.Text,
+            modifier = Modifier.weight(1f).onFocusChanged { onFocus(it.isFocused) }
+        )
+        SpaceWidth(10)
+
+        ButtonRequest(text = "+", width = 47.dp, height = 47.dp, roundedCornerShape = 12) {
+            onSend(commentText)
+            onCommentChange("")
+        }
+    }
 }
 
 

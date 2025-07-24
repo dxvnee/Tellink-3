@@ -7,17 +7,18 @@ data class Project(
     val title: String,
     val desc: String,
     val date: String = "",
-    val commentcount: String? = "",
+    val commentCount: Int?,
     val requests: List<String>? = emptyList(),
     val accept: List<String>? = emptyList(),
     val image: String? = "",
     val tag: List<String>,
-    val likes: Int? = 0,
+    val likes: Int = 0,
+    val isLiked: Boolean = false,
 
     val imageupload: String? = null,
     val mahasiswa: Mahasiswa? = null
 ){
-    constructor() : this("", "", "", "", "", "", emptyList(), emptyList(),"", emptyList(), 0)
+    constructor() : this("", "", "", "", "", 0, emptyList(), emptyList(),"", emptyList(), 0)
 
     companion object {
         const val NIM = "nim"

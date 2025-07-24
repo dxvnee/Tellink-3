@@ -3,6 +3,7 @@ package org.d3if3121.tellink.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -20,16 +21,64 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.d3if3121.tellink.components.LoadingIndicator
-import org.d3if3121.tellink.data.model.dialog.DialogMessage
+import org.d3if3121.tellink.components.LoadingIndicatorSize
+import org.d3if3121.tellink.data.model.dialog.DialogConfig
 import org.d3if3121.tellink.ui.animation.AnimationFade
 import org.d3if3121.tellink.ui.animation.AnimationFadeSpring
 import org.d3if3121.tellink.ui.screen.content.component.GambarHandler
-import org.d3if3121.tellink.ui.screen.content.component.LoadingDialogHandler
 import org.d3if3121.tellink.ui.theme.ChangeNavColor
 import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
 fun DialogMessage(
+    visible: Boolean,
+    dialog: DialogConfig
+){
+    ChangeNavColor(visible)
+
+    AnimationFade(visible = visible) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Warna.HitamNormal.copy(alpha = 0.4f))
+        )
+    }
+
+    AnimationFadeSpring(visible = visible){
+        ColumnCenter(Modifier.fillMaxSize()) {
+            CardPutih(
+                height = 155.dp,
+                center = true,
+                modifier = Modifier.fillMaxWidth()
+            ){
+                TeksBold(dialog.title, Modifier.padding(bottom = 8.dp), TextAlign.Center)
+                TeksNormal(dialog.message,  Modifier.padding(bottom = 12.dp), TextAlign.Center)
+
+                Row(modifier = Modifier.fillMaxWidth()){
+                    ButtonMerah(
+                        onClick = dialog.onConfirm,
+                        content = { TeksBoldTombol(dialog.confirmText) },
+                        modifier = Modifier.weight(1f),
+                    )
+
+                    if(dialog.dismissText != "") {
+                        SpaceWidth(10)
+
+                        ButtonMerah(
+                            onClick = dialog.onDismiss,
+                            content = { TeksBoldTombol(dialog.dismissText) },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun AuthDialogMessage(
     visible: Boolean,
     textJudul: String,
     textDialog: String,
@@ -66,19 +115,6 @@ fun DialogMessage(
     }
 }
 
-@Composable
-fun DialogMessageMain (
-    dialogActive: Boolean,
-    dialogMessage: DialogMessage,
-    viewModel: LoadingDialogHandler
-){
-    DialogMessage(
-        visible = dialogActive,
-        textJudul = dialogMessage.title,
-        textDialog = dialogMessage.message,
-        textTombol = "OK"
-    ){ viewModel.dialogChange("", "")}
-}
 
 @Composable
 fun DialogLoading(visible: Boolean){
@@ -112,6 +148,16 @@ fun LoadingIndicatorCenter(){
         contentAlignment = Alignment.Center
     ){
         LoadingIndicator()
+    }
+}
+
+@Composable
+fun LoadingIndicatorMini(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
+        LoadingIndicatorSize(30)
     }
 }
 

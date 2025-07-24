@@ -1,5 +1,6 @@
 package org.d3if3121.tellink.ui.component
 
+import android.icu.text.ListFormatter.Width
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,8 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.outlined.ModeComment
@@ -28,20 +29,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.d3if3121.tellink.ui.screen.auth.component.TeksSwitchPage
+import org.d3if3121.tellink.data.model.project.Project
+import org.d3if3121.tellink.ui.animation.AnimatedContent
 import org.d3if3121.tellink.ui.screen.auth.component.TeksSwitchPageWithIcon
-import org.d3if3121.tellink.ui.theme.CustomButtonColors
 import org.d3if3121.tellink.ui.theme.Warna
 
 @Composable
@@ -100,13 +104,16 @@ fun TombolTambah(
 @Composable
 fun ButtonRequest(
     text: String,
-    onClick: () -> Unit
+    width: Dp = 110.dp,
+    height: Dp = 33.dp,
+    roundedCornerShape: Int = 7,
+    onClick: () -> Unit,
 ){
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .clip(RoundedCornerShape(7.dp))
-            .width(110.dp).height(33.dp)
+            .clip(RoundedCornerShape(roundedCornerShape.dp))
+            .width(width).height(height)
             .background(Warna.MerahNormal)
             .clickable { onClick() }
     ){
@@ -141,11 +148,13 @@ fun IconWithText(
     size: Dp = 32.dp,
     offset: Dp = 0.dp,
     paddingStart: Dp = 2.dp,
-    onClick: () -> Unit
+    warna: Color = Warna.HitamNormal,
+    onClickIcon: () -> Unit,
+    onClickText: () -> Unit = onClickIcon
 ){
     Row(verticalAlignment = Alignment.CenterVertically){
-        IconTombol(onClick = onClick, imageVector = imageVector, size = size, offset = offset)
-        TeksNormal(text, Modifier.fillMaxHeight().padding(start = paddingStart), size = 14.sp)
+        IconTombol(onClick = onClickIcon, imageVector = imageVector, size = size, offset = offset, warna = warna)
+        TeksNormal(text, Modifier.fillMaxHeight().padding(start = paddingStart), size = 14.sp, onClick = onClickText)
     }
 }
 
@@ -154,14 +163,15 @@ fun IconTombol(
     imageVector: ImageVector,
     size: Dp,
     onClick: () -> Unit,
-    offset: Dp = 0.dp
+    offset: Dp = 0.dp,
+    warna: Color = Warna.HitamNormal
 ){
     ColumnCenter(modifier = Modifier.fillMaxHeight()){
         Box(modifier = Modifier.size(size).offset(y = offset).clickable { onClick() }){
             Icon(
                 imageVector = imageVector,
                 contentDescription = "Star",
-                tint = Warna.HitamNormal,
+                tint = warna,
                 modifier = Modifier.size(size)
             )
         }
@@ -209,29 +219,45 @@ fun IconNormal(
 
 @Composable
 fun FeedBottomComponent(
+    project: Project,
     onLikeClick: () -> Unit,
+    onLikeTextClick: () -> Unit,
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit,
 
     content: @Composable () -> Unit = {}
 ){
+    var isLiked by remember { mutableStateOf(project.isLiked) }
+    var likeCount by remember { mutableStateOf(project.likes) }
+
     RowStartCenter {
-        IconWithText(
-            imageVector = Icons.Filled.FavoriteBorder,
-            text = "2.3k",
-            size = 30.dp,
-            paddingStart = 2.dp
-        ){ onLikeClick() }
+        AnimatedContent(targetState = isLiked, label = "Like Animation") { liked ->
+            IconWithText(
+                imageVector = if (liked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                text = likeCount.toString(),
+                size = 30.dp,
+                paddingStart = 2.dp,
+                warna = if (liked) Warna.MerahNormal else Warna.HitamNormal,
+                onClickIcon = {
+                    isLiked = !isLiked
+                    likeCount += if (isLiked) 1 else -1
+                    onLikeClick()
+                },
+                onClickText = { onLikeTextClick() }
+            )
+        }
+
 
         SpaceWidth(15)
 
         IconWithText(
             imageVector = Icons.Outlined.ModeComment,
-            text = "56",
+            text = project.commentCount.toString(),
             size = 27.dp,
             offset = 1.dp,
-            paddingStart = 2.dp
-        ){ onCommentClick() }
+            paddingStart = 2.dp,
+            onClickIcon = { onCommentClick() }
+        )
 
         SpaceWidth(15)
 
@@ -240,8 +266,9 @@ fun FeedBottomComponent(
             text = "435",
             size = 30.dp,
             offset = (-0.6).dp,
-            paddingStart = 0.dp
-        ){ onShareClick() }
+            paddingStart = 0.dp,
+            onClickIcon = { onShareClick() }
+        )
 
         RowEnd(modifier = Modifier.fillMaxWidth()) {
             content()
@@ -269,23 +296,29 @@ fun FeedBottomComponent(
 
 @Composable
 fun ButtonMerahDynamic(
+    project: Project,
     buttonText: String,
     onLikeClick: () -> Unit,
+    onLikeTextClick: () -> Unit,
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit,
     onButtonClick: () -> Unit,
 ){
     FeedBottomComponent(
+        project = project,
         onLikeClick = onLikeClick,
         onCommentClick = onCommentClick,
         onShareClick = onShareClick,
+        onLikeTextClick = onLikeTextClick
     ){  ButtonRequest(text = buttonText){ onButtonClick() } }
 }
 
 @Composable
 fun ButtonMerahProject(
+    project: Project,
     buttonText: String,
     onLikeClick: () -> Unit,
+    onLikeTextClick: () -> Unit,
     onCommentClick: () -> Unit,
     onShareClick: () -> Unit,
     onButtonClick: () -> Unit,
@@ -296,6 +329,8 @@ fun ButtonMerahProject(
             onLikeClick = onLikeClick,
             onCommentClick = onCommentClick,
             onShareClick = onShareClick,
+            project = project,
+            onLikeTextClick = onLikeTextClick
         )
 
         Space(20)

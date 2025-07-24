@@ -11,11 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import org.d3if3121.tellink.ui.screen.content.projectpage.projectaddpage.ProjectAddPageContent
 import org.d3if3121.tellink.ui.theme.Warna
@@ -38,6 +41,11 @@ fun ColumnPaddingKiriKanan(content: @Composable () -> Unit){
 @Composable
 fun BoxMaxWidth(content: @Composable () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth().height(55.dp)) { content() }
+}
+
+@Composable
+fun BoxAbuMuda(modifier: Modifier= Modifier, content: @Composable () -> Unit) {
+    Box(modifier = modifier.background(Warna.AbuMuda, RoundedCornerShape(12.dp)).clip(RoundedCornerShape(12.dp))){ content() }
 }
 
 @Composable
