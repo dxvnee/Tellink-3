@@ -360,8 +360,7 @@ Project ini dilisensikan di bawah MIT License. Lihat file `LICENSE` untuk detail
 
 ## 👥 Tim Pengembang
 
-- **Muhammad Raihan Fahrifi** - Developer
-- **dxvnee** - GitHub Repository Owner
+- **dxvnee** - Developer
 
 ## 📞 Kontak
 
